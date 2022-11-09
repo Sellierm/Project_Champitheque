@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
-public class ScreenController {
+public class MenuController {
 
     @FXML
     private Text Pseudo;
