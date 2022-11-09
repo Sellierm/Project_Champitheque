@@ -1,0 +1,32 @@
+.enterName{
+    -fx-background-color:#FFFFFF;
+    -fx-background-radius:100;
+}
+
+.shadow{
+    -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);
+}
+
+.right-bar{
+    -fx-background-color: #D3D3D3;
+}
+
+.namePlayer{
+    -fx-background-color : #BAC7EA;
+    -fx-background-radius : 30;
+}
+
+.add-btn{
+    -fx-background-color : #e84a4a;
+    -fx-background-radius : 100;
+}
+
+.allPlayers{
+    -fx-background-color : #BAEAC3;
+    -fx-background-radius : 30;
+}
+
+.allPLayersName{
+    -fx-background-color : #EABABA;
+    -fx-background-radius : 30;
+}
