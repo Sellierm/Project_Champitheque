@@ -1,4 +1,4 @@
 package com.example.project_champitheque;
 
-public class ChoosePlayer {
+public class ChoosePlayerModel {
 }
