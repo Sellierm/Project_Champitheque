@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -23,7 +24,7 @@ public class ChoosePlayerController {
     ChoosePlayerModel tmp;
 
     @FXML
-    private Text newName;   // Zone de texte où est inscrit le nouveau pseudo
+    private TextArea newName;   // Zone de texte où est inscrit le nouveau pseudo
 
     @FXML
     private Pane existingAccounts;
@@ -31,8 +32,10 @@ public class ChoosePlayerController {
     @FXML
     private Button play;
 
-    public void newPlayer()  {
-
+    public void newPlayer() throws IOException {
+        String name = newName.getText();
+        tmp.setNewPlayer(name);
+        goToMenu();
     }
 
     public void choosePlayer(int playerId) throws IOException {

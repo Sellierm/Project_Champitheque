@@ -18,12 +18,24 @@ public class MenuController {
     @FXML
     private Text level;
 
+
+    @FXML
+    private Button changePlayerButton;//boutton pour lancer jeu
+
+
     @FXML
     private Button Game_1;//boutton pour lancer jeu
 
     public void handleGame1() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Game.fxml"));//deuième fichier fxml
         Stage window =(Stage) Game_1.getScene().getWindow();
+        window.setScene(new Scene(fxmlLoader.load()));
+    }
+
+
+    public void changePlayer() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("ChoosePlayer.fxml"));//deuième fichier fxml
+        Stage window =(Stage) changePlayerButton.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
     }
 

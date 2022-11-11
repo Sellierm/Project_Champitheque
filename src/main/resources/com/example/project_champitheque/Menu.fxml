@@ -15,7 +15,7 @@
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #AAAAAA;">
          <children>
-            <AnchorPane layoutY="300.0" prefHeight="300.0" prefWidth="200.0">
+            <AnchorPane layoutY="343.0" prefHeight="257.0" prefWidth="200.0">
                <children>
                   <Text layoutX="64.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Leaderboard :" />
                </children></AnchorPane>
@@ -41,6 +41,7 @@
                   <Image url="@../../../img/profilPic.png" />
                </image>
             </ImageView>
+            <Button fx:id="changePlayerButton" layoutX="42.0" layoutY="278.0" mnemonicParsing="false" onAction="#changePlayer" text="Changer de joueur" />
          </children></AnchorPane>
       <AnchorPane layoutX="199.0" layoutY="-1.0" prefHeight="607.0" prefWidth="800.0">
          <children>

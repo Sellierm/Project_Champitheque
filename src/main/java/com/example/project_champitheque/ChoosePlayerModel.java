@@ -45,6 +45,41 @@ public class ChoosePlayerModel {
         }
     }
 
+    public void setNewPlayer(String newName) {
+        String allLines = "";
+        int compt = 0;
+        try {
+            File myObj = new File("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/players.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                allLines+=myReader.nextLine()+'\n';
+                compt++;
+            }
+            System.out.println(allLines);
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred to find players list.");
+            e.printStackTrace();
+        }
+
+        allLines+=newName+"\n";
+        allLines+="0\n";
+        allLines+="0\n";
+
+
+        try {
+            FileWriter myWriter = new FileWriter("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/players.txt");
+            myWriter.write(allLines);
+            myWriter.close();
+            System.out.println("Successfully wrote new player to players file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred to write new player to players file.");
+            e.printStackTrace();
+        }
+
+        setParamPlayer(compt/3 +1);
+    }
+
     // GETTERS
 
     public List<String> getAllData() {
