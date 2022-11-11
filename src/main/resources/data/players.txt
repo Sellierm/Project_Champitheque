@@ -1,3 +1,6 @@
 Euclide
 1
 100
+Jean
+2
+80
