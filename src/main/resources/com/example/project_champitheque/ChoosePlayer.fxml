@@ -5,16 +5,16 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.ChoosePlayerController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.ChoosePlayerController">
    <children>
-      <AnchorPane prefHeight="400.0" prefWidth="400.0">
+      <AnchorPane prefHeight="600.0" prefWidth="700.0">
          <children>
-            <TextArea layoutX="100.0" layoutY="217.0" prefHeight="39.0" prefWidth="200.0" />
-            <Label layoutX="100.0" layoutY="191.0" text="Nom" />
-            <Button fx:id="newPlayerButton" layoutX="174.0" layoutY="280.0" mnemonicParsing="false" onAction="#newPlayer" text="Jouer" />
-            <Button fx:id="play" layoutX="312.0" layoutY="37.0" mnemonicParsing="false" onAction="#goToMenu" text="Menu" textAlignment="CENTER" />
+            <TextArea layoutX="259.0" layoutY="269.0" prefHeight="39.0" prefWidth="200.0" />
+            <Label layoutX="259.0" layoutY="243.0" text="Nom" />
+            <Button fx:id="newPlayerButton" layoutX="333.0" layoutY="332.0" mnemonicParsing="false" onAction="#newPlayer" text="Jouer" />
+            <Button fx:id="play" layoutX="556.0" layoutY="26.0" mnemonicParsing="false" onAction="#goToMenu" text="Menu" textAlignment="CENTER" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="existingAccounts" layoutX="400.0" prefHeight="400.0" prefWidth="200.0" />
+      <AnchorPane fx:id="existingAccounts" layoutX="700.0" prefHeight="600.0" prefWidth="300.0" />
    </children>
 </AnchorPane>
