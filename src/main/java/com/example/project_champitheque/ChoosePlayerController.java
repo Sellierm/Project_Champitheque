@@ -1,5 +1,6 @@
 package com.example.project_champitheque;
 
+import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,14 +10,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.event.*;
 
 import java.io.IOException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ChoosePlayerController {
 
@@ -35,8 +35,9 @@ public class ChoosePlayerController {
 
     }
 
-    public void choosePlayer(String playerName)  {
-        tmp.setParamPlayer(playerName);
+    public void choosePlayer(int playerId) throws IOException {
+        tmp.setParamPlayer(playerId);
+        goToMenu();
     }
 
     public void goToMenu() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
@@ -61,6 +62,15 @@ public class ChoosePlayerController {
                 container.setMinWidth(200);
                 container.setMinHeight(100);
                 container.setLayoutY(200*((compt-3)/3));
+                int id = compt/3;
+                container.setUserData(id);
+                container.setOnAction(event -> {
+                    try {
+                        choosePlayer((Integer)container.getUserData());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
                 container.textProperty().set(stringPlayers);
                 containerPlayerslist.add(container);
                 stringPlayers = "";

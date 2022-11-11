@@ -18,7 +18,8 @@ public class MenuModel {
         this.pseudo = new SimpleStringProperty(name);
     }*/
 
-    public MenuModel(Integer id) {
+    public MenuModel() {
+        //Get all players
         List<String> allData = new ArrayList<>();
         try {
             File myObj = new File("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/players.txt");
@@ -29,9 +30,24 @@ public class MenuModel {
             System.out.println(allData);
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred to find players list.");
             e.printStackTrace();
         }
+
+        //Get actual player
+        int id = 0;
+        try {
+            File myObj = new File("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/param.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                id = (Integer.parseInt(myReader.nextLine()) - 1)*3;
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred to find actual player id.");
+            e.printStackTrace();
+        }
+
         this.level = new SimpleIntegerProperty(Integer.parseInt(allData.get(id+2)));
         this.pseudo = new SimpleStringProperty(allData.get(id));
     }

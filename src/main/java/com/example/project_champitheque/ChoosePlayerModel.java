@@ -6,10 +6,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.IOException;
 
 public class ChoosePlayerModel {
 
@@ -31,8 +33,16 @@ public class ChoosePlayerModel {
         }
     }
 
-    public void setParamPlayer(String playerName) {
-
+    public void setParamPlayer(int playerId) {
+        try {
+            FileWriter myWriter = new FileWriter("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/param.txt");
+            myWriter.write(String.valueOf(playerId));
+            myWriter.close();
+            System.out.println("Successfully wrote player id to the param file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred to write player id in param file.");
+            e.printStackTrace();
+        }
     }
 
     // GETTERS

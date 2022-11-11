@@ -28,7 +28,7 @@ public class MenuController {
     }
 
     public void initialize(){
-        tmp = new MenuModel(0);
+        tmp = new MenuModel();
         level.textProperty().bind(tmp.levelProperty().asString());
         pseudo.textProperty().bind(tmp.pseudoProperty());
     }
