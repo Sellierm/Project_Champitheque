@@ -13,7 +13,7 @@
                <children>
                   <AnchorPane prefHeight="34.0" prefWidth="74.0">
                      <children>
-                        <Button layoutX="17.0" layoutY="7.0" mnemonicParsing="false" text="Aide" />
+                        <Button fx:id="help" layoutX="17.0" layoutY="7.0" mnemonicParsing="false" onAction="#Help" text="Aide" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="413.0" prefHeight="34.0" prefWidth="200.0">

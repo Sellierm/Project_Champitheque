@@ -13,10 +13,20 @@ public class GameController implements Quit {
     @FXML
     private Button quit;//boutton pour quitter le jeu
 
+    @FXML
+    private Button help;//boutton pour quitter le jeu
+
     @Override
     public void Quit() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
         Stage window =(Stage) quit.getScene().getWindow();
+        window.setScene(new Scene(fxmlLoader.load()));
+    }
+
+
+    public void Help() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
+        Stage window =(Stage) help.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
     }
 
