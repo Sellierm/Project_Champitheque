@@ -1,5 +1,6 @@
 package com.example.project_champitheque;
 
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -32,6 +33,10 @@ public class ChoosePlayerController {
 
     public void newPlayer()  {
 
+    }
+
+    public void choosePlayer(String playerName)  {
+        tmp.setParamPlayer(playerName);
     }
 
     public void goToMenu() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin

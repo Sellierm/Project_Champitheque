@@ -36,6 +36,7 @@ public class MenuModel {
         this.pseudo = new SimpleStringProperty(allData.get(id));
     }
 
+
     public int getLevel() {
         return level.get();
     }

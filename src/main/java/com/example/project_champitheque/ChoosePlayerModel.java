@@ -31,6 +31,10 @@ public class ChoosePlayerModel {
         }
     }
 
+    public void setParamPlayer(String playerName) {
+
+    }
+
     // GETTERS
 
     public List<String> getAllData() {
