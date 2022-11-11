@@ -13,7 +13,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.primaryStage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("ChoosePlayer.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Champithèque");
         stage.getIcons().add(new Image(Application.class.getResourceAsStream("/img/logo.png")));
