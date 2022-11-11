@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner;
+import java.util.*;
 
 public class MenuModel {
     private final IntegerProperty level;
@@ -18,21 +18,22 @@ public class MenuModel {
         this.pseudo = new SimpleStringProperty(name);
     }*/
 
-    public MenuModel(Integer ranking, String name) {
+    public MenuModel(Integer id) {
+        List<String> allData = new ArrayList<>();
         try {
-            File myObj = new File("../../resources/data/players.txt");
+            File myObj = new File("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/players.txt");
             Scanner myReader = new Scanner(myObj);
-            /*while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-            }*/
-            System.out.println(myReader);
+            while (myReader.hasNextLine()) {
+                allData.add(myReader.nextLine());
+            }
+            System.out.println(allData);
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        this.level = new SimpleIntegerProperty(ranking);
-        this.pseudo = new SimpleStringProperty(name);
+        this.level = new SimpleIntegerProperty(Integer.parseInt(allData.get(id+2)));
+        this.pseudo = new SimpleStringProperty(allData.get(id));
     }
 
     public int getLevel() {
