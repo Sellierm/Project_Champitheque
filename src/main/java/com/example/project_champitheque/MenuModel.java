@@ -23,6 +23,7 @@ public class MenuModel {
         List<String> allData = new ArrayList<>();
         try {
             File myObj = new File("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/players.txt");
+            //File myObj = new File(getClass().getResource("data/players.txt"));
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 allData.add(myReader.nextLine());

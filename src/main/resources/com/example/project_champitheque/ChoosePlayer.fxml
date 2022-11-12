@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.ChoosePlayerController">
    <children>
       <HBox layoutY="-4.0" prefHeight="607.0" prefWidth="1000.0">
          <children>
@@ -52,7 +51,7 @@
                               <String fx:value="shadow" />
                            </styleClass>
                         </TextField>
-                        <Button fx:id="play" mnemonicParsing="false" prefHeight="45.0" prefWidth="146.0" stylesheets="@../../../../java/values/style.css" text="PLAY" textFill="WHITE">
+                        <Button fx:id="play" mnemonicParsing="false" onAction="#newPlayer" prefHeight="45.0" prefWidth="146.0" stylesheets="@../../../../java/values/style.css" text="PLAY" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="40.0" />
                            </VBox.margin>
@@ -75,7 +74,7 @@
                   </VBox>
                </children>
             </VBox>
-            <VBox prefHeight="607.0" prefWidth="342.0" styleClass="right-bar" stylesheets="@../../../../java/values/style.css">
+            <VBox fx:id="existingAccounts" prefHeight="607.0" prefWidth="342.0" styleClass="right-bar" stylesheets="@../../../../java/values/style.css">
                <children>
                   <HBox alignment="CENTER" prefHeight="70.0" prefWidth="205.0" stylesheets="@../../../../java/values/style.css">
                      <VBox.margin>
@@ -108,70 +107,6 @@
                         <String fx:value="allPLayersName" />
                         <String fx:value="shadow" />
                      </styleClass>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="126.0" stylesheets="@../../../../java/values/style.css">
-                     <children>
-                        <Label text="Player 2">
-                           <font>
-                              <Font name="Cambria Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="70.0" right="70.0" top="30.0" />
-                     </VBox.margin>
-                     <styleClass>
-                        <String fx:value="allPLayersName" />
-                        <String fx:value="shadow" />
-                     </styleClass>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="126.0" stylesheets="@../../../../java/values/style.css">
-                     <children>
-                        <Label text="Player 3">
-                           <font>
-                              <Font name="Cambria Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <styleClass>
-                        <String fx:value="allPLayersName" />
-                        <String fx:value="shadow" />
-                     </styleClass>
-                     <VBox.margin>
-                        <Insets left="70.0" right="70.0" top="30.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="126.0" stylesheets="@../../../../java/values/style.css">
-                     <children>
-                        <Label text="Player 4">
-                           <font>
-                              <Font name="Cambria Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <styleClass>
-                        <String fx:value="allPLayersName" />
-                        <String fx:value="shadow" />
-                     </styleClass>
-                     <VBox.margin>
-                        <Insets left="70.0" right="70.0" top="30.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="126.0" stylesheets="@../../../../java/values/style.css">
-                     <children>
-                        <Label text="Player 5">
-                           <font>
-                              <Font name="Cambria Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <styleClass>
-                        <String fx:value="allPLayersName" />
-                        <String fx:value="shadow" />
-                     </styleClass>
-                     <VBox.margin>
-                        <Insets left="70.0" right="70.0" top="30.0" />
-                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>
