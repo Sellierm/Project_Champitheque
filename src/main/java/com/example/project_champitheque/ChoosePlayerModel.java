@@ -20,7 +20,7 @@ public class ChoosePlayerModel {
     // CONSTRUCTEUR
     public ChoosePlayerModel() {
         try {
-            File myObj = new File("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/players.txt");
+            File myObj = new File("src/main/resources/data/players.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 allData.add(myReader.nextLine());
@@ -35,7 +35,7 @@ public class ChoosePlayerModel {
 
     public void setParamPlayer(int playerId) {
         try {
-            FileWriter myWriter = new FileWriter("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/param.txt");
+            FileWriter myWriter = new FileWriter("src/main/resources/data/param.txt");
             myWriter.write(String.valueOf(playerId));
             myWriter.close();
             System.out.println("Successfully wrote player id to the param file.");
@@ -49,7 +49,7 @@ public class ChoosePlayerModel {
         String allLines = "";
         int compt = 0;
         try {
-            File myObj = new File("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/players.txt");
+            File myObj = new File("src/main/resources/data/players.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 allLines+=myReader.nextLine()+'\n';
@@ -68,7 +68,7 @@ public class ChoosePlayerModel {
 
 
         try {
-            FileWriter myWriter = new FileWriter("C:/Users/bebew/OneDrive - JUNIA Grande école d'ingénieurs/CIR3/Semestre 1/Java/Projet/Project_Champitheque/src/main/resources/data/players.txt");
+            FileWriter myWriter = new FileWriter("src/main/resources/data/players.txt");
             myWriter.write(allLines);
             myWriter.close();
             System.out.println("Successfully wrote new player to players file.");
