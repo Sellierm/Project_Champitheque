@@ -1,20 +1,37 @@
 package com.example.project_champitheque;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class GameController implements Quit {
+public class GameController implements Quit, Help, NewGame {
 
     GameModel model;
 
@@ -26,6 +43,15 @@ public class GameController implements Quit {
 
     public GridPane grid;
 
+    @FXML
+    private Button newGame;//boutton pour quitter le jeu
+
+    @FXML
+    private TextField inputSizeX;//boutton pour quitter le jeu
+
+    @FXML
+    private TextField inputSizeY;//boutton pour quitter le jeu
+
     @Override
     public void Quit() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
@@ -34,15 +60,52 @@ public class GameController implements Quit {
     }
 
 
-    public void Help() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
-        Stage window =(Stage) help.getScene().getWindow();
-        window.setScene(new Scene(fxmlLoader.load()));
+    public void Help(){
     }
 
 
+    public void NewGame() {
+        int sizeX = Integer.parseInt(inputSizeX.getText());
+        int sizeY = Integer.parseInt(inputSizeY.getText());
+        model = new GameModel(sizeX, sizeY,0.3);
+        setGrilleFX();
+    }
+
+
+
+
+
     public void initialize(){
-        model = new GameModel(15, 10);
+        int sizeX = Integer.parseInt(inputSizeX.getText());
+        int sizeY = Integer.parseInt(inputSizeY.getText());
+        model = new GameModel(sizeX, sizeY,0.3);
+        setGrilleFX();
+
+
+        //On empêche les input de caractères autres que des nombres
+        inputSizeX.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    inputSizeX.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        inputSizeY.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    inputSizeY.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+    }
+
+
+    public void setGrilleFX(){
+        grid.getChildren().clear();
         ArrayList<ArrayList> grille = model.getGrille();
         System.out.println(grid);
         grid.setPrefWidth(1000);
@@ -55,22 +118,98 @@ public class GameController implements Quit {
                 Text txtNode = new Text(txt);
                 txtNode.setUserData(txt);
                 grid.add(txtNode, x, y);
+                ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/grass.png")));
+                selectedImage.setUserData(txt);
+                grid.add(selectedImage, x, y);
             }
         }
 
-        grid.setHgap(30);
-        grid.setVgap(30);
-
         for(Node node : grid.getChildren()){
-            node.setOnMouseReleased(e -> {
-                Text target = (Text) e.getTarget();
-                System.out.println(target.textProperty().get());
-                System.out.println(target.getUserData());
-            });
+            node.setOnMouseReleased(e -> clickedCase(e));
         }
 
         System.out.println(grid);
         System.out.println(grid.getChildren());
+    }
+
+
+    //Fonction appelée au click sur une case pour afficher le résultat de la case
+    public void clickedCase(MouseEvent e){
+        ImageView target = (ImageView) e.getTarget();
+        System.out.println(target.getUserData());
+
+        String data = (String)target.getUserData();
+        String[] arr = null;
+        arr = data.split("-");
+        List<String> list = Arrays.asList(arr);
+        int resultCase = model.revealCase(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+
+
+        ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
+        Text txtNode = new Text("");
+
+        if(resultCase == 1){
+            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
+        }
+        else {
+            int nbBombsAround = model.getNbBombsAround(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+            txtNode.setText(String.valueOf(nbBombsAround));
+            txtNode.setStyle("-fx-font: 30 arial;");
+            txtNode.setFill(Color.WHITE);
+            txtNode.setTextAlignment(TextAlignment.CENTER);
+        }
+
+
+        grid.add(resultImage, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+        grid.add(txtNode, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+
+        if(resultCase == 1){
+            loose();
+        }
+    }
+
+    public void discoverGroup(){
+    }
+
+
+    public void loose(){
+        grid.getChildren().clear();
+
+        ArrayList<ArrayList> grille = model.getGrille();
+
+
+        for(int i = 0; i< grille.size(); i++){
+            for(int j = 0; j < grille.get(i).size(); j++) {
+                int x = j%grille.get(i).size();
+                int y = i;
+
+                int resultCase = (int)grille.get(y).get(x);
+
+
+                ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
+                Text txtNode = new Text();
+
+                if(resultCase == 1){
+                    resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
+                }
+                else {
+                    int nbBombsAround = model.getNbBombsAround(x, y);
+                    txtNode.setText(String.valueOf(nbBombsAround));
+                    txtNode.setStyle("-fx-font: 30 arial;");
+                    txtNode.setFill(Color.WHITE);
+                    txtNode.setTextAlignment(TextAlignment.CENTER);
+                }
+
+                grid.add(resultImage, x, y);
+                grid.add(txtNode, x, y);
+            }
+        }
+
+
+
+    }
+
+    public void discoverall(){
     }
 
 
