@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -17,14 +16,14 @@
    <children>
       <HBox layoutY="-4.0" prefHeight="607.0" prefWidth="1000.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="607.0" prefWidth="773.0">
+            <VBox alignment="TOP_CENTER" prefHeight="607.0" prefWidth="773.0" style="-fx-background-color: #6B4423;">
                <children>
-                  <Label alignment="CENTER" contentDisplay="TOP" prefHeight="236.0" prefWidth="378.0" text="New Player">
+                  <Label alignment="CENTER" contentDisplay="TOP" prefHeight="236.0" prefWidth="378.0" text="New Player" textFill="WHITE">
                      <font>
                         <Font name="Impact" size="71.0" />
                      </font>
                   </Label>
-                  <VBox alignment="CENTER" prefHeight="292.0" prefWidth="716.0" style="-fx-background-color: #BAC7EA; -fx-background-radius: 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);">
+                  <VBox alignment="CENTER" prefHeight="292.0" prefWidth="716.0" style="-fx-background-color: #a25e26; -fx-background-radius: 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);">
                      <children>
                         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="539.0">
                            <children>
@@ -40,20 +39,23 @@
                               </Label>
                            </children>
                         </HBox>
-                        <TextField fx:id="newName" prefHeight="47.0" prefWidth="490.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 100; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);">
+                        <TextField fx:id="newName" alignment="CENTER" prefHeight="47.0" prefWidth="490.0" promptText="Pseudo" style="-fx-background-color: #FFFFFF; -fx-background-radius: 100; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                            <VBox.margin>
                               <Insets left="200.0" right="200.0" top="15.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="24.0" />
+                           </font>
                         </TextField>
                         <Button fx:id="play" mnemonicParsing="false" onAction="#newPlayer" prefHeight="45.0" prefWidth="146.0" style="-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-background-color: #e84a4a; -fx-background-radius: 100;" text="PLAY" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="40.0" />
                            </VBox.margin>
                            <font>
-                              <Font name="Cambria Bold" size="18.0" />
+                              <Font name="Calibri Bold" size="24.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -66,23 +68,19 @@
                   </VBox>
                </children>
             </VBox>
-            <VBox fx:id="existingAccounts" prefHeight="607.0" prefWidth="342.0" style="-fx-background-color: #D3D3D3;" styleClass="right-bar">
+            <VBox fx:id="existingAccounts" prefHeight="607.0" prefWidth="342.0" style="-fx-background-color: #5c3a1b;" styleClass="right-bar">
                <children>
-                  <HBox alignment="CENTER" prefHeight="70.0" prefWidth="205.0" style="-fx-background-color: #BAEAC3; -fx-background-radius: 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);">
+                  <HBox alignment="CENTER" prefHeight="70.0" prefWidth="205.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <Label text="All Players">
+                        <Label text="Profils existants" textAlignment="CENTER" textFill="WHITE">
                            <font>
-                              <Font name="Cambria Bold" size="25.0" />
+                              <Font name="Calibri Bold" size="25.0" />
                            </font>
                         </Label>
                      </children>
-                     <styleClass>
-                        <String fx:value="allPlayers" />
-                        <String fx:value="shadow" />
-                     </styleClass>
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
