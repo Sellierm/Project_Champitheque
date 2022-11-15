@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -23,7 +24,7 @@
                         <Font name="Impact" size="71.0" />
                      </font>
                   </Label>
-                  <VBox alignment="CENTER" prefHeight="292.0" prefWidth="716.0" stylesheets="@../../../../java/values/style.css">
+                  <VBox alignment="CENTER" prefHeight="292.0" prefWidth="716.0" style="-fx-background-color: #BAC7EA; -fx-background-radius: 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);">
                      <children>
                         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="539.0">
                            <children>
@@ -39,46 +40,37 @@
                               </Label>
                            </children>
                         </HBox>
-                        <TextField fx:id="newName" prefHeight="47.0" prefWidth="490.0" stylesheets="@../../../../java/values/style.css">
+                        <TextField fx:id="newName" prefHeight="47.0" prefWidth="490.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 100; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                            <VBox.margin>
                               <Insets left="200.0" right="200.0" top="15.0" />
                            </VBox.margin>
-                           <styleClass>
-                              <String fx:value="enterName" />
-                              <String fx:value="shadow" />
-                           </styleClass>
                         </TextField>
-                        <Button fx:id="play" mnemonicParsing="false" onAction="#newPlayer" prefHeight="45.0" prefWidth="146.0" stylesheets="@../../../../java/values/style.css" text="PLAY" textFill="WHITE">
+                        <Button fx:id="play" mnemonicParsing="false" onAction="#newPlayer" prefHeight="45.0" prefWidth="146.0" style="-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-background-color: #e84a4a; -fx-background-radius: 100;" text="PLAY" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="40.0" />
                            </VBox.margin>
                            <font>
                               <Font name="Cambria Bold" size="18.0" />
                            </font>
-                           <styleClass>
-                              <String fx:value="add-btn" />
-                              <String fx:value="shadow" />
-                           </styleClass>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </children>
                      <VBox.margin>
                         <Insets left="50.0" right="50.0" />
                      </VBox.margin>
-                     <styleClass>
-                        <String fx:value="namePlayer" />
-                        <String fx:value="shadow" />
-                     </styleClass>
                   </VBox>
                </children>
             </VBox>
-            <VBox fx:id="existingAccounts" prefHeight="607.0" prefWidth="342.0" styleClass="right-bar" stylesheets="@../../../../java/values/style.css">
+            <VBox fx:id="existingAccounts" prefHeight="607.0" prefWidth="342.0" style="-fx-background-color: #D3D3D3;" styleClass="right-bar">
                <children>
-                  <HBox alignment="CENTER" prefHeight="70.0" prefWidth="205.0" stylesheets="@../../../../java/values/style.css">
+                  <HBox alignment="CENTER" prefHeight="70.0" prefWidth="205.0" style="-fx-background-color: #BAEAC3; -fx-background-radius: 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0);">
                      <VBox.margin>
-                        <Insets left="40.0" right="40.0" top="40.0" />
+                        <Insets />
                      </VBox.margin>
                      <children>
                         <Label text="All Players">
@@ -91,24 +83,14 @@
                         <String fx:value="allPlayers" />
                         <String fx:value="shadow" />
                      </styleClass>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="126.0" stylesheets="@../../../../java/values/style.css">
-                     <VBox.margin>
-                        <Insets left="70.0" right="70.0" top="60.0" />
-                     </VBox.margin>
-                     <children>
-                        <Label text="Player 1">
-                           <font>
-                              <Font name="Cambria Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <styleClass>
-                        <String fx:value="allPLayersName" />
-                        <String fx:value="shadow" />
-                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
                   </HBox>
                </children>
+               <padding>
+                  <Insets left="40.0" right="40.0" top="20.0" />
+               </padding>
             </VBox>
          </children>
       </HBox>

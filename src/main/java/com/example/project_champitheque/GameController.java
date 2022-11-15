@@ -11,9 +11,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -23,6 +25,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.image.ImageObserver;
@@ -32,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameController implements Quit, Help, NewGame {
+public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
     GameModel model;
 
@@ -60,6 +63,18 @@ public class GameController implements Quit, Help, NewGame {
     private TextField inputSizeY;//boutton pour quitter le jeu
 
 
+    @FXML
+    private Pane popupend;
+
+    @FXML
+    private Text finalScore;
+
+    @FXML
+    private Text lvlEarned;
+
+
+
+
     @Override
     public void Quit() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
@@ -73,10 +88,30 @@ public class GameController implements Quit, Help, NewGame {
 
 
     public void NewGame() {
+        if(Integer.parseInt(inputSizeX.getText()) >19)inputSizeX.setText("19");
+        if(Integer.parseInt(inputSizeX.getText()) <10)inputSizeX.setText("10");
+        if(Integer.parseInt(inputSizeY.getText()) >13)inputSizeY.setText("13");
+        if(Integer.parseInt(inputSizeY.getText()) <10)inputSizeY.setText("10");
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
         model.restartGame(sizeX, sizeY,0.3);
         setGrilleFX();
+        ClosePopUpEnd();
+    }
+
+
+    public void ShowPopUpEnd(int score){
+        String scoreTxt = ""+score;
+        String findTxt = ""+model.getChampiFind();
+        finalScore.setText(findTxt);
+        lvlEarned.setText(scoreTxt);
+        popupend.setVisible(true);
+
+    }
+
+    public void ClosePopUpEnd(){
+        popupend.setVisible(false);
+
     }
 
 
@@ -137,7 +172,15 @@ public class GameController implements Quit, Help, NewGame {
         }
 
         for(Node node : grid.getChildren()){
-            node.setOnMouseReleased(e -> clickedCase(e));
+            node.setOnMouseReleased(e -> {
+                if(e.getButton() == MouseButton.PRIMARY){
+                    clickedCase(e);
+
+                }
+                if(e.getButton() == MouseButton.SECONDARY){
+                    placeBarriere(e);
+                }
+            });
         }
 
         System.out.println(grid);
@@ -174,18 +217,44 @@ public class GameController implements Quit, Help, NewGame {
 
             grid.add(resultImage, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
             grid.add(txtNode, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+
+            if(model.getRestant() <= 0) {
+                revealGrid();
+                ShowPopUpEnd(model.finalScore());
+            }
         }
         else{
             revealGrid();
-            model.end();
+            ShowPopUpEnd(model.finalScore());
         }
     }
 
 
-    public void popupEnd(){
+    public void placeBarriere(MouseEvent e){
+        ImageView target = (ImageView) e.getTarget();
+        System.out.println(target.getUserData());
 
+        String data = (String) target.getUserData();
+        String[] arr = null;
+        arr = data.split("-");
+        List<String> list = Arrays.asList(arr);
 
+        ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/barriere.png")));
+        resultImage.setUserData(data);
+        resultImage.setOnMouseReleased(event -> {
+            if(event.getButton() == MouseButton.PRIMARY){
+                clickedCase(event);
+
+            }
+            if(event.getButton() == MouseButton.SECONDARY){
+                placeBarriere(event);
+            }
+        });
+        grid.add(resultImage, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
     }
+
+
+
 
 
     public void revealGrid(){

@@ -4,14 +4,15 @@ import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.event.*;
 
@@ -64,9 +65,16 @@ public class ChoosePlayerController {
 
             if(compt%3 == 0) {
                 Button container = new Button();
-                container.setMinWidth(200);
-                container.setMinHeight(100);
-                container.setLayoutY(200*((compt-3)/3));
+
+                container.setPrefWidth(180);
+                container.setPrefHeight(80);
+                container.setCursor(Cursor.HAND);
+                container.setTextAlignment(TextAlignment.CENTER);
+                VBox.setVgrow(container, Priority.ALWAYS);
+                VBox.setMargin(container,new Insets(10,20,0,20));
+                container.setStyle("-fx-background-color : #EABABA; -fx-background-radius : 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-font-size: 16px;");
+
+                //container.setLayoutY(400*((compt-3)/3));
                 int id = compt/3;
                 container.setUserData(id);
                 container.setOnAction(event -> {

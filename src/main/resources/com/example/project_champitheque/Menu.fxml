@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,13 +14,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.MenuController">
    <children>
-      <AnchorPane prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #AAAAAA;">
+      <AnchorPane prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #5c3a1b;">
          <children>
-            <AnchorPane layoutY="343.0" prefHeight="257.0" prefWidth="200.0">
+            <AnchorPane layoutY="266.0" prefHeight="231.0" prefWidth="200.0">
                <children>
-                  <Text layoutX="64.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Leaderboard :" />
+                  <Text fill="WHITE" layoutX="64.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Leaderboard :" />
                </children></AnchorPane>
-            <GridPane layoutX="14.0" layoutY="141.0" prefHeight="150.0" prefWidth="108.0">
+            <GridPane layoutX="14.0" layoutY="141.0" prefHeight="99.0" prefWidth="108.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -27,13 +28,12 @@
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pseudo :" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Niveau :" GridPane.rowIndex="1" />
-                  <Text fx:id="pseudo" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" />
-                  <Text fx:id="level" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Pseudo :" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Niveau :" GridPane.rowIndex="1" />
+                  <Text fx:id="pseudo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" />
+                  <Text fx:id="level" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <ImageView fitHeight="119.0" fitWidth="94.0" layoutX="53.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -41,9 +41,15 @@
                   <Image url="@../../../img/profilPic.png" />
                </image>
             </ImageView>
-            <Button fx:id="changePlayerButton" layoutX="42.0" layoutY="278.0" mnemonicParsing="false" onAction="#changePlayer" text="Changer de joueur" />
+            <Button fx:id="changePlayerButton" layoutX="12.0" layoutY="541.0" mnemonicParsing="false" onAction="#changePlayer" style="-fx-background-color: #960018; -fx-background-radius: 15;" text="Changer de joueur" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Button>
          </children></AnchorPane>
-      <AnchorPane layoutX="199.0" layoutY="-1.0" prefHeight="607.0" prefWidth="800.0">
+      <AnchorPane layoutX="199.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #6B4423;">
          <children>
             <GridPane layoutX="131.0" layoutY="61.0" prefHeight="503.0" prefWidth="539.0">
                <columnConstraints>
@@ -56,7 +62,10 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+                  <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                     <image>
+                        <Image url="@../../../img/champifinderIcon.png" />
+                     </image></ImageView>
                   <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
                   <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                   <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
@@ -102,14 +111,20 @@
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Button fx:id="Game_1" mnemonicParsing="false" onAction="#handleGame1" text="Game 1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                  <Button fx:id="Game_1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGame1" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="ChampiFinder" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="10.0" />
                      </GridPane.margin>
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </GridPane>
-            <Text layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your game :" textAlignment="CENTER" wrappingWidth="800.7278442382812" AnchorPane.topAnchor="18.0">
+            <Text fill="WHITE" layoutY="35.8984375" strokeType="OUTSIDE" strokeWidth="0.0" text="Choissiez un jeu (attention, il est peut-être vénéneux)" textAlignment="CENTER" wrappingWidth="800.7278442382812" AnchorPane.topAnchor="10.0">
                <font>
                   <Font size="24.0" />
                </font></Text>

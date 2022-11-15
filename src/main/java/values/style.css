@@ -30,3 +30,10 @@
     -fx-background-color : #EABABA;
     -fx-background-radius : 30;
 }
+
+
+.popup{
+    -fx-background-color : #987654;
+    -fx-background-radius : 10;
+
+}

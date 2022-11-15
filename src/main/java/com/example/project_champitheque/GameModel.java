@@ -92,7 +92,9 @@ public class GameModel {
             if (valueCase == 1) {
                 champiFind.setValue(champiFind.get()+1);
             }
-            restant.setValue(restant.get()-1);
+            else{
+                restant.setValue(restant.get()-1);
+            }
         }
         else{
             System.out.println("Vous êtes à cours de coups");
@@ -161,12 +163,12 @@ public class GameModel {
         }
     }
 
-
-    public void end(){
+    // Calcul du score
+    public int finalScore(){
         //Score calculé en fonction de la difficulté, et des champignons trouvés, + le nombre de tours restants divisé par 2
-        double score =  (this.getChampiFind() * this.difficulty + (this.getRestant()/2))*10;
+        int score =  (int)(this.getChampiFind() * this.difficulty + (this.getRestant()/2))*10;
         System.out.println(score);
-
+        return score;
     }
 
 
