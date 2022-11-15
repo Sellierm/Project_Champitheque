@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.GameController">
@@ -19,9 +20,12 @@
                         <Button fx:id="help" layoutX="17.0" layoutY="7.0" mnemonicParsing="false" onAction="#Help" text="Aide" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="413.0" prefHeight="34.0" prefWidth="200.0">
+                  <AnchorPane layoutX="475.0" layoutY="3.0" prefHeight="34.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="74.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Démineur" />
+                        <Text layoutX="20.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ChampiFinder">
+                           <font>
+                              <Font size="26.0" />
+                           </font></Text>
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="739.0" layoutY="1.0" prefHeight="31.0" prefWidth="286.0">
@@ -29,10 +33,14 @@
                         <Button fx:id="quit" layoutX="116.0" mnemonicParsing="false" onAction="#Quit" prefHeight="32.0" prefWidth="54.0" text="Quitter" textAlignment="CENTER" />
                      </children>
                   </AnchorPane>
-                  <Button fx:id="newGame" layoutX="601.0" layoutY="8.0" mnemonicParsing="false" onAction="#NewGame" text="Nouvelle Partie" />
-                  <TextField fx:id="inputSizeX" layoutX="253.0" layoutY="7.0" prefHeight="26.0" prefWidth="50.0" text="15" />
-                  <TextField fx:id="inputSizeY" layoutX="304.0" layoutY="7.0" prefHeight="26.0" prefWidth="50.0" text="10" />
-                  <Label layoutX="212.0" layoutY="12.0" text="Taille" />
+                  <Button fx:id="newGame" layoutX="691.0" layoutY="7.0" mnemonicParsing="false" onAction="#NewGame" text="Nouvelle Partie" />
+                  <TextField fx:id="inputSizeX" layoutX="147.0" layoutY="7.0" prefHeight="26.0" prefWidth="50.0" text="15" />
+                  <TextField fx:id="inputSizeY" layoutX="198.0" layoutY="7.0" prefHeight="26.0" prefWidth="50.0" text="10" />
+                  <Label layoutX="106.0" layoutY="12.0" text="Taille" />
+                  <Label layoutX="267.0" layoutY="12.0" text="Tours restants" />
+                  <Text fx:id="restant" layoutX="347.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Label layoutX="379.0" layoutY="12.0" text="Trouvés" />
+                  <Text fx:id="champiFind" layoutX="427.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                </children>
             </AnchorPane>
          </top>

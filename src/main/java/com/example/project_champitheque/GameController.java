@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
@@ -41,16 +42,23 @@ public class GameController implements Quit, Help, NewGame {
     @FXML
     private Button help;//boutton pour quitter le jeu
 
+    @FXML
+    private Button newGame;//boutton pour quitter le jeu
+
     public GridPane grid;
 
     @FXML
-    private Button newGame;//boutton pour quitter le jeu
+    private Text champiFind;//boutton pour quitter le jeu
+
+    @FXML
+    private Text restant;//boutton pour quitter le jeu
 
     @FXML
     private TextField inputSizeX;//boutton pour quitter le jeu
 
     @FXML
     private TextField inputSizeY;//boutton pour quitter le jeu
+
 
     @Override
     public void Quit() throws IOException {
@@ -67,7 +75,7 @@ public class GameController implements Quit, Help, NewGame {
     public void NewGame() {
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
-        model = new GameModel(sizeX, sizeY,0.3);
+        model.restartGame(sizeX, sizeY,0.3);
         setGrilleFX();
     }
 
@@ -79,6 +87,10 @@ public class GameController implements Quit, Help, NewGame {
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
         model = new GameModel(sizeX, sizeY,0.3);
+
+        champiFind.textProperty().bind(model.champiFindProperty().asString());
+        restant.textProperty().bind(model.restantProperty().asString());
+
         setGrilleFX();
 
 
@@ -135,44 +147,48 @@ public class GameController implements Quit, Help, NewGame {
 
     //Fonction appelée au click sur une case pour afficher le résultat de la case
     public void clickedCase(MouseEvent e){
-        ImageView target = (ImageView) e.getTarget();
-        System.out.println(target.getUserData());
+        if(model.getRestant() > 0) {
+            ImageView target = (ImageView) e.getTarget();
+            System.out.println(target.getUserData());
 
-        String data = (String)target.getUserData();
-        String[] arr = null;
-        arr = data.split("-");
-        List<String> list = Arrays.asList(arr);
-        int resultCase = model.revealCase(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+            String data = (String) target.getUserData();
+            String[] arr = null;
+            arr = data.split("-");
+            List<String> list = Arrays.asList(arr);
+            int resultCase = model.revealCase(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
 
 
-        ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
-        Text txtNode = new Text("");
+            ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
+            Text txtNode = new Text("");
 
-        if(resultCase == 1){
-            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
+            if (resultCase == 1) {
+                resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
+            } else {
+                int nbBombsAround = model.getNbBombsAround(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+                txtNode.setText(String.valueOf(nbBombsAround));
+                txtNode.setStyle("-fx-font: 30 arial;");
+                txtNode.setFill(Color.WHITE);
+                txtNode.setTextAlignment(TextAlignment.CENTER);
+            }
+
+
+            grid.add(resultImage, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+            grid.add(txtNode, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
         }
-        else {
-            int nbBombsAround = model.getNbBombsAround(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
-            txtNode.setText(String.valueOf(nbBombsAround));
-            txtNode.setStyle("-fx-font: 30 arial;");
-            txtNode.setFill(Color.WHITE);
-            txtNode.setTextAlignment(TextAlignment.CENTER);
-        }
-
-
-        grid.add(resultImage, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
-        grid.add(txtNode, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
-
-        if(resultCase == 1){
-            loose();
+        else{
+            revealGrid();
+            model.end();
         }
     }
 
-    public void discoverGroup(){
+
+    public void popupEnd(){
+
+
     }
 
 
-    public void loose(){
+    public void revealGrid(){
         grid.getChildren().clear();
 
         ArrayList<ArrayList> grille = model.getGrille();
@@ -183,7 +199,7 @@ public class GameController implements Quit, Help, NewGame {
                 int x = j%grille.get(i).size();
                 int y = i;
 
-                int resultCase = (int)grille.get(y).get(x);
+                int resultCase = model.getCaseValue(x, y);
 
 
                 ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
@@ -208,9 +224,5 @@ public class GameController implements Quit, Help, NewGame {
 
 
     }
-
-    public void discoverall(){
-    }
-
 
 }

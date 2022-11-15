@@ -2,18 +2,31 @@ package com.example.project_champitheque;
 
 
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class GameModel {
 
     public ArrayList<ArrayList> grille = new ArrayList<ArrayList>();
+
+    private final IntegerProperty champiFind;
+
+    private final IntegerProperty restant;
+
+    public double difficulty;
 
 
     public ArrayList<ArrayList> getGrille(){
@@ -21,10 +34,34 @@ public class GameModel {
     }
 
 
+    public int getChampiFind() {
+        return champiFind.get();
+    }
+    public IntegerProperty champiFindProperty() {
+        return champiFind;
+    }
+    public int getRestant() {
+        return restant.get();
+    }
+
+    public IntegerProperty restantProperty() {
+        return restant;
+    }
+
+
     public GameModel(int sizeX, int sizeY, double difficulty){
         setGrille(sizeX, sizeY, difficulty);
+        this.champiFind = new SimpleIntegerProperty(0);
+        this.restant = new SimpleIntegerProperty(30);
+        this.difficulty = difficulty;
         System.out.println(grille);
 
+    }
+
+    public void restartGame(int sizeX, int sizeY, double difficulty){
+        setGrille(sizeX, sizeY, difficulty);
+        champiFind.setValue(0);
+        restant.setValue(30);
     }
 
 
@@ -47,10 +84,25 @@ public class GameModel {
 
 
     public int revealCase(int x, int y){
-
-        int valueCase = (int)grille.get(y).get(x);
-        System.out.println(valueCase);
+        int valueCase = (int) grille.get(y).get(x);
+        System.out.println(restant);
+        System.out.println(champiFind);
+        if(restant.get() > 0) {
+            System.out.println(valueCase);
+            if (valueCase == 1) {
+                champiFind.setValue(champiFind.get()+1);
+            }
+            restant.setValue(restant.get()-1);
+        }
+        else{
+            System.out.println("Vous êtes à cours de coups");
+        }
         return valueCase;
+    }
+
+
+    public int getCaseValue(int x, int y){
+        return (int) grille.get(y).get(x);
     }
 
 
@@ -107,6 +159,14 @@ public class GameModel {
             System.out.println("Appel inccorect, case piégée");
             return 0;
         }
+    }
+
+
+    public void end(){
+        //Score calculé en fonction de la difficulté, et des champignons trouvés, + le nombre de tours restants divisé par 2
+        double score =  (this.getChampiFind() * this.difficulty + (this.getRestant()/2))*10;
+        System.out.println(score);
+
     }
 
 
