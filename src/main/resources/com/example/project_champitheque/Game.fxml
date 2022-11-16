@@ -122,11 +122,17 @@
                            <image>
                               <Image url="@../../../img/loupe.png" />
                            </image>
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
                         </ImageView>
                         <ImageView fx:id="manure" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#useManure" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../img/manure.png" />
                            </image>
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
                         </ImageView>
                      </children></HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="174.0">
