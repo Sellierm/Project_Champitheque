@@ -101,7 +101,10 @@ public class GameModel {
             if (valueCase == 1) {
                 champiFind.setValue(champiFind.get()+1);
             }
-            else{
+            else if (valueCase == -1){
+                champiFind.setValue(champiFind.get()-5);
+            }
+            else if (valueCase == 0){
                 restant.setValue(restant.get()-1);
             }
         }
@@ -201,22 +204,43 @@ public class GameModel {
 
 
     public void setManure(int x, int y){
+        int maxYSize = grille.size() - 1;
+        int maxXSize = grille.get(y).size() - 1;
 
         Random rand = new Random();
 
-        int minNbChampi = 2;
-        int maxNbChampi = 4;
+        //Random de nombres de champignons à ajouter
+        int minNbChampi = 3;
+        int maxNbChampi = 6;
         int randNbChampi = rand.nextInt(maxNbChampi - minNbChampi + 1) + minNbChampi;
+        System.out.println(randNbChampi + " champignons ajoutés");
 
-        for (int i = 0; i < randNbChampi; i++){
-            int min = -2;
-            int max = 2;
+        int min = -2;
+        int max = 2;
+        //Boucle de randomise des positions de 2 cases autour de la case principale (différente de la case d'origine)
+        for (int i = 0; i <= randNbChampi; i++){
             int newX = x + rand.nextInt(max - min + 1) + min;
             int newY = y + rand.nextInt(max - min + 1) + min;
-            System.out.println("Test coo aléatoire");
-            System.out.println(newX);
-            System.out.println(newY);
+            if(newX >= 0 && newX <= maxXSize && newY >= 0 && newY <= maxYSize && newX != x && newY != y){
+                grille.get(y).set(x, 1);
+                System.out.println("Champignon ajouté en : " + newX + ", " + newY);
+            }
+            else {
+                //Si la case est hors limite, il faut reboucler 1 fois de plus
+                i--;
+            }
         }
+
+        int xVeneneux = x + rand.nextInt(max - min + 1) + min;
+        int yVeneneux = y + rand.nextInt(max - min + 1) + min;
+        while(xVeneneux < 0 || xVeneneux > maxXSize && yVeneneux < 0 && yVeneneux > maxYSize && xVeneneux == x && yVeneneux == y){
+            System.out.println("Coordonnées invalides : " + xVeneneux + ", " + xVeneneux);
+            xVeneneux = x + rand.nextInt(max - min + 1) + min;
+            yVeneneux = y + rand.nextInt(max - min + 1) + min;
+        }
+        grille.get(yVeneneux).set(xVeneneux, -1);
+        System.out.println("Champignon vénéneux en : " + xVeneneux + ", " + yVeneneux);
+
     }
 
 
