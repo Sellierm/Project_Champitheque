@@ -305,7 +305,7 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="392.0" />
+                        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="392.0" visible="false" />
                         <HBox prefHeight="60.0" prefWidth="582.0" />
                         <HBox prefHeight="67.0" prefWidth="582.0" />
                         <HBox prefHeight="60.0" prefWidth="582.0" />
