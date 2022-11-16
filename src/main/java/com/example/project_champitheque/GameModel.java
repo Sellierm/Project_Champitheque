@@ -213,6 +213,7 @@ public class GameModel {
         int max = 1;
         Random rand = new Random();
         int nombreAleatoire = rand.nextInt(max - min + 1) + min;
+        System.out.println("Test nombre aléatoire");
         System.out.println(nombreAleatoire);
     }
 
