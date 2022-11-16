@@ -15,6 +15,8 @@ public class GameModel {
 
     private final IntegerProperty restant;
 
+    private final IntegerProperty champiRestant;
+
     public int difficulty = 1;
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
@@ -41,10 +43,19 @@ public class GameModel {
         return restant;
     }
 
+    public int getChampiRestant() {
+        return champiRestant.get();
+    }
+
+    public IntegerProperty champiRestantProperty() {
+        return champiRestant;
+    }
+
 
     public GameModel(int sizeX, int sizeY){
         this.champiFind = new SimpleIntegerProperty(0);
         this.restant = new SimpleIntegerProperty(20);
+        this.champiRestant = new SimpleIntegerProperty(0);
         this.difficulty = difficulty;
         setGrille(sizeX, sizeY);
         System.out.println(grille);
@@ -77,6 +88,7 @@ public class GameModel {
         }
         //On clear pour les nouveaux appels à la fonction pour ne pas ajouter des cases à celles déjà existantes
         grille.clear();
+        champiRestant.setValue(0);
         for (int y = 0; y < sizeY; y++) {
             ArrayList<Integer> tmpX = new ArrayList<Integer>();
             for (int x = 0; x < sizeX; x++) {
@@ -84,6 +96,7 @@ public class GameModel {
                 int is_bombe = 0;
                 if(value < randDifficulty){
                     is_bombe = 1;
+                    champiRestant.setValue(champiRestant.get()+1);
                 }
                 tmpX.add(is_bombe);
             }
@@ -100,6 +113,7 @@ public class GameModel {
             System.out.println(valueCase);
             if (valueCase == 1) {
                 champiFind.setValue(champiFind.get()+1);
+                champiRestant.setValue(champiRestant.get()-1);
             }
             else if (valueCase == -1){
                 restant.setValue(restant.get()-5);
@@ -218,16 +232,17 @@ public class GameModel {
 
         int min = -2;
         int max = 2;
-        //Boucle de randomise des positions de 2 cases autour de la case principale (différente de la case d'origine)
+        //Boucle de randomise des positions de 2 cases autour de la case principale (différente de la case d'origine) et vide de champignon
         for (int i = 0; i < randNbChampi; i++){
             int newX = x + rand.nextInt(max - min + 1) + min;
             int newY = y + rand.nextInt(max - min + 1) + min;
-            if(newX >= 0 && newX <= maxXSize && newY >= 0 && newY <= maxYSize && newX != x && newY != y){
+            if(newX >= 0 && newX <= maxXSize && newY >= 0 && newY <= maxYSize && newX != x && newY != y && getCaseValue(newX, newY) != 1){
                 grille.get(y).set(x, 1);
+                champiRestant.setValue(champiRestant.get()+1);
                 System.out.println("Champignon ajouté en : " + newX + ", " + newY);
             }
             else {
-                //Si la case est hors limite, il faut reboucler 1 fois de plus
+                //Si la case est hors limite ou a déjà un champignon, il faut reboucler 1 fois de plus
                 i--;
             }
         }

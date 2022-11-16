@@ -116,7 +116,7 @@
                            </children></VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="51.0" prefWidth="174.0">
                      <children>
                         <ImageView fx:id="loupe" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#useLoupe" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -125,6 +125,9 @@
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                         <ImageView fx:id="manure" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#useManure" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -133,9 +136,12 @@
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </children></HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="174.0">
+                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="174.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
@@ -149,7 +155,7 @@
                               </Label>
                               <Text fx:id="restant" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="147.9999668598175">
                                  <font>
-                                    <Font size="40.0" />
+                                    <Font size="35.0" />
                                  </font>
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -159,7 +165,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="174.0">
+                  <HBox prefHeight="78.0" prefWidth="174.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
@@ -173,7 +179,31 @@
                               </Label>
                               <Text fx:id="champiFind" fill="GREEN" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="151.20000839233398">
                                  <font>
-                                    <Font size="40.0" />
+                                    <Font size="35.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="78.0" prefWidth="174.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
+                           <children>
+                              <Label text="Restant" textFill="WHITE">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <Text fx:id="champiRestant" fill="ORANGE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="151.20000839233398">
+                                 <font>
+                                    <Font size="35.0" />
                                  </font>
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -276,7 +306,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane fx:id="popuphelp" layoutY="50.0" onMouseReleased="#CloseHelp" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.2);">
+      <Pane fx:id="popuphelp" layoutY="50.0" onMouseReleased="#CloseHelp" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.2);" visible="false">
          <children>
             <Pane layoutX="209.0" layoutY="74.0" prefHeight="403.0" prefWidth="582.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
                <children>

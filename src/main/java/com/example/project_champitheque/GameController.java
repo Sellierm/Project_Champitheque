@@ -49,6 +49,9 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
     private Text restant;
 
     @FXML
+    private Text champiRestant;
+
+    @FXML
     private TextField inputSizeX;
 
     @FXML
@@ -164,6 +167,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
         champiFind.textProperty().bind(model.champiFindProperty().asString());
         restant.textProperty().bind(model.restantProperty().asString());
+        champiRestant.textProperty().bind(model.champiRestantProperty().asString());
 
         setGrilleFX();
 
@@ -257,7 +261,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
     //Fonction appelée au click sur une case pour afficher le résultat de la case
     public void clickedCase(MouseEvent e){
-        if(model.getRestant() > 0) {
+        if(model.getRestant() > 0 && model.getChampiRestant() > 0) {
 
 
             ImageView target = (ImageView) e.getTarget();
@@ -290,7 +294,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
             updateCase(x, y, resultCase);
 
 
-            if(model.getRestant() <= 0) {
+            if(model.getRestant() <= 0 && model.getChampiRestant() <= 0) {
                 revealGrid();
                 ShowPopUpEnd(model.finalScore());
             }
