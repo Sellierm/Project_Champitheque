@@ -201,17 +201,22 @@ public class GameModel {
 
 
     public void setManure(int x, int y){
-        int min = -1;
-        int max = 1;
-        Random rand = new Random();
-        int nombreAleatoire = rand.nextInt(max - min + 1) + min;
 
-        int minNbChampi = -1;
-        int maxNbChampi = 1;
+        Random rand = new Random();
+
+        int minNbChampi = 2;
+        int maxNbChampi = 4;
         int randNbChampi = rand.nextInt(maxNbChampi - minNbChampi + 1) + minNbChampi;
-        for (int i = 0; )
-        System.out.println("Test nombre aléatoire");
-        System.out.println(nombreAleatoire);
+
+        for (int i = 0; i < randNbChampi; i++){
+            int min = -2;
+            int max = 2;
+            int newX = x + rand.nextInt(max - min + 1) + min;
+            int newY = y + rand.nextInt(max - min + 1) + min;
+            System.out.println("Test coo aléatoire");
+            System.out.println(newX);
+            System.out.println(newY);
+        }
     }
 
 
