@@ -247,6 +247,10 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
         isLoupeActive = false;
         isLoupeUsed = false;
 
+        //On (ré)active la loupe
+        isManureActive = false;
+        isManureUsed = false;
+
     }
 
 

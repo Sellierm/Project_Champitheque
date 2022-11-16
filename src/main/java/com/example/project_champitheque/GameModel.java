@@ -1,19 +1,11 @@
 package com.example.project_champitheque;
 
 
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class GameModel {
 
@@ -213,6 +205,11 @@ public class GameModel {
         int max = 1;
         Random rand = new Random();
         int nombreAleatoire = rand.nextInt(max - min + 1) + min;
+
+        int minNbChampi = -1;
+        int maxNbChampi = 1;
+        int randNbChampi = rand.nextInt(maxNbChampi - minNbChampi + 1) + minNbChampi;
+        for (int i = 0; )
         System.out.println("Test nombre aléatoire");
         System.out.println(nombreAleatoire);
     }
