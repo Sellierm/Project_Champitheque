@@ -26,7 +26,11 @@ public class GameModel {
 
     private final IntegerProperty restant;
 
-    public double difficulty;
+    public int difficulty = 1;
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+        System.out.println(this.difficulty);
+    }
 
 
     public ArrayList<ArrayList> getGrille(){
@@ -49,23 +53,39 @@ public class GameModel {
     }
 
 
-    public GameModel(int sizeX, int sizeY, double difficulty){
-        setGrille(sizeX, sizeY, difficulty);
+    public GameModel(int sizeX, int sizeY){
         this.champiFind = new SimpleIntegerProperty(0);
-        this.restant = new SimpleIntegerProperty(30);
+        this.restant = new SimpleIntegerProperty(20);
         this.difficulty = difficulty;
+        setGrille(sizeX, sizeY);
         System.out.println(grille);
 
     }
 
-    public void restartGame(int sizeX, int sizeY, double difficulty){
-        setGrille(sizeX, sizeY, difficulty);
+    public void restartGame(int sizeX, int sizeY){
+        setGrille(sizeX, sizeY);
         champiFind.setValue(0);
-        restant.setValue(30);
     }
 
 
-    public void setGrille(int sizeX, int sizeY, double difficulty){
+    public void setGrille(int sizeX, int sizeY){
+        double randDifficulty = 0.9;
+        switch (this.difficulty){
+            case 1:
+                randDifficulty = 0.6;
+                this.restant.setValue(20);
+                break;
+            case 2:
+                randDifficulty = 0.4;
+                this.restant.setValue(25);
+                break;
+            case 3:
+                randDifficulty = 0.2;
+                this.restant.setValue(30);
+                break;
+            default:
+                break;
+        }
         //On clear pour les nouveaux appels à la fonction pour ne pas ajouter des cases à celles déjà existantes
         grille.clear();
         for (int y = 0; y < sizeY; y++) {
@@ -73,7 +93,7 @@ public class GameModel {
             for (int x = 0; x < sizeX; x++) {
                 double value = Math.random();
                 int is_bombe = 0;
-                if(value < difficulty){
+                if(value < randDifficulty){
                     is_bombe = 1;
                 }
                 tmpX.add(is_bombe);
@@ -166,9 +186,21 @@ public class GameModel {
     // Calcul du score
     public int finalScore(){
         //Score calculé en fonction de la difficulté, et des champignons trouvés, + le nombre de tours restants divisé par 2
-        int score =  (int)(this.getChampiFind() * this.difficulty + (this.getRestant()/2))*10;
+        int score =  (int)(this.getChampiFind() * (this.difficulty * (this.difficulty+1)) + (this.getRestant()/2));
         System.out.println(score);
         return score;
+    }
+
+
+
+    //CheatCode
+    public void increaseRestant(boolean grow){
+        if(grow) {
+            this.restant.setValue(this.restant.get() + 5);
+        }
+        else {
+            this.restant.setValue(this.restant.get() - 5);
+        }
     }
 
 

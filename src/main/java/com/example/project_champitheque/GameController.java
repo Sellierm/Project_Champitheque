@@ -4,32 +4,24 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,27 +32,49 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
     GameModel model;
 
     @FXML
-    private Button quit;//boutton pour quitter le jeu
+    private Button quit;
 
     @FXML
-    private Button help;//boutton pour quitter le jeu
+    private Button help;
 
     @FXML
-    private Button newGame;//boutton pour quitter le jeu
+    private Button newGame;
 
     public GridPane grid;
 
     @FXML
-    private Text champiFind;//boutton pour quitter le jeu
+    private Text champiFind;
 
     @FXML
-    private Text restant;//boutton pour quitter le jeu
+    private Text restant;
 
     @FXML
-    private TextField inputSizeX;//boutton pour quitter le jeu
+    private TextField inputSizeX;
 
     @FXML
-    private TextField inputSizeY;//boutton pour quitter le jeu
+    private TextField inputSizeY;
+
+
+
+    @FXML
+    private ImageView diff1;
+
+    @FXML
+    private ImageView diff2;
+
+    @FXML
+    private ImageView diff3;
+
+    public List<ImageView> tabDiff = new ArrayList<ImageView>();
+
+
+
+    @FXML
+    public ImageView loupe;
+
+    public boolean isLoupeActive = false;
+
+    public boolean isLoupeUsed = false;
 
 
     @FXML
@@ -71,6 +85,16 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
     @FXML
     private Text lvlEarned;
+
+
+    @FXML
+    private Pane popuphelp;
+
+
+
+    //CheatCode
+    @FXML
+    private Label labelRestants;
 
 
 
@@ -84,6 +108,11 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
 
     public void Help(){
+        popuphelp.setVisible(true);
+    }
+
+    public void CloseHelp(){
+        popuphelp.setVisible(false);
     }
 
 
@@ -94,7 +123,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
         if(Integer.parseInt(inputSizeY.getText()) <10)inputSizeY.setText("10");
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
-        model.restartGame(sizeX, sizeY,0.3);
+        model.restartGame(sizeX, sizeY);
         setGrilleFX();
         ClosePopUpEnd();
     }
@@ -121,7 +150,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
     public void initialize(){
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
-        model = new GameModel(sizeX, sizeY,0.3);
+        model = new GameModel(sizeX, sizeY);
 
         champiFind.textProperty().bind(model.champiFindProperty().asString());
         restant.textProperty().bind(model.restantProperty().asString());
@@ -148,15 +177,34 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
             }
         });
 
+        //Set difficulty
+
+        diff1.setScaleX(1.3);
+        diff1.setScaleY(1.3);
+        diff1.setUserData("1");
+        diff2.setUserData("2");
+        diff3.setUserData("3");
+        this.tabDiff.add(diff1);
+        this.tabDiff.add(diff2);
+        this.tabDiff.add(diff3);
+
+
+        //CheatCode pour faire varier le nombre de coups restants
+        labelRestants.setOnMouseReleased(e -> {
+            if(e.getButton() == MouseButton.PRIMARY){
+                model.increaseRestant(true);
+
+            }
+            if(e.getButton() == MouseButton.SECONDARY){
+                model.increaseRestant(false);
+            }
+        });
     }
 
 
     public void setGrilleFX(){
         grid.getChildren().clear();
         ArrayList<ArrayList> grille = model.getGrille();
-        System.out.println(grid);
-        grid.setPrefWidth(1000);
-        grid.setPrefHeight(560);
         for(int i = 0; i< grille.size(); i++){
             for(int j = 0; j < grille.get(i).size(); j++) {
                 int x = j%grille.get(i).size();
@@ -164,6 +212,8 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
                 String txt = x+"-"+y;
                 Text txtNode = new Text(txt);
                 txtNode.setUserData(txt);
+                txtNode.setWrappingWidth(40);
+                txtNode.setTextAlignment(TextAlignment.CENTER);
                 grid.add(txtNode, x, y);
                 ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/grass.png")));
                 selectedImage.setUserData(txt);
@@ -183,40 +233,38 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
             });
         }
 
-        System.out.println(grid);
-        System.out.println(grid.getChildren());
+
+        //On (ré)active la loupe
+        isLoupeActive = false;
+        isLoupeUsed = false;
+
     }
 
 
     //Fonction appelée au click sur une case pour afficher le résultat de la case
     public void clickedCase(MouseEvent e){
         if(model.getRestant() > 0) {
+
+
             ImageView target = (ImageView) e.getTarget();
             System.out.println(target.getUserData());
 
+            //On récupère les datas de la case ciblée pour connaitre les coordonnées
             String data = (String) target.getUserData();
             String[] arr = null;
             arr = data.split("-");
             List<String> list = Arrays.asList(arr);
-            int resultCase = model.revealCase(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+            int x = Integer.parseInt(list.get(0));
+            int y= Integer.parseInt(list.get(1));
 
+            //On récupère la valeur de la case pour savoir s'il y a un champignons
+            int resultCase = model.revealCase(x, y);
 
-            ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
-            Text txtNode = new Text("");
+            //On verifie si la loupe à été activée
+            if(isLoupeActive)loupeCase(x, y);
 
-            if (resultCase == 1) {
-                resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
-            } else {
-                int nbBombsAround = model.getNbBombsAround(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
-                txtNode.setText(String.valueOf(nbBombsAround));
-                txtNode.setStyle("-fx-font: 30 arial;");
-                txtNode.setFill(Color.WHITE);
-                txtNode.setTextAlignment(TextAlignment.CENTER);
-            }
+            updateCase(x, y, resultCase);
 
-
-            grid.add(resultImage, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
-            grid.add(txtNode, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
 
             if(model.getRestant() <= 0) {
                 revealGrid();
@@ -226,6 +274,89 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
         else{
             revealGrid();
             ShowPopUpEnd(model.finalScore());
+        }
+    }
+
+    public void updateCase(int x, int y, int resultCase){
+        //Par défaut on met l'image des feuilles (en cas de valeur renvoyée incorrecte on affiche tout de même les feuilles
+        ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
+        //Par défaut le texte affiché est nul
+        Text txtNode = new Text("");
+
+        //Si un champignon est trouvé on l'affiche
+        if (resultCase == 1) {
+            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
+        }
+        //Sinon on récupère le nombre de champignons autour et on stocke la résultat dans le textenode
+        else {
+            int nbBombsAround = model.getNbBombsAround(x, y);
+            txtNode.setText(String.valueOf(nbBombsAround));
+            txtNode.setStyle("-fx-font: 30 arial;");
+            txtNode.setFill(Color.WHITE);
+            txtNode.setWrappingWidth(40);
+            txtNode.setTextAlignment(TextAlignment.CENTER);
+        }
+
+
+        grid.add(resultImage, x, y);
+        grid.add(txtNode, x, y);
+    }
+
+
+    public void loupeCase(int x, int y){
+        System.out.println("Loupe used");
+        if(!isLoupeUsed) {
+            int maxYSize = model.grille.size() - 1;
+            int maxXSize = model.grille.get(y).size() - 1;
+
+
+            if (y > 0 && y < maxYSize && x > 0 && x < maxXSize) {
+                updateCase(x, y-1, model.revealCase(x, y-1));
+                updateCase(x-1, y-1, model.revealCase(x-1, y-1));
+                updateCase(x+1, y-1, model.revealCase(x+1, y-1));
+                updateCase(x-1, y, model.revealCase(x-1, y));
+                updateCase(x+1, y, model.revealCase(x+1, y));
+                updateCase(x, y+1, model.revealCase(x, y+1));
+                updateCase(x-1, y+1, model.revealCase(x-1, y+1));
+                updateCase(x+1, y+1, model.revealCase(x+1, y+1));
+
+            }
+        /*if(y > 0 && y == maxYSize && x > 0 && x < maxXSize){
+            result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
+                    + (int)grille.get(y).get(x-1) + (int)grille.get(y).get(x+1);
+        }
+        if(y > 0 && y < maxYSize && x == 0 && x < maxXSize){
+            result = (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
+                    + (int)grille.get(y).get(x+1)
+                    + (int)grille.get(y+1).get(x) + (int)grille.get(y+1).get(x+1);
+        }
+        if(y > 0 && y < maxYSize && x > 0 && x == maxXSize){
+            result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x)
+                    + (int)grille.get(y).get(x-1)
+                    + (int)grille.get(y+1).get(x-1);
+        }
+        // Les coins
+        if (y == 0 && y < maxYSize && x == 0 && x < maxXSize) {
+            result = (int)grille.get(y).get(x+1)
+                    + (int)grille.get(y+1).get(x) + (int)grille.get(y+1).get(x+1);
+        }
+        if(y > 0 && y == maxYSize && x == 0 && x < maxXSize){
+            result = (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
+                    + (int)grille.get(y).get(x+1);
+        }
+        if(y == 0 && y < maxYSize && x > 0 && x == maxXSize){
+            result = (int)grille.get(y).get(x-1)
+                    + (int)grille.get(y+1).get(x-1) + (int)grille.get(y+1).get(x);
+        }
+        if(y > 0 && y == maxYSize && x > 0 && x == maxXSize){
+            result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x)
+                    + (int)grille.get(y).get(x-1);
+        }*/
+            isLoupeActive = false;
+            isLoupeUsed = true;
+            loupe.setScaleX(1);
+            loupe.setScaleY(1);
+            grid.setCursor(Cursor.DEFAULT);
         }
     }
 
@@ -291,7 +422,42 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
         }
 
 
+    }
 
+
+    public void setDifficulty(MouseEvent event){
+        ImageView target = (ImageView) event.getTarget();
+        String data = (String) target.getUserData();
+        int valueData = Integer.parseInt(data);
+        for(ImageView img : this.tabDiff){
+            img.setScaleX(1);
+            img.setScaleY(1);
+        }
+        target.setScaleX(1.3);
+        target.setScaleY(1.3);
+        model.setDifficulty(valueData);
+    }
+
+
+
+    public void useLoupe(){
+        if(!isLoupeUsed) {
+            if (isLoupeActive) {
+                loupe.setScaleX(1);
+                loupe.setScaleY(1);
+
+                grid.setCursor(Cursor.DEFAULT);
+            } else {
+                loupe.setScaleX(1.5);
+                loupe.setScaleY(1.5);
+
+                Image image = new Image(Application.class.getResourceAsStream("/img/loupe.png"));
+                grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
+
+            }
+            isLoupeActive = !isLoupeActive;
+            System.out.println("Loupe active");
+        }
     }
 
 }

@@ -8,19 +8,24 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.event.*;
 
+import java.awt.*;
 import java.io.IOException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.List;
 
 public class ChoosePlayerController {
 
@@ -61,18 +66,20 @@ public class ChoosePlayerController {
         for(String i : players){
 
             compt++;
+            if(compt%3 == 2)stringPlayers+="Niveau :   ";
+            if(compt%3 == 0)stringPlayers+="Points :   ";
             stringPlayers+=i+"\n";
 
             if(compt%3 == 0) {
                 Button container = new Button();
 
                 container.setPrefWidth(180);
-                container.setPrefHeight(80);
+                container.setPrefHeight(90);
                 container.setCursor(Cursor.HAND);
                 container.setTextAlignment(TextAlignment.CENTER);
                 VBox.setVgrow(container, Priority.ALWAYS);
                 VBox.setMargin(container,new Insets(10,20,0,20));
-                container.setStyle("-fx-background-color : #EABABA; -fx-background-radius : 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-font-size: 16px;");
+                container.setStyle("-fx-background-color : #a25e26; -fx-background-radius : 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-font-size: 16px; -fx-text-fill: white;");
 
                 //container.setLayoutY(400*((compt-3)/3));
                 int id = compt/3;
@@ -90,7 +97,5 @@ public class ChoosePlayerController {
             }
         }
         existingAccounts.getChildren().addAll(containerPlayerslist);
-        // IL NOUS FAUT MAINTENANT ECRIRE UNE FONCTION QUI ECRIT LE NOUVEAU PSEUDO DANS UN FICHIER TEXTE
-        //   + UN CHANGEMENT DE SCENE
     }
 }
