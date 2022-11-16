@@ -30,6 +30,7 @@ public class MenuController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Game.fxml"));//deuième fichier fxml
         Stage window =(Stage) Game_1.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
+        window.setTitle("MushMiner");
     }
 
 
