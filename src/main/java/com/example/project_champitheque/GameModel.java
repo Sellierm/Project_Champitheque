@@ -13,10 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameModel {
 
@@ -124,7 +121,14 @@ public class GameModel {
 
 
     public int getCaseValue(int x, int y){
-        return (int) grille.get(y).get(x);
+        int maxYSize = grille.size() - 1;
+        int maxXSize = grille.get(y).size() - 1;
+        if(y >= 0 && y <= maxYSize && x >= 0 && x <= maxXSize) {
+            return (int) grille.get(y).get(x);
+        }
+        else {
+            return 0;
+        }
     }
 
 
@@ -201,6 +205,15 @@ public class GameModel {
         else {
             this.restant.setValue(this.restant.get() - 5);
         }
+    }
+
+
+    public void setManure(int x, int y){
+        int min = -1;
+        int max = 1;
+        Random rand = new Random();
+        int nombreAleatoire = rand.nextInt(max - min + 1) + min;
+        System.out.println(nombreAleatoire);
     }
 
 

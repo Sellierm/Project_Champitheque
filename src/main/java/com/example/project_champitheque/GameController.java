@@ -78,6 +78,15 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
 
     @FXML
+    public ImageView manure;
+
+    public boolean isManureActive = false;
+
+    public boolean isManureUsed = false;
+
+
+
+    @FXML
     private Pane popupend;
 
     @FXML
@@ -262,6 +271,16 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
             //On verifie si la loupe à été activée
             if(isLoupeActive)loupeCase(x, y);
+
+            //On verifie si l'engrais à été activée
+            if(isManureActive){
+                model.setManure(x, y);
+                isManureActive = false;
+                isManureUsed = true;
+                manure.setScaleX(1);
+                manure.setScaleY(1);
+                grid.setCursor(Cursor.DEFAULT);
+            }
 
             updateCase(x, y, resultCase);
 
@@ -451,11 +470,32 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
                 loupe.setScaleX(1.5);
                 loupe.setScaleY(1.5);
 
-                Image image = new Image(Application.class.getResourceAsStream("/img/loupe.png"));
+                Image image = new Image(Application.class.getResourceAsStream("/img/loupeCursor.png"));
                 grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
 
             }
             isLoupeActive = !isLoupeActive;
+            System.out.println("Loupe active");
+        }
+    }
+
+
+    public void useManure(){
+        if(!isManureUsed) {
+            if (isManureActive) {
+                manure.setScaleX(1);
+                manure.setScaleY(1);
+
+                grid.setCursor(Cursor.DEFAULT);
+            } else {
+                manure.setScaleX(1.5);
+                manure.setScaleY(1.5);
+
+                Image image = new Image(Application.class.getResourceAsStream("/img/manure.png"));
+                grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
+
+            }
+            isManureActive = !isManureActive;
             System.out.println("Loupe active");
         }
     }

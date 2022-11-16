@@ -132,7 +132,7 @@
                         <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                         <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                         <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                        <Button fx:id="Game_1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGame1" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="ChampiFinder" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <Button fx:id="Game_1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGame1" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="MushMineur" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                            <GridPane.margin>
                               <Insets bottom="10.0" />
                            </GridPane.margin>

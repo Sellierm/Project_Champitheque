@@ -118,9 +118,14 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="loupe" fitHeight="32.0" fitWidth="49.0" onMouseReleased="#useLoupe" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="loupe" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#useLoupe" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../img/loupe.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="manure" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#useManure" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/manure.png" />
                            </image>
                         </ImageView>
                      </children></HBox>
@@ -204,7 +209,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ChampiFinder" textAlignment="CENTER">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="MushMineur" textAlignment="CENTER">
                            <font>
                               <Font size="30.0" />
                            </font>
