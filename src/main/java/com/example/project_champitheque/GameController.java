@@ -272,7 +272,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
             int y= Integer.parseInt(list.get(1));
 
             //On récupère la valeur de la case pour savoir s'il y a un champignons
-            int resultCase = model.revealCase(x, y);
+            int resultCase = model.revealCase(x, y, true);
 
             //On verifie si la loupe à été activée
             if(isLoupeActive)loupeCase(x, y);
@@ -338,14 +338,14 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
 
             if (y > 0 && y < maxYSize && x > 0 && x < maxXSize) {
-                updateCase(x, y-1, model.revealCase(x, y-1));
-                updateCase(x-1, y-1, model.revealCase(x-1, y-1));
-                updateCase(x+1, y-1, model.revealCase(x+1, y-1));
-                updateCase(x-1, y, model.revealCase(x-1, y));
-                updateCase(x+1, y, model.revealCase(x+1, y));
-                updateCase(x, y+1, model.revealCase(x, y+1));
-                updateCase(x-1, y+1, model.revealCase(x-1, y+1));
-                updateCase(x+1, y+1, model.revealCase(x+1, y+1));
+                updateCase(x, y-1, model.revealCase(x, y-1, false));
+                updateCase(x-1, y-1, model.revealCase(x-1, y-1, false));
+                updateCase(x+1, y-1, model.revealCase(x+1, y-1, false));
+                updateCase(x-1, y, model.revealCase(x-1, y, false));
+                updateCase(x+1, y, model.revealCase(x+1, y, false));
+                updateCase(x, y+1, model.revealCase(x, y+1, false));
+                updateCase(x-1, y+1, model.revealCase(x-1, y+1, false));
+                updateCase(x+1, y+1, model.revealCase(x+1, y+1, false));
 
             }
         /*if(y > 0 && y == maxYSize && x > 0 && x < maxXSize){

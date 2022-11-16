@@ -92,7 +92,7 @@ public class GameModel {
     }
 
 
-    public int revealCase(int x, int y){
+    public int revealCase(int x, int y, boolean decreaseCount){
         int valueCase = (int) grille.get(y).get(x);
         System.out.println(restant);
         System.out.println(champiFind);
@@ -102,9 +102,10 @@ public class GameModel {
                 champiFind.setValue(champiFind.get()+1);
             }
             else if (valueCase == -1){
-                champiFind.setValue(champiFind.get()-5);
+                restant.setValue(restant.get()-5);
+                if(restant.get() < 0)restant.setValue(0);
             }
-            else if (valueCase == 0){
+            else if (valueCase == 0 && decreaseCount){
                 restant.setValue(restant.get()-1);
             }
         }
