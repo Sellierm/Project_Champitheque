@@ -113,6 +113,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
         Stage window =(Stage) quit.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
+        window.setTitle("Champithèque");
     }
 
 
