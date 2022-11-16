@@ -210,7 +210,7 @@ public class GameModel {
         Random rand = new Random();
 
         //Random de nombres de champignons à ajouter
-        int minNbChampi = 3;
+        int minNbChampi = 4;
         int maxNbChampi = 6;
         int randNbChampi = rand.nextInt(maxNbChampi - minNbChampi + 1) + minNbChampi;
         System.out.println(randNbChampi + " champignons ajoutés");
@@ -218,7 +218,7 @@ public class GameModel {
         int min = -2;
         int max = 2;
         //Boucle de randomise des positions de 2 cases autour de la case principale (différente de la case d'origine)
-        for (int i = 0; i <= randNbChampi; i++){
+        for (int i = 0; i < randNbChampi; i++){
             int newX = x + rand.nextInt(max - min + 1) + min;
             int newY = y + rand.nextInt(max - min + 1) + min;
             if(newX >= 0 && newX <= maxXSize && newY >= 0 && newY <= maxYSize && newX != x && newY != y){
