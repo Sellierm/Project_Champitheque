@@ -49,6 +49,9 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
     private Text restant;
 
     @FXML
+    private Text champiRestant;
+
+    @FXML
     private TextField inputSizeX;
 
     @FXML
@@ -164,6 +167,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
         champiFind.textProperty().bind(model.champiFindProperty().asString());
         restant.textProperty().bind(model.restantProperty().asString());
+        champiRestant.textProperty().bind(model.champiRestantProperty().asString());
 
         setGrilleFX();
 
@@ -257,7 +261,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
     //Fonction appelée au click sur une case pour afficher le résultat de la case
     public void clickedCase(MouseEvent e){
-        if(model.getRestant() > 0) {
+        if(model.getRestant() > 0 && model.getChampiRestant() > 0) {
 
 
             ImageView target = (ImageView) e.getTarget();
@@ -272,7 +276,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
             int y= Integer.parseInt(list.get(1));
 
             //On récupère la valeur de la case pour savoir s'il y a un champignons
-            int resultCase = model.revealCase(x, y);
+            int resultCase = model.revealCase(x, y, true);
 
             //On verifie si la loupe à été activée
             if(isLoupeActive)loupeCase(x, y);
@@ -290,7 +294,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
             updateCase(x, y, resultCase);
 
 
-            if(model.getRestant() <= 0) {
+            if(model.getRestant() <= 0 && model.getChampiRestant() <= 0) {
                 revealGrid();
                 ShowPopUpEnd(model.finalScore());
             }
@@ -311,8 +315,11 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
         if (resultCase == 1) {
             resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
         }
+        else if (resultCase == -1) {
+            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/veneneux.png")));
+        }
         //Sinon on récupère le nombre de champignons autour et on stocke la résultat dans le textenode
-        else {
+        else if(resultCase == 0) {
             int nbBombsAround = model.getNbBombsAround(x, y);
             txtNode.setText(String.valueOf(nbBombsAround));
             txtNode.setStyle("-fx-font: 30 arial;");
@@ -335,14 +342,14 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
 
             if (y > 0 && y < maxYSize && x > 0 && x < maxXSize) {
-                updateCase(x, y-1, model.revealCase(x, y-1));
-                updateCase(x-1, y-1, model.revealCase(x-1, y-1));
-                updateCase(x+1, y-1, model.revealCase(x+1, y-1));
-                updateCase(x-1, y, model.revealCase(x-1, y));
-                updateCase(x+1, y, model.revealCase(x+1, y));
-                updateCase(x, y+1, model.revealCase(x, y+1));
-                updateCase(x-1, y+1, model.revealCase(x-1, y+1));
-                updateCase(x+1, y+1, model.revealCase(x+1, y+1));
+                updateCase(x, y-1, model.revealCase(x, y-1, false));
+                updateCase(x-1, y-1, model.revealCase(x-1, y-1, false));
+                updateCase(x+1, y-1, model.revealCase(x+1, y-1, false));
+                updateCase(x-1, y, model.revealCase(x-1, y, false));
+                updateCase(x+1, y, model.revealCase(x+1, y, false));
+                updateCase(x, y+1, model.revealCase(x, y+1, false));
+                updateCase(x-1, y+1, model.revealCase(x-1, y+1, false));
+                updateCase(x+1, y+1, model.revealCase(x+1, y+1, false));
 
             }
         /*if(y > 0 && y == maxYSize && x > 0 && x < maxXSize){
@@ -426,22 +433,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
                 int resultCase = model.getCaseValue(x, y);
 
 
-                ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
-                Text txtNode = new Text();
-
-                if(resultCase == 1){
-                    resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
-                }
-                else {
-                    int nbBombsAround = model.getNbBombsAround(x, y);
-                    txtNode.setText(String.valueOf(nbBombsAround));
-                    txtNode.setStyle("-fx-font: 30 arial;");
-                    txtNode.setFill(Color.WHITE);
-                    txtNode.setTextAlignment(TextAlignment.CENTER);
-                }
-
-                grid.add(resultImage, x, y);
-                grid.add(txtNode, x, y);
+                updateCase(x, y, resultCase);
             }
         }
 
