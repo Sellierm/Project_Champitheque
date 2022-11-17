@@ -18,7 +18,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.GameController">
    <children>
-      <BorderPane prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #6B4423;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #6B4423;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <GridPane fx:id="grid" alignment="CENTER" prefHeight="539.0" prefWidth="806.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
