@@ -5,6 +5,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class GameModel {
@@ -115,9 +116,12 @@ public class GameModel {
                 champiFind.setValue(champiFind.get()+1);
                 champiRestant.setValue(champiRestant.get()-1);
             }
-            else if (valueCase == -1){
+            else if (valueCase == 4){
                 restant.setValue(restant.get()-5);
                 if(restant.get() < 0)restant.setValue(0);
+            }
+            else if (valueCase == 5){
+                champiFind.setValue(champiFind.get()+5);
             }
             else if (valueCase == 0 && decreaseCount){
                 restant.setValue(restant.get()-1);
@@ -132,7 +136,7 @@ public class GameModel {
 
     public int getCaseValue(int x, int y){
         int maxYSize = grille.size() - 1;
-        int maxXSize = grille.get(y).size() - 1;
+        int maxXSize = grille.get(0).size() - 1;
         if(y >= 0 && y <= maxYSize && x >= 0 && x <= maxXSize) {
             return (int) grille.get(y).get(x);
         }
@@ -146,74 +150,14 @@ public class GameModel {
         int valueCase = (int)grille.get(y).get(x);
         //Générer une erreur en cas d'appel pour une case avec bombe
         if(valueCase != 1){
-            int result = 0;
-            int maxYSize = grille.size() - 1;
-            int maxXSize = grille.get(y).size() - 1;
-            if(y > 0 && y < maxYSize && x > 0 && x < maxXSize){
-                result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
-                        + (int)grille.get(y).get(x-1) + (int)grille.get(y).get(x+1)
-                        + (int)grille.get(y+1).get(x-1) + (int)grille.get(y+1).get(x) + (int)grille.get(y+1).get(x+1);
-            }
-            else if (y == 0 && y < maxYSize && x > 0 && x < maxXSize) {
-                result = (int)grille.get(y).get(x-1) + (int)grille.get(y).get(x+1)
-                        + (int)grille.get(y+1).get(x-1) + (int)grille.get(y+1).get(x) + (int)grille.get(y+1).get(x+1);
-            }
-            else if(y > 0 && y == maxYSize && x > 0 && x < maxXSize){
-                result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
-                        + (int)grille.get(y).get(x-1) + (int)grille.get(y).get(x+1);
-            }
-            else if(y > 0 && y < maxYSize && x == 0 && x < maxXSize){
-                result = (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
-                        + (int)grille.get(y).get(x+1)
-                        + (int)grille.get(y+1).get(x) + (int)grille.get(y+1).get(x+1);
-            }
-            else if(y > 0 && y < maxYSize && x > 0 && x == maxXSize){
-                result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x)
-                        + (int)grille.get(y).get(x-1)
-                        + (int)grille.get(y+1).get(x-1);
-            }
-            // Les coins
-            else if (y == 0 && y < maxYSize && x == 0 && x < maxXSize) {
-                result = (int)grille.get(y).get(x+1)
-                        + (int)grille.get(y+1).get(x) + (int)grille.get(y+1).get(x+1);
-            }
-            else if(y > 0 && y == maxYSize && x == 0 && x < maxXSize){
-                result = (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
-                        + (int)grille.get(y).get(x+1);
-            }
-            else if(y == 0 && y < maxYSize && x > 0 && x == maxXSize){
-                result = (int)grille.get(y).get(x-1)
-                        + (int)grille.get(y+1).get(x-1) + (int)grille.get(y+1).get(x);
-            }
-            else if(y > 0 && y == maxYSize && x > 0 && x == maxXSize){
-                result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x)
-                        + (int)grille.get(y).get(x-1);
-            }
+            int result = getCaseValue(x - 1, y - 1) + getCaseValue(x, y - 1) + getCaseValue(x + 1, y - 1)
+                    + getCaseValue(x - 1, y) + getCaseValue(x + 1, y)
+                    + getCaseValue(x - 1, y + 1) + getCaseValue(x, y + 1) + getCaseValue(x + 1, y + 1);
             return result;
         }
         else {
             System.out.println("Appel inccorect, case piégée");
             return 0;
-        }
-    }
-
-    // Calcul du score
-    public int finalScore(){
-        //Score calculé en fonction de la difficulté, et des champignons trouvés, + le nombre de tours restants divisé par 2
-        int score =  (int)(this.getChampiFind() * (this.difficulty * (this.difficulty+1)) + (this.getRestant()/2));
-        System.out.println(score);
-        return score;
-    }
-
-
-
-    //CheatCode
-    public void increaseRestant(boolean grow){
-        if(grow) {
-            this.restant.setValue(this.restant.get() + 5);
-        }
-        else {
-            this.restant.setValue(this.restant.get() - 5);
         }
     }
 
@@ -236,9 +180,8 @@ public class GameModel {
         for (int i = 0; i < randNbChampi; i++){
             int newX = x + rand.nextInt(max - min + 1) + min;
             int newY = y + rand.nextInt(max - min + 1) + min;
-            if(newX >= 0 && newX <= maxXSize && newY >= 0 && newY <= maxYSize && newX != x && newY != y && getCaseValue(newX, newY) != 1){
-                grille.get(y).set(x, 1);
-                champiRestant.setValue(champiRestant.get()+1);
+            if(newX >= 0 && newX <= maxXSize && newY >= 0 && newY <= maxYSize && newX != x && newY != y){
+                grille.get(newY).set(newX, 1);
                 System.out.println("Champignon ajouté en : " + newX + ", " + newY);
             }
             else {
@@ -249,15 +192,64 @@ public class GameModel {
 
         int xVeneneux = x + rand.nextInt(max - min + 1) + min;
         int yVeneneux = y + rand.nextInt(max - min + 1) + min;
-        while(xVeneneux < 0 || xVeneneux > maxXSize && yVeneneux < 0 && yVeneneux > maxYSize && xVeneneux == x && yVeneneux == y){
+        while(xVeneneux < 0 || xVeneneux > maxXSize || yVeneneux < 0 || yVeneneux > maxYSize || (xVeneneux == x && yVeneneux == y)){
             System.out.println("Coordonnées invalides : " + xVeneneux + ", " + xVeneneux);
             xVeneneux = x + rand.nextInt(max - min + 1) + min;
             yVeneneux = y + rand.nextInt(max - min + 1) + min;
         }
-        grille.get(yVeneneux).set(xVeneneux, -1);
+        grille.get(yVeneneux).set(xVeneneux,4);
         System.out.println("Champignon vénéneux en : " + xVeneneux + ", " + yVeneneux);
 
+        int xJackpot = x + rand.nextInt(max - min + 1) + min;
+        int yJackPot = y + rand.nextInt(max - min + 1) + min;
+        while(xJackpot < 0 || xJackpot > maxXSize || yJackPot < 0 || yJackPot > maxYSize || (xJackpot == x && yJackPot == y) || (xJackpot == xVeneneux && yJackPot == yVeneneux)){
+            System.out.println("Coordonnées invalides : " + xJackpot + ", " + yJackPot);
+            xJackpot = x + rand.nextInt(max - min + 1) + min;
+            yJackPot = y + rand.nextInt(max - min + 1) + min;
+        }
+        grille.get(yJackPot).set(xJackpot, 5);
+        System.out.println("Champignon jackpot en : " + xJackpot + ", " + yJackPot);
+
+        compteChampiRestant();
     }
+
+
+    public void compteChampiRestant(){
+        int tmp = 0;
+        for(ArrayList y : grille){
+            for(Object caseValue : y){
+                if((int)caseValue == 1){
+                    tmp = tmp+1;
+                }
+            }
+        }
+        champiRestant.setValue(tmp);
+    }
+
+
+
+    // Calcul du score
+    public int finalScore(){
+        //Score calculé en fonction de la difficulté, et des champignons trouvés, + le nombre de tours restants divisé par 2
+        int score =  (int)(this.getChampiFind() * (this.difficulty * (this.difficulty+1)) + (this.getRestant()/2));
+        System.out.println(score);
+        return score;
+    }
+
+
+
+    //CheatCode
+    public void increaseRestant(boolean grow){
+        if(grow) {
+            this.restant.setValue(this.restant.get() + 5);
+        }
+        else {
+            this.restant.setValue(this.restant.get() - 5);
+        }
+    }
+
+
+
 
 
 }

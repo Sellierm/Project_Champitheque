@@ -40,6 +40,21 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
     @FXML
     private Button newGame;
 
+    @FXML
+    private Pane popupend;
+
+    @FXML
+    private Text finalScore;
+
+    @FXML
+    private Text lvlEarned;
+
+
+    @FXML
+    private Pane popuphelp;
+
+
+
     public GridPane grid;
 
     @FXML
@@ -87,20 +102,6 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
     public boolean isManureUsed = false;
 
-
-
-    @FXML
-    private Pane popupend;
-
-    @FXML
-    private Text finalScore;
-
-    @FXML
-    private Text lvlEarned;
-
-
-    @FXML
-    private Pane popuphelp;
 
 
 
@@ -251,10 +252,12 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
         //On (ré)active la loupe
         isLoupeActive = false;
         isLoupeUsed = false;
+        loupe.setOpacity(1);
 
         //On (ré)active la loupe
         isManureActive = false;
         isManureUsed = false;
+        manure.setOpacity(1);
 
     }
 
@@ -275,9 +278,6 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
             int x = Integer.parseInt(list.get(0));
             int y= Integer.parseInt(list.get(1));
 
-            //On récupère la valeur de la case pour savoir s'il y a un champignons
-            int resultCase = model.revealCase(x, y, true);
-
             //On verifie si la loupe à été activée
             if(isLoupeActive)loupeCase(x, y);
 
@@ -288,13 +288,17 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
                 isManureUsed = true;
                 manure.setScaleX(1);
                 manure.setScaleY(1);
+                manure.setOpacity(0.5);
                 grid.setCursor(Cursor.DEFAULT);
             }
+
+            //On récupère la valeur de la case pour savoir s'il y a un champignons
+            int resultCase = model.revealCase(x, y, true);
 
             updateCase(x, y, resultCase);
 
 
-            if(model.getRestant() <= 0 && model.getChampiRestant() <= 0) {
+            if(model.getRestant() <= 0 || model.getChampiRestant() <= 0) {
                 revealGrid();
                 ShowPopUpEnd(model.finalScore());
             }
@@ -315,8 +319,11 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
         if (resultCase == 1) {
             resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
         }
-        else if (resultCase == -1) {
+        else if (resultCase == 4) {
             resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/veneneux.png")));
+        }
+        else if (resultCase == 5) {
+            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/jackpot.png")));
         }
         //Sinon on récupère le nombre de champignons autour et on stocke la résultat dans le textenode
         else if(resultCase == 0) {
@@ -352,41 +359,11 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
                 updateCase(x+1, y+1, model.revealCase(x+1, y+1, false));
 
             }
-        /*if(y > 0 && y == maxYSize && x > 0 && x < maxXSize){
-            result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
-                    + (int)grille.get(y).get(x-1) + (int)grille.get(y).get(x+1);
-        }
-        if(y > 0 && y < maxYSize && x == 0 && x < maxXSize){
-            result = (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
-                    + (int)grille.get(y).get(x+1)
-                    + (int)grille.get(y+1).get(x) + (int)grille.get(y+1).get(x+1);
-        }
-        if(y > 0 && y < maxYSize && x > 0 && x == maxXSize){
-            result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x)
-                    + (int)grille.get(y).get(x-1)
-                    + (int)grille.get(y+1).get(x-1);
-        }
-        // Les coins
-        if (y == 0 && y < maxYSize && x == 0 && x < maxXSize) {
-            result = (int)grille.get(y).get(x+1)
-                    + (int)grille.get(y+1).get(x) + (int)grille.get(y+1).get(x+1);
-        }
-        if(y > 0 && y == maxYSize && x == 0 && x < maxXSize){
-            result = (int)grille.get(y-1).get(x) + (int)grille.get(y-1).get(x+1)
-                    + (int)grille.get(y).get(x+1);
-        }
-        if(y == 0 && y < maxYSize && x > 0 && x == maxXSize){
-            result = (int)grille.get(y).get(x-1)
-                    + (int)grille.get(y+1).get(x-1) + (int)grille.get(y+1).get(x);
-        }
-        if(y > 0 && y == maxYSize && x > 0 && x == maxXSize){
-            result = (int)grille.get(y-1).get(x-1) + (int)grille.get(y-1).get(x)
-                    + (int)grille.get(y).get(x-1);
-        }*/
             isLoupeActive = false;
             isLoupeUsed = true;
             loupe.setScaleX(1);
             loupe.setScaleY(1);
+            loupe.setOpacity(0.5);
             grid.setCursor(Cursor.DEFAULT);
         }
     }
