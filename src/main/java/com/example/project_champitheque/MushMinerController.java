@@ -153,6 +153,9 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
         popupend.setVisible(true);
 
     }
+    public void ShowPopUpEnd(String winner, int score){
+        popupend.setVisible(true);
+    }
 
     public void ClosePopUpEnd(){
         popupend.setVisible(false);

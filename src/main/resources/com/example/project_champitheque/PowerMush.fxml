@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.PowerMushController">
+   <children>
+      <BorderPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #6B4423;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <GridPane fx:id="grid" alignment="CENTER" prefHeight="539.0" prefWidth="806.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </BorderPane.margin></GridPane>
+         </center>
+         <left>
+            <VBox prefHeight="550.0" prefWidth="173.0" style="-fx-background-color: #5c3a1b;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="120.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="110.0" prefWidth="174.0">
+                           <children>
+                              <Label text="Difficulté" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox alignment="CENTER" prefHeight="82.0" prefWidth="174.0">
+                                 <children>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../img/1.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../img/2.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../img/3.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                 </children></HBox>
+                           </children></VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="51.0" prefWidth="174.0">
+                     <children>
+                        <ImageView fx:id="panier" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#usePanier" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/panier.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children></HBox>
+                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="174.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
+                           <children>
+                              <Label fx:id="labelRestants" text="Tours restants" textFill="WHITE">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="147.9999668598175">
+                                 <font>
+                                    <Font size="35.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="74.0" prefWidth="174.0">
+                     <children>
+                        <Button fx:id="newGame" contentDisplay="CENTER" mnemonicParsing="false" onAction="#NewGame" prefHeight="58.0" prefWidth="168.0" style="-fx-background-color: #960018; -fx-background-radius: 20;" text="Nouvelle Partie" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" underline="true">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </left>
+         <top>
+            <HBox prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: #5c3a1b;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="help" alignment="CENTER" maxHeight="40.0" mnemonicParsing="false" onAction="#Help" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #44693D; -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 2px;" text="Aide" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="PowerMush" textAlignment="CENTER">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="quit" alignment="CENTER" mnemonicParsing="false" onAction="#Quit" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #960018; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: white; -fx-border-width: 2px;" text="Quitter" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
+      <Pane fx:id="popupend" layoutY="50.0" onMouseReleased="#ClosePopUpEnd" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.3);" visible="false">
+         <children>
+            <Pane layoutX="304.0" layoutY="125.0" prefHeight="311.0" prefWidth="392.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
+               <children>
+                  <Label graphicTextGap="0.0" layoutX="101.0" layoutY="14.0" prefHeight="84.0" prefWidth="190.0" text="Gagnant" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="winnerNode" fill="RED" layoutX="107.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true" wrappingWidth="177.9931640625">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="scoreNode" fill="#0dff00" layoutX="159.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="117.98828124999989">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Text>
+                  <Label layoutX="61.0" layoutY="239.0" text="Score" textFill="WHITE">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="277.0" layoutY="239.0" text="pts" textFill="WHITE">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Pane fx:id="popuphelp" layoutY="50.0" onMouseReleased="#CloseHelp" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.2);" visible="false">
+         <children>
+            <Pane layoutX="209.0" layoutY="74.0" prefHeight="403.0" prefWidth="582.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
+               <children>
+                  <VBox layoutY="1.0" prefHeight="403.0" prefWidth="582.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="51.0" prefWidth="392.0">
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Règles du jeu" textAlignment="CENTER" underline="true">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="55.0" prefWidth="582.0">
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Objectif : " textAlignment="CENTER">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#ff7272" strokeType="OUTSIDE" strokeWidth="0.0" text="Trouver le plus de champignongs possibles" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="392.0" visible="false" />
+                        <HBox prefHeight="60.0" prefWidth="582.0" />
+                        <HBox prefHeight="67.0" prefWidth="582.0" />
+                        <HBox prefHeight="60.0" prefWidth="582.0" />
+                        <HBox prefHeight="54.0" prefWidth="582.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </Pane>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+   </children>
+</AnchorPane>

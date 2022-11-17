@@ -132,7 +132,7 @@
                         <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                         <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                         <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                        <Button fx:id="Game_1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGame1" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="MushMiner" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <Button fx:id="MushMiner" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleMushMiner" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="MushMiner" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                            <GridPane.margin>
                               <Insets bottom="10.0" />
                            </GridPane.margin>
@@ -143,7 +143,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="Game_2" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGame2" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="Fall" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <Button fx:id="PowerMush" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handlePowerMush" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="PowerMush" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -154,7 +154,7 @@
                               <Insets bottom="10.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="Coming soon..." textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                        <Button fx:id="GameTest" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGameTest" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="Test" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
