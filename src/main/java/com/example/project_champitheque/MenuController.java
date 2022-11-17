@@ -30,7 +30,7 @@ public class MenuController {
     private Button Game_2;//boutton pour lancer jeu
 
     public void handleGame1() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Game.fxml"));//deuième fichier fxml
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MushMiner.fxml"));//deuième fichier fxml
         Stage window =(Stage) Game_1.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
         window.setTitle("MushMiner");

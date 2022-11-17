@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameController implements Quit, Help, NewGame, PopUpEnd {
+public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
 
-    GameModel model;
+    MushMinerModel model;
 
     @FXML
     private Button quit;
@@ -164,7 +164,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
     public void initialize(){
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
-        model = new GameModel(sizeX, sizeY);
+        model = new MushMinerModel(sizeX, sizeY);
 
         champiFind.textProperty().bind(model.champiFindProperty().asString());
         restant.textProperty().bind(model.restantProperty().asString());

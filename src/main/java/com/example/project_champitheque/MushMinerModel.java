@@ -5,10 +5,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
-public class GameModel {
+public class MushMinerModel {
 
     public ArrayList<ArrayList> grille = new ArrayList<ArrayList>();
 
@@ -53,7 +52,7 @@ public class GameModel {
     }
 
 
-    public GameModel(int sizeX, int sizeY){
+    public MushMinerModel(int sizeX, int sizeY){
         this.champiFind = new SimpleIntegerProperty(0);
         this.restant = new SimpleIntegerProperty(20);
         this.champiRestant = new SimpleIntegerProperty(0);
