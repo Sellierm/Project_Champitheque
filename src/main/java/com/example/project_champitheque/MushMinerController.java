@@ -116,6 +116,8 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
     public void Quit() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
         Stage window =(Stage) quit.getScene().getWindow();
+        window.setMinWidth(1000);
+        window.setMinHeight(600);
         window.setScene(new Scene(fxmlLoader.load()));
         window.setTitle("Champithèque");
     }

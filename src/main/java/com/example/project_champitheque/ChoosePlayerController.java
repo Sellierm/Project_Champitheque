@@ -54,6 +54,8 @@ public class ChoosePlayerController {
     public void goToMenu() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));//deuième fichier fxml
         Stage window =(Stage) play.getScene().getWindow();
+        window.setMinWidth(1000);
+        window.setMinHeight(600);
         window.setScene(new Scene(fxmlLoader.load()));
     }
 

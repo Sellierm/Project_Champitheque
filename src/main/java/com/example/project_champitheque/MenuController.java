@@ -32,6 +32,8 @@ public class MenuController {
     public void handleGame1() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MushMiner.fxml"));//deuième fichier fxml
         Stage window =(Stage) Game_1.getScene().getWindow();
+        window.setMinWidth(1000);
+        window.setMinHeight(650);
         window.setScene(new Scene(fxmlLoader.load()));
         window.setTitle("MushMiner");
     }

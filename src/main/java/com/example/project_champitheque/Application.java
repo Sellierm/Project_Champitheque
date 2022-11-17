@@ -17,6 +17,8 @@ public class Application extends javafx.application.Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Champithèque");
         stage.getIcons().add(new Image(Application.class.getResourceAsStream("/img/logo.png")));
+        stage.setMinWidth(900);
+        stage.setMinHeight(400);
         stage.setScene(scene);
         stage.show();
     }
