@@ -4,9 +4,12 @@ package com.example.project_champitheque;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class PowerMushModel {
 
@@ -34,6 +37,15 @@ public class PowerMushModel {
     private int winner = 0;
 
 
+    public int getJoueurCourant() {
+        return joueurCourant;
+    }
+    private int joueurCourant = 0;
+    private int dernierJoueurCourant = 0;
+    private int joueur1 = 0;
+    private int joueur2 = 0;
+
+
     private int nbChampiWin = 6;
 
     private int sizeX = 11;
@@ -55,29 +67,43 @@ public class PowerMushModel {
 
 
 
-    public PowerMushModel(){
-        setGrille();
+    public PowerMushModel(int joueur1, int joueur2){
         lastXPlay = new ArrayList<>();
         lastYPlay = new ArrayList<>();
         listCooChampiWin = new ArrayList<>();
+        this.joueur1 = joueur1;
+        this.joueur2 = joueur2;
+        joueurCourant = joueur1;
+        dernierJoueurCourant = joueur2;
+        setGrille();
         System.out.println(grille);
 
     }
 
-    public void restartGame(int difficulty){
-        setGrille();
+    public void restartGame(int difficulty, int joueur1, int joueur2){
         lastXPlay.clear();
         lastYPlay.clear();
         sizeChampiWin = 0;
         listCooChampiWin.clear();
+        this.joueur1 = joueur1;
+        this.joueur2 = joueur2;
+        joueurCourant = joueur1;
+        dernierJoueurCourant = joueur2;
         winner = 0;
         this.difficulty = difficulty;
         end = false;
+        setGrille();
+    }
+
+
+    public boolean isGameEnd(){
+        return (end || compteCasesVide() <= 0);
     }
 
 
     public void setGrille(){
         //On clear pour les nouveaux appels à la fonction pour ne pas ajouter des cases à celles déjà existantes
+
         grille.clear();
         for (int x = 0; x < sizeX; x++) {
             ArrayList<Integer> tmpY = new ArrayList<Integer>();
@@ -89,41 +115,30 @@ public class PowerMushModel {
         }
     }
 
-    public int play(int x){
+    public int play(int x, int joueur){
         if(x < sizeX && x >= 0) {
-            if (!end){
-                if (compteCasesVide() > 0) {
-                    placeItem(x, 1);
-                    if (compteCasesVide() > 0) {
-                        if (!checkWinner(1)) {
-                            botPlay();
-                            if (checkWinner(-1)) {
-                                System.out.println("Robot gagnant");
-                                return -1;
-                            }
-                            else if (compteCasesVide() <= 0) {
-                                end = true;
-                                System.out.println("Partie finie sans gagnant");
-                                return 2;
-                            }
-                            else{
-                                return 0;
-                            }
-                        } else {
-                            System.out.println("Vous avez gagné");
-                            return 1;
-                        }
-                    } else if (checkWinner(1)) {
-                        System.out.println("Vous avez gagné");
-                        return 1;
+            if (!end && compteCasesVide() > 0) {
+                if(joueur == joueurCourant) {
+                    if (joueur == -1) {
+                        botPlay();
+                    } else {
+                        placeItem(x, joueur);
+                    }
+                    if (checkWinner(joueurCourant)) {
+                        System.out.println("Quelqu'un a gagné");
+                        return joueur;
+                    } else if (compteCasesVide() > 0) {
+                        int tmpJoueur = joueurCourant;
+                        joueurCourant = dernierJoueurCourant;
+                        dernierJoueurCourant = tmpJoueur;
+                        return 0;
                     } else {
                         end = true;
                         System.out.println("Partie finie sans gagnant");
-                        return 2;
+                        return 3;
                     }
-                } else {
-                    end = true;
-                    System.out.println("Partie finie");
+                }else {
+                    System.out.println("Ce n'est pas à vous de jouer");
                     return 0;
                 }
             } else {
@@ -156,6 +171,7 @@ public class PowerMushModel {
     }
 
     public boolean checkWinner(int player){
+        System.out.println("Hallo on check si y a un gagnant");
         boolean win = false;
         List<Integer[]> cooLignes = new ArrayList<>();
         int yMax = sizeY - 1;
@@ -164,6 +180,8 @@ public class PowerMushModel {
         int xMin = 0;
         int y = lastYPlay.get(0);
         int x = lastXPlay.get(0);
+
+        System.out.println("On vérifie le coup : "+x+", "+y);
 
 
         int compteChampi = 0;
@@ -174,6 +192,7 @@ public class PowerMushModel {
 
         //On vérifie vers le bas
         if(!win){
+            System.out.println("On vérifie vers le bas");
             compteChampi = 0;
             while(tmpY <= yMax && (int)grille.get(tmpX).get(tmpY) == player) {
                 System.out.println("On descend en y = " + tmpY + " avec la valeur : " + (int) grille.get(tmpX).get(tmpY));
@@ -189,6 +208,7 @@ public class PowerMushModel {
 
         //On vérifie sur les x
         if(!win){
+            System.out.println("On vérifie horizontalement");
             compteChampi = 0;
             tmpX = x;
             tmpY = y;
@@ -199,16 +219,21 @@ public class PowerMushModel {
                 System.out.println("On avance en x = " + tmpX + " avec la valeur : " + (int)grille.get(tmpX).get(tmpY));
                 tmpX++;
                 compteChampi++;
-
-                if(tmpX <= xMax)cooLignes.add(new Integer[]{tmpX, tmpY});
             }
+
+            for(int i = x; i < tmpX; i++){
+                cooLignes.add(new Integer[]{i, y});
+            }
+
             tmpX = x;
             while(tmpX >= 0 && (int)grille.get(tmpX).get(tmpY) == player){
                 System.out.println("On avance en x = " + tmpX + " avec la valeur : " + (int)grille.get(tmpX).get(tmpY));
                 tmpX--;
                 compteChampi++;
+            }
 
-                if(tmpX >= 0)cooLignes.add(new Integer[]{tmpX, tmpY});
+            for(int i = x - 1; i > tmpX; i--){
+                cooLignes.add(new Integer[]{i, y});
             }
             //On enlève 1 pour la case cliqué que l'on compte 2 fois
             if(compteChampi - 1 >= nbChampiWin){
@@ -225,23 +250,28 @@ public class PowerMushModel {
             cooLignes.add(new Integer[]{tmpX, tmpY});
 
             while(tmpX <= xMax && tmpY <= yMax && (int)grille.get(tmpX).get(tmpY) == player){
-                System.out.println("On avance en x = " + tmpX + " avec la valeur : " + (int)grille.get(tmpX).get(tmpY));
                 tmpX++;
                 tmpY++;
                 compteChampi++;
 
-                if(tmpX <= xMax && tmpY <= yMax)cooLignes.add(new Integer[]{tmpX, tmpY});
             }
+
+            for(int i = x, j = y; i < tmpX && j < tmpY; i++, j++){
+                cooLignes.add(new Integer[]{i, j});
+            }
+
             tmpX = x;
             tmpY = y;
             while(tmpX >= 0 && tmpY >= 0 && (int)grille.get(tmpX).get(tmpY) == player){
-                System.out.println("On avance en x = " + tmpX + " avec la valeur : " + (int)grille.get(tmpX).get(tmpY));
                 tmpX--;
                 tmpY--;
                 compteChampi++;
-
-                if(tmpX >= 0 && tmpY >= 0)cooLignes.add(new Integer[]{tmpX, tmpY});
             }
+
+            for(int i = x - 1, j = y-1; i > tmpX && j > tmpY; i--, j--){
+                cooLignes.add(new Integer[]{i, j});
+            }
+
             //On enlève 1 pour la case cliqué que l'on compte 2 fois
             if(compteChampi - 1 >= nbChampiWin){
                 win = true;
@@ -257,23 +287,27 @@ public class PowerMushModel {
             cooLignes.add(new Integer[]{tmpX, tmpY});
 
             while(tmpX >= 0 && tmpY <= yMax && (int)grille.get(tmpX).get(tmpY) == player){
-                System.out.println("On avance en x = " + tmpX + " avec la valeur : " + (int)grille.get(tmpX).get(tmpY));
                 tmpX--;
                 tmpY++;
                 compteChampi++;
-
-                if(tmpX >= 0 && tmpY <= yMax)cooLignes.add(new Integer[]{tmpX, tmpY});
             }
+
+            for(int i = x - 1, j = y; i > tmpX && j < tmpY; i--, j++){
+                cooLignes.add(new Integer[]{i, j+1});
+            }
+
             tmpX = x;
             tmpY = y;
             while(tmpX <= xMax && tmpY >= 0 && (int)grille.get(tmpX).get(tmpY) == player){
-                System.out.println("On avance en x = " + tmpX + " avec la valeur : " + (int)grille.get(tmpX).get(tmpY));
                 tmpX++;
                 tmpY--;
                 compteChampi++;
-
-                if(tmpX <= xMax && tmpY >= 0)cooLignes.add(new Integer[]{tmpX, tmpY});
             }
+
+            for(int i = x, j = y-1; i < tmpX && j > tmpY; i++, j--){
+                cooLignes.add(new Integer[]{i + 1, j});
+            }
+
             //On enlève 1 pour la case cliqué que l'on compte 2 fois
             if(compteChampi - 1 >= nbChampiWin){
                 win = true;
@@ -311,7 +345,7 @@ public class PowerMushModel {
 
             //Random colone à ajouter
             int minX = 0;
-            int maxX = 6;
+            int maxX = sizeX - 1;
             int randX = rand.nextInt(maxX - minX + 1) + minX;
             while (!placeItem(randX, -1) && compteCasesVide() > 0) {
                 System.out.println("Colone invalide (pleine) : " + randX);

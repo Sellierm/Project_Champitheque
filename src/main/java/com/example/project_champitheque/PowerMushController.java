@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
@@ -82,6 +84,11 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
     public List<ImageView> tabDiff = new ArrayList<ImageView>();
 
 
+    public int joueurCourant = 0;
+    public int joueur1 = 1;
+    public int joueur2 = -1;
+
+
 
 
     @Override
@@ -105,7 +112,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
 
     public void NewGame() {
-        model.restartGame(1);
+        model.restartGame(1, joueur1, joueur2);
         setGrilleFX();
         ClosePopUpEnd();
     }
@@ -132,7 +139,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
     public void initialize(){
 
-        model = new PowerMushModel();
+        model = new PowerMushModel(joueur1, joueur2);
 
         setGrilleFX();
 
@@ -152,6 +159,9 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
 
     public void setGrilleFX(){
+        joueurCourant = model.getJoueurCourant();
+
+        setCursor();
         updateGrid();
 
 
@@ -171,6 +181,11 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         //On récupère les datas de la case ciblée pour connaitre les coordonnées
         String data = (String) target.getUserData();
         int x = Integer.parseInt(data);
+        play(x);
+    }
+
+
+    public void play(int x){
         int resultPartie = 0;
         if(isPanierActive && !isPanierUsed){
             model.playPanier(x);
@@ -182,14 +197,17 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
             grid.setCursor(Cursor.DEFAULT);
         }
         else {
-            resultPartie = model.play(x);
+            resultPartie = model.play(x, joueurCourant);
             if(resultPartie == 1){
-                ShowPopUpEnd("Vous", model.getScore());
+                ShowPopUpEnd("RedMush", model.getScore());
             }
             else if (resultPartie == -1) {
                 ShowPopUpEnd("MushBot", model.getScore());
             }
-            else if (resultPartie == 2){
+            else if (resultPartie == 2) {
+                ShowPopUpEnd("YellowMush", model.getScore());
+            }
+            else if (resultPartie == 3){
                 ShowPopUpEnd("Aucun", model.getScore());
             }
             if(resultPartie != 0){
@@ -201,9 +219,45 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         if(resultPartie != 0){
             showRowWin(model.getListCooChampiWin());
         }
+
+        joueurCourant = model.getJoueurCourant();
+        setCursor();
+
+        if(joueurCourant == -1 && !model.isGameEnd()){
+            System.out.println("Au tour du robot");
+            //CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
+                play(0);
+            //});
+        }
+    }
+
+    public void setCursor(){
+        if(joueurCourant == 1){
+            Image image = new Image(Application.class.getResourceAsStream("/img/redCursor.png"));
+            grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
+        }
+        if(joueurCourant == -1){
+            grid.setCursor(Cursor.DEFAULT);
+        }
+        if(joueurCourant == 2){
+            Image image = new Image(Application.class.getResourceAsStream("/img/yellowCursor.png"));
+            grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
+        }
+    }
+
+    public void setPlayer(MouseEvent e){
+        Text target = (Text)e.getTarget();
+        if(target.getText().equals("1 contre 1")){
+            joueur2 = 2;
+        }
+        if(target.getText().equals("MushBot")){
+            joueur2 = -1;
+        }
+        System.out.println("Changement de joueur"+this.joueur2);
     }
 
     public void updateGrid(){
+
         grid.getChildren().clear();
         ArrayList<ArrayList> grille = model.getGrille();
         for(int i = 0; i< grille.size(); i++){
@@ -222,7 +276,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
                     grid.add(pionImage, x, y);
 
                 }
-                if((int)grille.get(x).get(y) == -1){
+                if((int)grille.get(x).get(y) == -1 || (int)grille.get(x).get(y) == 2){
                     ImageView pionImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/testyellow.png")));
                     pionImage.setUserData(txt);
                     grid.add(pionImage, x, y);

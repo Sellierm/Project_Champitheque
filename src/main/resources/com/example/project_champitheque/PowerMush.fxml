@@ -27,7 +27,7 @@
          <left>
             <VBox prefHeight="550.0" prefWidth="173.0" style="-fx-background-color: #5c3a1b;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefHeight="120.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="173.0" prefWidth="174.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="110.0" prefWidth="174.0">
                            <children>
@@ -78,7 +78,7 @@
                            </children></VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="51.0" prefWidth="174.0">
+                  <HBox alignment="CENTER" prefHeight="92.0" prefWidth="174.0">
                      <children>
                         <ImageView fx:id="panier" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#usePanier" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -92,11 +92,11 @@
                            </cursor>
                         </ImageView>
                      </children></HBox>
-                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="174.0">
+                  <HBox alignment="CENTER" prefHeight="182.0" prefWidth="174.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
-                              <Label fx:id="labelRestants" text="Tours restants" textFill="WHITE">
+                              <Label fx:id="labelRestants" text="Choix joueur" textFill="WHITE">
                                  <font>
                                     <Font size="17.0" />
                                  </font>
@@ -104,19 +104,27 @@
                                     <Insets />
                                  </VBox.margin>
                               </Label>
-                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="147.9999668598175">
+                              <Text fill="GREEN" onMouseReleased="#setPlayer" strokeType="OUTSIDE" strokeWidth="0.0" text="1 contre 1" textAlignment="CENTER" wrappingWidth="147.9999668598175">
                                  <font>
-                                    <Font size="35.0" />
+                                    <Font size="30.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text fill="RED" onMouseReleased="#setPlayer" strokeType="OUTSIDE" strokeWidth="0.0" text="MushBot" textAlignment="CENTER" wrappingWidth="147.9999668598175">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                               </Text>
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="74.0" prefWidth="174.0">
+                  <HBox alignment="CENTER" prefHeight="106.0" prefWidth="174.0">
                      <children>
                         <Button fx:id="newGame" contentDisplay="CENTER" mnemonicParsing="false" onAction="#NewGame" prefHeight="58.0" prefWidth="168.0" style="-fx-background-color: #960018; -fx-background-radius: 20;" text="Nouvelle Partie" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" underline="true">
                            <font>
@@ -179,7 +187,7 @@
                         <Font size="50.0" />
                      </font>
                   </Label>
-                  <Text fx:id="winnerNode" fill="RED" layoutX="107.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true" wrappingWidth="177.9931640625">
+                  <Text fx:id="winnerNode" fill="RED" layoutX="8.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true" wrappingWidth="375.59320068359375">
                      <font>
                         <Font size="50.0" />
                      </font>
