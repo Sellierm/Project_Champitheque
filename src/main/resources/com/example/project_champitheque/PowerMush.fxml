@@ -96,7 +96,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
-                              <Label fx:id="labelRestants" text="Choix joueur" textFill="WHITE">
+                              <Label text="Adversaire" textFill="WHITE">
                                  <font>
                                     <Font size="17.0" />
                                  </font>
@@ -104,22 +104,32 @@
                                     <Insets />
                                  </VBox.margin>
                               </Label>
-                              <Text fill="GREEN" onMouseReleased="#setPlayer" strokeType="OUTSIDE" strokeWidth="0.0" text="1 contre 1" textAlignment="CENTER" wrappingWidth="147.9999668598175">
-                                 <font>
-                                    <Font size="30.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" top="10.0" />
-                                 </VBox.margin>
-                              </Text>
-                              <Text fill="RED" onMouseReleased="#setPlayer" strokeType="OUTSIDE" strokeWidth="0.0" text="MushBot" textAlignment="CENTER" wrappingWidth="147.9999668598175">
-                                 <font>
-                                    <Font size="30.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" top="10.0" />
-                                 </VBox.margin>
-                              </Text>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fx:id="playerIcone" fitHeight="60.0" fitWidth="60.0" onMouseReleased="#setPlayer" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../img/joueur.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="robotIcone" fitHeight="60.0" fitWidth="60.0" onMouseReleased="#setPlayer" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../img/robot.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>

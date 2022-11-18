@@ -82,6 +82,16 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
     public List<ImageView> tabDiff = new ArrayList<ImageView>();
 
 
+
+    @FXML
+    private ImageView playerIcone;
+
+    @FXML
+    private ImageView robotIcone;
+
+    public List<ImageView> tabIcone = new ArrayList<ImageView>();
+
+
     public int joueurCourant = 0;
     public int joueur1 = 1;
     public int joueur2 = -1;
@@ -153,6 +163,17 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         this.tabDiff.add(diff1);
         this.tabDiff.add(diff2);
         this.tabDiff.add(diff3);
+
+
+
+        //Set difficulty
+
+        robotIcone.setScaleX(1.3);
+        robotIcone.setScaleY(1.3);
+        playerIcone.setUserData("player");
+        robotIcone.setUserData("robot");
+        this.tabIcone.add(robotIcone);
+        this.tabIcone.add(playerIcone);
     }
 
 
@@ -242,12 +263,25 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
     }
 
     public void setPlayer(MouseEvent e){
-        Text target = (Text)e.getTarget();
-        if(target.getText().equals("1 contre 1")){
+        ImageView target = (ImageView) e.getTarget();
+        String data = (String) target.getUserData();
+        if(data.equals("player")){
             joueur2 = 2;
+            for (ImageView img : this.tabIcone) {
+                img.setScaleX(1);
+                img.setScaleY(1);
+            }
+            target.setScaleX(1.3);
+            target.setScaleY(1.3);
         }
-        if(target.getText().equals("MushBot")){
+        if(data.equals("robot")){
             joueur2 = -1;
+            for (ImageView img : this.tabIcone) {
+                img.setScaleX(1);
+                img.setScaleY(1);
+            }
+            target.setScaleX(1.3);
+            target.setScaleY(1.3);
         }
         System.out.println("Changement de joueur"+this.joueur2);
     }
