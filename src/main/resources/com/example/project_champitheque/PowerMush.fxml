@@ -41,7 +41,7 @@
                               </Label>
                               <HBox alignment="CENTER" prefHeight="82.0" prefWidth="174.0">
                                  <children>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="diff1" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#setDifficulty" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../img/1.png" />
                                        </image>
@@ -52,7 +52,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="diff2" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#setDifficulty" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../img/2.png" />
                                        </image>
@@ -63,7 +63,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="diff3" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#setDifficulty" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../img/3.png" />
                                        </image>

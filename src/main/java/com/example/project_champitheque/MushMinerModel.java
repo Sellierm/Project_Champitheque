@@ -20,7 +20,6 @@ public class MushMinerModel {
     public int difficulty = 1;
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
-        System.out.println(this.difficulty);
     }
 
 

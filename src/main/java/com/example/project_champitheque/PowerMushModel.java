@@ -41,6 +41,18 @@ public class PowerMushModel {
 
     private int difficulty = 1;
 
+    public boolean setDifficulty(int difficulty){
+        //On change la difficulté si la parti n'a pas commencé
+        if(compteCasesVide() == sizeX * sizeY || end == true) {
+            System.out.println("Difficulty set to "+this.difficulty);
+            this.difficulty = difficulty;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
 
     public PowerMushModel(){
@@ -269,7 +281,7 @@ public class PowerMushModel {
         }
 
         if(win)winner=player;
-        if(win)nbChampiWin = compteChampi;
+        if(win)sizeChampiWin = compteChampi;
         listCooChampiWin = cooLignes;
         end = win;
         return win;
@@ -291,7 +303,7 @@ public class PowerMushModel {
 
         Random rand = new Random();
 
-        if(Math.random() <= 0.4){
+        if(Math.random() <= 0.4 && lastYPlay.get(0) > 0){
             placeItem(lastXPlay.get(0), -1);
             System.out.println("Robot joue au dessus du dernier coup : " + lastXPlay);
         }
@@ -311,9 +323,13 @@ public class PowerMushModel {
 
 
     public void playPanier(int x){
-        if(x < 7 && x >= 0 && !end) {
+        if(x < sizeX && x >= 0 && !end) {
             List<Integer> y = grille.get(x);
-            y.replaceAll(e -> 0);
+            for(int indexY = sizeY - 1; indexY > 1; indexY--){
+                y.set(indexY, y.get(indexY-2));
+            }
+            y.set(0, 0);
+            y.set(1, 0);
         }
 
     }
@@ -323,7 +339,7 @@ public class PowerMushModel {
         int score = 0;
         if(end) {
             System.out.println(score);
-            if(winner == 1)score = (this.nbChampiWin * this.difficulty)*10 / this.compteCasesVide();
+            if(winner == 1)score = (this.sizeChampiWin * this.difficulty)*10 / this.compteCasesVide();
             if(winner == -1)score = 0;
             if(winner == 0)score = this.difficulty*2;
         }

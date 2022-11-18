@@ -70,6 +70,19 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
 
 
+    @FXML
+    private ImageView diff1;
+
+    @FXML
+    private ImageView diff2;
+
+    @FXML
+    private ImageView diff3;
+
+    public List<ImageView> tabDiff = new ArrayList<ImageView>();
+
+
+
 
     @Override
     public void Quit() throws IOException {
@@ -127,15 +140,14 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
 
         //Set difficulty
-
-        /*diff1.setScaleX(1.3);
+        diff1.setScaleX(1.3);
         diff1.setScaleY(1.3);
         diff1.setUserData("1");
         diff2.setUserData("2");
         diff3.setUserData("3");
         this.tabDiff.add(diff1);
         this.tabDiff.add(diff2);
-        this.tabDiff.add(diff3);*/
+        this.tabDiff.add(diff3);
     }
 
 
@@ -245,18 +257,19 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
 
 
-    /*public void setDifficulty(MouseEvent event){
+    public void setDifficulty(MouseEvent event){
         ImageView target = (ImageView) event.getTarget();
         String data = (String) target.getUserData();
         int valueData = Integer.parseInt(data);
-        for(ImageView img : this.tabDiff){
-            img.setScaleX(1);
-            img.setScaleY(1);
+        if(model.setDifficulty(valueData)) {
+            for (ImageView img : this.tabDiff) {
+                img.setScaleX(1);
+                img.setScaleY(1);
+            }
+            target.setScaleX(1.3);
+            target.setScaleY(1.3);
         }
-        target.setScaleX(1.3);
-        target.setScaleY(1.3);
-        model.setDifficulty(valueData);
-    }*/
+    }
 
 
     public void usePanier(){
