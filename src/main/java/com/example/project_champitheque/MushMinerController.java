@@ -235,7 +235,14 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
                 txtNode.setWrappingWidth(40);
                 txtNode.setTextAlignment(TextAlignment.CENTER);
                 grid.add(txtNode, x, y);
-                ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/grass.png")));
+                ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
+                if(Math.random() <= 0.2){
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe2.png")));
+                } else if (Math.random() <= 0.4) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe3.png")));
+                } else if (Math.random() <= 0.6) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe4.png")));
+                }
                 selectedImage.setUserData(txt);
                 grid.add(selectedImage, x, y);
             }
@@ -316,19 +323,19 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
 
     public void updateCase(int x, int y, int resultCase){
         //Par défaut on met l'image des feuilles (en cas de valeur renvoyée incorrecte on affiche tout de même les feuilles
-        ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/leaf.png")));
+        ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/feuille.png")));
         //Par défaut le texte affiché est nul
         Text txtNode = new Text("");
 
         //Si un champignon est trouvé on l'affiche
         if (resultCase == 1) {
-            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.jpg")));
+            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.png")));
         }
         else if (resultCase == 4) {
-            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/veneneux.png")));
+            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/badChampi.png")));
         }
         else if (resultCase == 5) {
-            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/jackpot.png")));
+            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/megaChampi.png")));
         }
         //Sinon on récupère le nombre de champignons autour et on stocke la résultat dans le textenode
         else if(resultCase == 0) {

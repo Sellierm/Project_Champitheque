@@ -68,8 +68,6 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
     public boolean isPanierActive = false;
 
-    public boolean isPanierUsed = false;
-
 
 
     @FXML
@@ -167,7 +165,6 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
         //On (ré)active le panier
         isPanierActive = false;
-        isPanierUsed = false;
         panier.setOpacity(1);
 
     }
@@ -187,13 +184,12 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
     public void play(int x){
         int resultPartie = 0;
-        if(isPanierActive && !isPanierUsed){
+        if(isPanierActive && model.ablePanier()){
             model.playPanier(x);
             isPanierActive = false;
-            isPanierUsed = true;
             panier.setScaleX(1);
             panier.setScaleY(1);
-            panier.setOpacity(0.5);
+            if(joueur2 == -1)panier.setOpacity(0.5);
             grid.setCursor(Cursor.DEFAULT);
         }
         else {
@@ -327,7 +323,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
 
     public void usePanier(){
-        if(!isPanierUsed) {
+        if(model.ablePanier()) {
             if (isPanierActive) {
                 panier.setScaleX(1);
                 panier.setScaleY(1);
@@ -342,8 +338,9 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
             }
             isPanierActive = !isPanierActive;
-            System.out.println("Loupe active");
+            System.out.println("Panier actif");
         }
+        System.out.println("Panier unable");
     }
 
 }

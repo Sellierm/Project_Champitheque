@@ -45,6 +45,10 @@ public class PowerMushModel {
     private int joueur1 = 0;
     private int joueur2 = 0;
 
+    private boolean joueur1panier = true;
+
+    private boolean joueur2panier = true;
+
 
     private int nbChampiWin = 6;
 
@@ -75,6 +79,8 @@ public class PowerMushModel {
         this.joueur2 = joueur2;
         joueurCourant = joueur1;
         dernierJoueurCourant = joueur2;
+        joueur1panier = true;
+        joueur2panier = true;
         setGrille();
         System.out.println(grille);
 
@@ -89,6 +95,8 @@ public class PowerMushModel {
         this.joueur2 = joueur2;
         joueurCourant = joueur1;
         dernierJoueurCourant = joueur2;
+        joueur1panier = true;
+        joueur2panier = true;
         winner = 0;
         this.difficulty = difficulty;
         end = false;
@@ -98,6 +106,17 @@ public class PowerMushModel {
 
     public boolean isGameEnd(){
         return (end || compteCasesVide() <= 0);
+    }
+
+
+    public boolean ablePanier(){
+        if(joueurCourant == 1){
+            return joueur1panier;
+        }
+        if(joueurCourant == 2){
+            return joueur2panier;
+        }
+        return false;
     }
 
 
@@ -364,6 +383,13 @@ public class PowerMushModel {
             }
             y.set(0, 0);
             y.set(1, 0);
+
+            if(joueurCourant == 1){
+                joueur1panier = false;
+            }
+            if(joueurCourant == 2){
+                joueur2panier = false;
+            }
         }
 
     }
