@@ -1,5 +1,6 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.MushMiner;
 
+import com.example.project_champitheque.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -27,9 +28,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
+public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
-    MushMinerModel model;
+    Game model;
 
     @FXML
     private Button quit;
@@ -92,15 +93,11 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
 
     public boolean isLoupeActive = false;
 
-    public boolean isLoupeUsed = false;
-
 
     @FXML
     public ImageView manure;
 
     public boolean isManureActive = false;
-
-    public boolean isManureUsed = false;
 
 
 
@@ -108,9 +105,6 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
     //CheatCode
     @FXML
     private Label labelRestants;
-
-
-
 
     @Override
     public void Quit() throws IOException {
@@ -134,20 +128,28 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
 
     public void NewGame() {
         if(Integer.parseInt(inputSizeX.getText()) >19)inputSizeX.setText("19");
-        if(Integer.parseInt(inputSizeX.getText()) <10)inputSizeX.setText("10");
+        if(Integer.parseInt(inputSizeX.getText()) <7)inputSizeX.setText("7");
         if(Integer.parseInt(inputSizeY.getText()) >13)inputSizeY.setText("13");
         if(Integer.parseInt(inputSizeY.getText()) <10)inputSizeY.setText("10");
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
-        model.restartGame(sizeX, sizeY);
+        model.resetGame(sizeX, sizeY);
         setGrilleFX();
         ClosePopUpEnd();
+
+        //On (ré)active la loupe
+        isLoupeActive = false;
+        loupe.setOpacity(1);
+
+        //On (ré)active l'engrais
+        isManureActive = false;
+        manure.setOpacity(1);
     }
 
 
     public void ShowPopUpEnd(int score){
         String scoreTxt = ""+score;
-        String findTxt = ""+model.getChampiFind();
+        String findTxt = ""+model.champiRestantsProperty().get();
         finalScore.setText(findTxt);
         lvlEarned.setText(scoreTxt);
         popupend.setVisible(true);
@@ -165,15 +167,14 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
 
 
 
-
     public void initialize(){
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
-        model = new MushMinerModel(sizeX, sizeY);
+        model = new Game(sizeX, sizeY);
 
-        champiFind.textProperty().bind(model.champiFindProperty().asString());
-        restant.textProperty().bind(model.restantProperty().asString());
-        champiRestant.textProperty().bind(model.champiRestantProperty().asString());
+        champiFind.textProperty().bind(model.scoreProperty().asString());
+        restant.textProperty().bind(model.coupsRestantsProperty().asString());
+        champiRestant.textProperty().bind(model.champiRestantsProperty().asString());
 
         setGrilleFX();
 
@@ -224,7 +225,116 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
 
     public void setGrilleFX(){
         grid.getChildren().clear();
-        ArrayList<ArrayList> grille = model.getGrille();
+        List<List<CaseLow>> grille = model.getGrilleToDisplay();
+        for(int i = 0; i< grille.size(); i++){
+            for(int j = 0; j < grille.get(i).size(); j++) {
+                int x = j%grille.get(i).size();
+                int y = i;
+                String txt = x+"-"+y;
+
+                CaseLow caseValue = grille.get(y).get(x);
+                ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
+
+
+                if(caseValue.value == ValueCase.DEFAULT1) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
+                    selectedImage.setOnMouseReleased(e -> {
+                        if(e.getButton() == MouseButton.PRIMARY){
+                            clickedCase(e);
+
+                        }
+                        if(e.getButton() == MouseButton.SECONDARY){
+                            placeBarriere(e);
+                        }
+                    });
+                }
+                if(caseValue.value == ValueCase.DEFAULT2) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe2.png")));
+                    selectedImage.setOnMouseReleased(e -> {
+                        if(e.getButton() == MouseButton.PRIMARY){
+                            clickedCase(e);
+
+                        }
+                        if(e.getButton() == MouseButton.SECONDARY){
+                            placeBarriere(e);
+                        }
+                    });
+                }
+                if(caseValue.value == ValueCase.DEFAULT3) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe3.png")));
+                    selectedImage.setOnMouseReleased(e -> {
+                        if(e.getButton() == MouseButton.PRIMARY){
+                            clickedCase(e);
+
+                        }
+                        if(e.getButton() == MouseButton.SECONDARY){
+                            placeBarriere(e);
+                        }
+                    });
+                }
+                if(caseValue.value == ValueCase.DEFAULT4) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe4.png")));
+                    selectedImage.setOnMouseReleased(e -> {
+                        if(e.getButton() == MouseButton.PRIMARY){
+                            clickedCase(e);
+
+                        }
+                        if(e.getButton() == MouseButton.SECONDARY){
+                            placeBarriere(e);
+                        }
+                    });
+                }
+                if(caseValue.value == ValueCase.VIDE) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/feuille.png")));
+                }
+                if(caseValue.value == ValueCase.CHAMPI) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.png")));
+                }
+                if(caseValue.value == ValueCase.JACKPOT) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/megaChampi.png")));
+                }
+                if(caseValue.value == ValueCase.BAD) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/badChampi.png")));
+                }
+                selectedImage.setUserData(txt);
+
+                grid.add(selectedImage, x, y);
+
+
+                if(caseValue.value == ValueCase.VIDE) {
+                    Text txtNode = new Text(String.valueOf(caseValue.champiAutour));
+                    txtNode.setStyle("-fx-font: 30 arial;");
+                    txtNode.setFill(Color.WHITE);
+                    txtNode.setWrappingWidth(40);
+                    txtNode.setTextAlignment(TextAlignment.CENTER);
+                    grid.add(txtNode, x, y);
+                }
+
+                if(caseValue.locked) {
+                    ImageView barriere = new ImageView(new Image(Application.class.getResourceAsStream("/img/barriere.png")));
+                    grid.add(barriere, x, y);
+                }
+            }
+        }
+
+        /*for(Node node : grid.getChildren()){
+            node.setOnMouseReleased(e -> {
+                if(e.getButton() == MouseButton.PRIMARY){
+                    clickedCase(e);
+
+                }
+                if(e.getButton() == MouseButton.SECONDARY){
+                    placeBarriere(e);
+                }
+            });
+        }*/
+
+    }
+
+
+    public void revealGrid(){
+        grid.getChildren().clear();
+        List<List<CaseLow>> grille = model.getGrilleEnd();
         for(int i = 0; i< grille.size(); i++){
             for(int j = 0; j < grille.get(i).size(); j++) {
                 int x = j%grille.get(i).size();
@@ -235,51 +345,40 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
                 txtNode.setWrappingWidth(40);
                 txtNode.setTextAlignment(TextAlignment.CENTER);
                 grid.add(txtNode, x, y);
+
+                CaseLow caseValue = grille.get(y).get(x);
                 ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
-                if(Math.random() <= 0.2){
-                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe2.png")));
-                } else if (Math.random() <= 0.4) {
-                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe3.png")));
-                } else if (Math.random() <= 0.6) {
-                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe4.png")));
+
+                if(caseValue.value == ValueCase.VIDE) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/feuille.png")));
+                }
+                if(caseValue.value == ValueCase.CHAMPI) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.png")));
+                }
+                if(caseValue.value == ValueCase.JACKPOT) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/megaChampi.png")));
+                }
+                if(caseValue.value == ValueCase.BAD) {
+                    selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/badChampi.png")));
                 }
                 selectedImage.setUserData(txt);
+
                 grid.add(selectedImage, x, y);
+
+                if(caseValue.locked) {
+                    ImageView barriere = new ImageView(new Image(Application.class.getResourceAsStream("/img/barriere.png")));
+                    grid.add(barriere, x, y);
+                }
             }
         }
-
-        for(Node node : grid.getChildren()){
-            node.setOnMouseReleased(e -> {
-                if(e.getButton() == MouseButton.PRIMARY){
-                    clickedCase(e);
-
-                }
-                if(e.getButton() == MouseButton.SECONDARY){
-                    placeBarriere(e);
-                }
-            });
-        }
-
-
-        //On (ré)active la loupe
-        isLoupeActive = false;
-        isLoupeUsed = false;
-        loupe.setOpacity(1);
-
-        //On (ré)active la loupe
-        isManureActive = false;
-        isManureUsed = false;
-        manure.setOpacity(1);
-
     }
 
 
-    //Fonction appelée au click sur une case pour afficher le résultat de la case
+
+
     public void clickedCase(MouseEvent e){
-        if(model.getRestant() > 0 && model.getChampiRestant() > 0) {
-
-
-            ImageView target = (ImageView) e.getTarget();
+        if(!model.isGameEnd()) {
+            Node target = (Node) e.getTarget();
             System.out.println(target.getUserData());
 
             //On récupère les datas de la case ciblée pour connaitre les coordonnées
@@ -291,95 +390,42 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
             int y= Integer.parseInt(list.get(1));
 
             //On verifie si la loupe à été activée
-            if(isLoupeActive)loupeCase(x, y);
+            if(isLoupeActive){
+                model.playLoupe(x, y);
+                isLoupeActive = false;
+                loupe.setScaleX(1);
+                loupe.setScaleY(1);
+                loupe.setOpacity(0.5);
+                grid.setCursor(Cursor.DEFAULT);
+            }
 
             //On verifie si l'engrais à été activée
             if(isManureActive){
-                model.setManure(x, y);
+                model.playEngrais(x, y);
                 isManureActive = false;
-                isManureUsed = true;
                 manure.setScaleX(1);
                 manure.setScaleY(1);
                 manure.setOpacity(0.5);
                 grid.setCursor(Cursor.DEFAULT);
             }
 
-            //On récupère la valeur de la case pour savoir s'il y a un champignons
-            int resultCase = model.revealCase(x, y, true);
+            model.play(x, y);
 
-            updateCase(x, y, resultCase);
-
-
-            if(model.getRestant() <= 0 || model.getChampiRestant() <= 0) {
-                revealGrid();
-                ShowPopUpEnd(model.finalScore());
+            if(!model.isGameEnd()) {
+                setGrilleFX();
+                System.out.println("On réaffiche tout");
             }
+            else {
+                revealGrid();
+            }
+
         }
         else{
             revealGrid();
-            ShowPopUpEnd(model.finalScore());
+            //ShowPopUpEnd(model.finalScore());
+            System.out.println("On affiche la grille de fin");
         }
     }
-
-    public void updateCase(int x, int y, int resultCase){
-        //Par défaut on met l'image des feuilles (en cas de valeur renvoyée incorrecte on affiche tout de même les feuilles
-        ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/feuille.png")));
-        //Par défaut le texte affiché est nul
-        Text txtNode = new Text("");
-
-        //Si un champignon est trouvé on l'affiche
-        if (resultCase == 1) {
-            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.png")));
-        }
-        else if (resultCase == 4) {
-            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/badChampi.png")));
-        }
-        else if (resultCase == 5) {
-            resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/megaChampi.png")));
-        }
-        //Sinon on récupère le nombre de champignons autour et on stocke la résultat dans le textenode
-        else if(resultCase == 0) {
-            int nbBombsAround = model.getNbBombsAround(x, y);
-            txtNode.setText(String.valueOf(nbBombsAround));
-            txtNode.setStyle("-fx-font: 30 arial;");
-            txtNode.setFill(Color.WHITE);
-            txtNode.setWrappingWidth(40);
-            txtNode.setTextAlignment(TextAlignment.CENTER);
-        }
-
-
-        grid.add(resultImage, x, y);
-        grid.add(txtNode, x, y);
-    }
-
-
-    public void loupeCase(int x, int y){
-        System.out.println("Loupe used");
-        if(!isLoupeUsed) {
-            int maxYSize = model.grille.size() - 1;
-            int maxXSize = model.grille.get(y).size() - 1;
-
-
-            if (y > 0 && y < maxYSize && x > 0 && x < maxXSize) {
-                updateCase(x, y-1, model.revealCase(x, y-1, false));
-                updateCase(x-1, y-1, model.revealCase(x-1, y-1, false));
-                updateCase(x+1, y-1, model.revealCase(x+1, y-1, false));
-                updateCase(x-1, y, model.revealCase(x-1, y, false));
-                updateCase(x+1, y, model.revealCase(x+1, y, false));
-                updateCase(x, y+1, model.revealCase(x, y+1, false));
-                updateCase(x-1, y+1, model.revealCase(x-1, y+1, false));
-                updateCase(x+1, y+1, model.revealCase(x+1, y+1, false));
-
-            }
-            isLoupeActive = false;
-            isLoupeUsed = true;
-            loupe.setScaleX(1);
-            loupe.setScaleY(1);
-            loupe.setOpacity(0.5);
-            grid.setCursor(Cursor.DEFAULT);
-        }
-    }
-
 
     public void placeBarriere(MouseEvent e){
         ImageView target = (ImageView) e.getTarget();
@@ -389,44 +435,12 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
         String[] arr = null;
         arr = data.split("-");
         List<String> list = Arrays.asList(arr);
+        int x = Integer.parseInt(list.get(0));
+        int y= Integer.parseInt(list.get(1));
 
-        ImageView resultImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/barriere.png")));
-        resultImage.setUserData(data);
-        resultImage.setOnMouseReleased(event -> {
-            if(event.getButton() == MouseButton.PRIMARY){
-                clickedCase(event);
+        model.lockCase(x, y);
 
-            }
-            if(event.getButton() == MouseButton.SECONDARY){
-                placeBarriere(event);
-            }
-        });
-        grid.add(resultImage, Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
-    }
-
-
-
-
-
-    public void revealGrid(){
-        grid.getChildren().clear();
-
-        ArrayList<ArrayList> grille = model.getGrille();
-
-
-        for(int i = 0; i< grille.size(); i++){
-            for(int j = 0; j < grille.get(i).size(); j++) {
-                int x = j%grille.get(i).size();
-                int y = i;
-
-                int resultCase = model.getCaseValue(x, y);
-
-
-                updateCase(x, y, resultCase);
-            }
-        }
-
-
+        setGrilleFX();
     }
 
 
@@ -444,9 +458,8 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
     }
 
 
-
     public void useLoupe(){
-        if(!isLoupeUsed) {
+        if(model.loupeAvaible()) {
             if (isLoupeActive) {
                 loupe.setScaleX(1);
                 loupe.setScaleY(1);
@@ -467,7 +480,7 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
 
 
     public void useManure(){
-        if(!isManureUsed) {
+        if(model.engraisAvaible()) {
             if (isManureActive) {
                 manure.setScaleX(1);
                 manure.setScaleY(1);
@@ -482,8 +495,7 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd {
 
             }
             isManureActive = !isManureActive;
-            System.out.println("Loupe active");
+            System.out.println("Engrais actif");
         }
     }
-
 }

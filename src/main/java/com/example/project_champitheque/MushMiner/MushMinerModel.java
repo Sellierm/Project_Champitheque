@@ -1,4 +1,4 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.MushMiner;
 
 
 import javafx.beans.property.IntegerProperty;
@@ -16,6 +16,8 @@ public class MushMinerModel {
     private final IntegerProperty restant;
 
     private final IntegerProperty champiRestant;
+
+    private int playedTime = 0;
 
     public int difficulty = 1;
     public void setDifficulty(int difficulty) {
@@ -88,6 +90,7 @@ public class MushMinerModel {
         //On clear pour les nouveaux appels à la fonction pour ne pas ajouter des cases à celles déjà existantes
         grille.clear();
         champiRestant.setValue(0);
+        playedTime = 0;
         for (int y = 0; y < sizeY; y++) {
             ArrayList<Integer> tmpX = new ArrayList<Integer>();
             for (int x = 0; x < sizeX; x++) {
@@ -109,10 +112,12 @@ public class MushMinerModel {
         System.out.println(restant);
         System.out.println(champiFind);
         if(restant.get() > 0) {
+            playedTime++;
             System.out.println(valueCase);
             if (valueCase == 1) {
                 champiFind.setValue(champiFind.get()+1);
                 champiRestant.setValue(champiRestant.get()-1);
+                compteChampiRestant();
             }
             else if (valueCase == 4){
                 restant.setValue(restant.get()-5);
@@ -129,6 +134,10 @@ public class MushMinerModel {
             System.out.println("Vous êtes à cours de coups");
         }
         return valueCase;
+    }
+
+    public boolean isGameEnd(){
+        return !(playedTime <= grille.get(0).size()*grille.size());
     }
 
 
@@ -221,7 +230,7 @@ public class MushMinerModel {
                 }
             }
         }
-        champiRestant.setValue(tmp);
+        champiRestant.setValue(tmp - champiFind.get());
     }
 
 

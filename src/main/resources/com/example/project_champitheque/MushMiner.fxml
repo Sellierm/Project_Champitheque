@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.MushMinerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.MushMiner.GameController">
    <children>
       <BorderPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #6B4423;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -141,7 +141,7 @@
                            </cursor>
                         </ImageView>
                      </children></HBox>
-                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="174.0">
+                  <HBox alignment="CENTER" prefHeight="66.0" prefWidth="174.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
@@ -189,7 +189,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="78.0" prefWidth="174.0">
+                  <HBox prefHeight="54.0" prefWidth="174.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
@@ -213,7 +213,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="74.0" prefWidth="174.0">
+                  <HBox alignment="CENTER" prefHeight="54.0" prefWidth="174.0">
                      <children>
                         <Button fx:id="newGame" contentDisplay="CENTER" mnemonicParsing="false" onAction="#NewGame" prefHeight="58.0" prefWidth="168.0" style="-fx-background-color: #960018; -fx-background-radius: 20;" text="Nouvelle Partie" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" underline="true">
                            <font>
@@ -308,11 +308,11 @@
       </Pane>
       <Pane fx:id="popuphelp" layoutY="50.0" onMouseReleased="#CloseHelp" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.2);" visible="false">
          <children>
-            <Pane layoutX="209.0" layoutY="74.0" prefHeight="403.0" prefWidth="582.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
+            <Pane layoutX="34.0" layoutY="9.0" prefHeight="534.0" prefWidth="931.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
                <children>
-                  <VBox layoutY="1.0" prefHeight="403.0" prefWidth="582.0">
+                  <VBox prefHeight="534.0" prefWidth="931.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="51.0" prefWidth="392.0">
+                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="931.0">
                            <children>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Règles du jeu" textAlignment="CENTER" underline="true">
                                  <font>
@@ -321,25 +321,172 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="55.0" prefWidth="582.0">
+                        <HBox prefHeight="485.0" prefWidth="931.0">
                            <children>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Objectif : " textAlignment="CENTER">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </Text>
-                              <Text fill="#ff7272" strokeType="OUTSIDE" strokeWidth="0.0" text="Trouver le plus de champignongs possibles" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </Text>
+                              <VBox prefHeight="200.0" prefWidth="465.6">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="55.0" prefWidth="582.0">
+                                       <children>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Objectif : " textAlignment="CENTER">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#ff7272" strokeType="OUTSIDE" strokeWidth="0.0" text="Trouver le plus de champignongs possibles" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="130.0" prefWidth="466.0">
+                                       <children>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Inspiré du célèbre démineur, ce jeu cache de nombreux champignons que vous devez retrouver. En effet, contrairement à son homologue, ici le but n’est pas d’éviter les champignons mais d’en trouver le plus possible." wrappingWidth="450.0">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="164.0" prefWidth="466.0">
+                                       <children>
+                                          <ImageView fitHeight="109.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../img/tutoNombre.png" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <VBox alignment="CENTER_LEFT" prefHeight="130.0" prefWidth="307.0">
+                                             <children>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Chaque case vide indique le" wrappingWidth="270.0000305175781">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text fill="#ff7272" strokeType="OUTSIDE" strokeWidth="0.0" text="nombre de champignons présents autour," underline="true" wrappingWidth="303.6000671386719">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="mais pas leur position." wrappingWidth="270.0000305175781">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="124.0" prefWidth="466.0">
+                                       <children>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="La partie prend fin quand vous avez trouvé tous les champignons ou que vous êtes à court de coups." textAlignment="CENTER" wrappingWidth="450.0">
+                                             <font>
+                                                <Font size="19.0" />
+                                             </font>
+                                          </Text>
+                                       </children></HBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="465.6">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="45.0" prefWidth="466.0">
+                                       <children>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bonus" textAlignment="CENTER" underline="true">
+                                             <font>
+                                                <Font size="25.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="73.0" prefWidth="466.0">
+                                       <children>
+                                          <ImageView fitHeight="116.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../img/tutoBonus.png" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Vous possédez deux bonus que vous pouvez utiliser à tout moment de la partie " wrappingWidth="223.00732421875">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="59.0" prefWidth="466.0">
+                                       <children>
+                                          <ImageView fitHeight="58.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../img/tutoLoupe.png" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="La loupe permet de révéler une zone de 3x3">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children></HBox>
+                                    <HBox alignment="CENTER" prefHeight="105.0" prefWidth="466.0">
+                                       <children>
+                                          <ImageView fitHeight="89.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../img/tutoEngrais.png" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="L’engrais fait pousser de 3 à 6 champignons aléatoirement dans un rayon de deux cases (5x5), ainsi que deux champignons spéciaux." wrappingWidth="309.246337890625">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="98.0" prefWidth="466.0">
+                                       <children>
+                                          <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../img/badChampi.png" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Le champignon vénéneux qui compte pour 4 champignons. Si par malheur vous tombez dessus, vous perdez 5 coups." wrappingWidth="307.67730712890625">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="106.0" prefWidth="466.0">
+                                       <children>
+                                          <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../img/megaChampi.png" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Le groupe de champignons, qui compte pour 5. Attention à ne pas le confondre avec un champignon vénéneux. Si par chance vous tomber dessus, vous gagner 5 champignons" wrappingWidth="379.069091796875">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                 </children></VBox>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="392.0" visible="false" />
-                        <HBox prefHeight="60.0" prefWidth="582.0" />
-                        <HBox prefHeight="67.0" prefWidth="582.0" />
-                        <HBox prefHeight="60.0" prefWidth="582.0" />
-                        <HBox prefHeight="54.0" prefWidth="582.0" />
                      </children>
                   </VBox>
                </children>

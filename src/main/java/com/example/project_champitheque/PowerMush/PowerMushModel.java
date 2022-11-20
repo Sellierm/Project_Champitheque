@@ -1,4 +1,4 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.PowerMush;
 
 
 import javafx.beans.property.IntegerProperty;
@@ -50,6 +50,12 @@ public class PowerMushModel {
     private boolean joueur2panier = true;
 
 
+
+    private boolean joueur1boots = true;
+
+    private boolean joueur2boots = true;
+
+
     private int nbChampiWin = 6;
 
     private int sizeX = 11;
@@ -71,6 +77,7 @@ public class PowerMushModel {
 
 
 
+    //Début de partie
     public PowerMushModel(int joueur1, int joueur2){
         lastXPlay = new ArrayList<>();
         lastYPlay = new ArrayList<>();
@@ -81,6 +88,8 @@ public class PowerMushModel {
         dernierJoueurCourant = joueur2;
         joueur1panier = true;
         joueur2panier = true;
+        joueur1boots = true;
+        joueur2boots = true;
         setGrille();
         System.out.println(grille);
 
@@ -97,26 +106,12 @@ public class PowerMushModel {
         dernierJoueurCourant = joueur2;
         joueur1panier = true;
         joueur2panier = true;
+        joueur1boots = true;
+        joueur2boots = true;
         winner = 0;
         this.difficulty = difficulty;
         end = false;
         setGrille();
-    }
-
-
-    public boolean isGameEnd(){
-        return (end || compteCasesVide() <= 0);
-    }
-
-
-    public boolean ablePanier(){
-        if(joueurCourant == 1){
-            return joueur1panier;
-        }
-        if(joueurCourant == 2){
-            return joueur2panier;
-        }
-        return false;
     }
 
 
@@ -134,6 +129,8 @@ public class PowerMushModel {
         }
     }
 
+
+    //Fonctions de la partie
     public int play(int x, int joueur){
         if(x < sizeX && x >= 0) {
             if (!end && compteCasesVide() > 0) {
@@ -167,6 +164,30 @@ public class PowerMushModel {
         } else {
             System.out.println("Colone invalide");
             return 0;
+        }
+    }
+
+
+    public void botPlay(){
+        //Comportement en fonction des difficultés
+
+        Random rand = new Random();
+
+        if(Math.random() <= 0.4 && lastYPlay.get(0) > 0){
+            placeItem(lastXPlay.get(0), -1);
+            System.out.println("Robot joue au dessus du dernier coup : " + lastXPlay);
+        }
+        else {
+
+            //Random colone à ajouter
+            int minX = 0;
+            int maxX = sizeX - 1;
+            int randX = rand.nextInt(maxX - minX + 1) + minX;
+            while (!placeItem(randX, -1) && compteCasesVide() > 0) {
+                System.out.println("Colone invalide (pleine) : " + randX);
+                randX = rand.nextInt(maxX - minX + 1) + minX;
+            }
+            System.out.println("Robot à joué en : " + randX);
         }
     }
 
@@ -340,6 +361,8 @@ public class PowerMushModel {
         return win;
     }
 
+
+    //Fonction utilitaires
     public int compteCasesVide(){
         int compt = 0;
         for(List<Integer> x : grille){
@@ -351,30 +374,26 @@ public class PowerMushModel {
     }
 
 
-    public void botPlay(){
-        //Comportement en fonction des difficultés
 
-        Random rand = new Random();
-
-        if(Math.random() <= 0.4 && lastYPlay.get(0) > 0){
-            placeItem(lastXPlay.get(0), -1);
-            System.out.println("Robot joue au dessus du dernier coup : " + lastXPlay);
+    public int getScore(){
+        int score = 0;
+        if(end) {
+            System.out.println(score);
+            if(winner == 1)score = (this.sizeChampiWin * this.difficulty)*10 / this.compteCasesVide();
+            if(winner == -1)score = 0;
+            if(winner == 0)score = this.difficulty*2;
         }
-        else {
+        return score;
+    }
 
-            //Random colone à ajouter
-            int minX = 0;
-            int maxX = sizeX - 1;
-            int randX = rand.nextInt(maxX - minX + 1) + minX;
-            while (!placeItem(randX, -1) && compteCasesVide() > 0) {
-                System.out.println("Colone invalide (pleine) : " + randX);
-                randX = rand.nextInt(maxX - minX + 1) + minX;
-            }
-            System.out.println("Robot à joué en : " + randX);
-        }
+    public boolean isGameEnd(){
+        return (end || compteCasesVide() <= 0);
     }
 
 
+
+
+    // Bonus
     public void playPanier(int x){
         if(x < sizeX && x >= 0 && !end) {
             List<Integer> y = grille.get(x);
@@ -395,16 +414,48 @@ public class PowerMushModel {
     }
 
 
-    public int getScore(){
-        int score = 0;
-        if(end) {
-            System.out.println(score);
-            if(winner == 1)score = (this.sizeChampiWin * this.difficulty)*10 / this.compteCasesVide();
-            if(winner == -1)score = 0;
-            if(winner == 0)score = this.difficulty*2;
+    public void playBoots(int x){
+        if(x < sizeX && x >= 0 && !end) {
+            List<Integer> y = grille.get(x);
+            int indexY = 0;
+            while(y.get(indexY) == 0){
+                indexY++;
+            }
+            y.set(indexY, 0);
+            y.set(indexY+1, 0);
+
+            if(joueurCourant == 1){
+                joueur1boots = false;
+            }
+            if(joueurCourant == 2){
+                joueur2boots = false;
+            }
         }
-        return score;
+
     }
+
+    public boolean ablePanier(){
+        if(joueurCourant == 1){
+            return joueur1panier;
+        }
+        if(joueurCourant == 2){
+            return joueur2panier;
+        }
+        return false;
+    }
+
+
+
+    public boolean ableBoots(){
+        if(joueurCourant == 1){
+            return joueur1boots;
+        }
+        if(joueurCourant == 2){
+            return joueur2boots;
+        }
+        return false;
+    }
+
 
 
 

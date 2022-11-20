@@ -1,7 +1,6 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.PowerMush;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.example.project_champitheque.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -9,25 +8,18 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
@@ -67,6 +59,11 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
     public ImageView panier;
 
     public boolean isPanierActive = false;
+
+    @FXML
+    public ImageView boots;
+
+    public boolean isBootsActive = false;
 
 
 
@@ -109,7 +106,6 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         window.setTitle("Champithèque");
     }
 
-
     public void Help(){
         popuphelp.setVisible(true);
     }
@@ -118,13 +114,11 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         popuphelp.setVisible(false);
     }
 
-
     public void NewGame() {
         model.restartGame(1, joueur1, joueur2);
         setGrilleFX();
         ClosePopUpEnd();
     }
-
 
     public void ShowPopUpEnd(int score){
         popupend.setVisible(true);
@@ -151,9 +145,6 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
         setGrilleFX();
 
-
-
-
         //Set difficulty
         diff1.setScaleX(1.3);
         diff1.setScaleY(1.3);
@@ -164,10 +155,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         this.tabDiff.add(diff2);
         this.tabDiff.add(diff3);
 
-
-
-        //Set difficulty
-
+        //Set adversaire
         robotIcone.setScaleX(1.3);
         robotIcone.setScaleY(1.3);
         playerIcone.setUserData("player");
@@ -183,10 +171,12 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         setCursor();
         updateGrid();
 
-
         //On (ré)active le panier
         isPanierActive = false;
         panier.setOpacity(1);
+
+        isBootsActive = false;
+        boots.setOpacity(1);
 
     }
 
@@ -212,8 +202,15 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
             panier.setScaleY(1);
             if(joueur2 == -1)panier.setOpacity(0.5);
             grid.setCursor(Cursor.DEFAULT);
-        }
-        else {
+        } else if (isBootsActive && model.ableBoots()) {
+            model.playBoots(x);
+            isBootsActive = false;
+            boots.setScaleX(1);
+            boots.setScaleY(1);
+            if(joueur2 == -1)boots.setOpacity(0.5);
+            grid.setCursor(Cursor.DEFAULT);
+
+        } else {
             resultPartie = model.play(x, joueurCourant);
             if(resultPartie == 1){
                 ShowPopUpEnd("RedMush", model.getScore());
@@ -228,13 +225,13 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
                 ShowPopUpEnd("Aucun", model.getScore());
             }
             if(resultPartie != 0){
-                showRowWin(model.getListCooChampiWin());
+                showWin(model.getListCooChampiWin());
             }
         }
         updateGrid();
 
         if(resultPartie != 0){
-            showRowWin(model.getListCooChampiWin());
+            showWin(model.getListCooChampiWin());
         }
 
         joueurCourant = model.getJoueurCourant();
@@ -248,43 +245,6 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         }
     }
 
-    public void setCursor(){
-        if(joueurCourant == 1){
-            Image image = new Image(Application.class.getResourceAsStream("/img/redCursor.png"));
-            grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
-        }
-        if(joueurCourant == -1){
-            grid.setCursor(Cursor.DEFAULT);
-        }
-        if(joueurCourant == 2){
-            Image image = new Image(Application.class.getResourceAsStream("/img/yellowCursor.png"));
-            grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
-        }
-    }
-
-    public void setPlayer(MouseEvent e){
-        ImageView target = (ImageView) e.getTarget();
-        String data = (String) target.getUserData();
-        if(data.equals("player")){
-            joueur2 = 2;
-            for (ImageView img : this.tabIcone) {
-                img.setScaleX(1);
-                img.setScaleY(1);
-            }
-            target.setScaleX(1.3);
-            target.setScaleY(1.3);
-        }
-        if(data.equals("robot")){
-            joueur2 = -1;
-            for (ImageView img : this.tabIcone) {
-                img.setScaleX(1);
-                img.setScaleY(1);
-            }
-            target.setScaleX(1.3);
-            target.setScaleY(1.3);
-        }
-        System.out.println("Changement de joueur"+this.joueur2);
-    }
 
     public void updateGrid(){
 
@@ -328,9 +288,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         }
 
     }
-
-
-    public void showRowWin(List<Integer[]> listeChampis){
+    public void showWin(List<Integer[]> listeChampis){
         System.out.println("On affiche le section gagnante");
         for(Integer[] champi : listeChampis){
             System.out.println(champi[0]+ ", " + champi[1]);
@@ -340,6 +298,45 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
     }
 
 
+
+    //Fonction utilitaires
+    public void setCursor(){
+        if(joueurCourant == 1){
+            Image image = new Image(Application.class.getResourceAsStream("/img/redCursor.png"));
+            grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
+        }
+        if(joueurCourant == -1){
+            grid.setCursor(Cursor.DEFAULT);
+        }
+        if(joueurCourant == 2){
+            Image image = new Image(Application.class.getResourceAsStream("/img/yellowCursor.png"));
+            grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
+        }
+    }
+
+    public void setPlayer(MouseEvent e){
+        ImageView target = (ImageView) e.getTarget();
+        String data = (String) target.getUserData();
+        if(data.equals("player")){
+            joueur2 = 2;
+            for (ImageView img : this.tabIcone) {
+                img.setScaleX(1);
+                img.setScaleY(1);
+            }
+            target.setScaleX(1.3);
+            target.setScaleY(1.3);
+        }
+        if(data.equals("robot")){
+            joueur2 = -1;
+            for (ImageView img : this.tabIcone) {
+                img.setScaleX(1);
+                img.setScaleY(1);
+            }
+            target.setScaleX(1.3);
+            target.setScaleY(1.3);
+        }
+        System.out.println("Changement de joueur"+this.joueur2);
+    }
 
     public void setDifficulty(MouseEvent event){
         ImageView target = (ImageView) event.getTarget();
@@ -356,6 +353,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
     }
 
 
+    //Bonus
     public void usePanier(){
         if(model.ablePanier()) {
             if (isPanierActive) {
@@ -372,6 +370,28 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
             }
             isPanierActive = !isPanierActive;
+            System.out.println("Panier actif");
+        }
+        System.out.println("Panier unable");
+    }
+
+
+    public void useBoots(){
+        if(model.ableBoots()) {
+            if (isBootsActive) {
+                boots.setScaleX(1);
+                boots.setScaleY(1);
+
+                grid.setCursor(Cursor.DEFAULT);
+            } else {
+                boots.setScaleX(1.5);
+                boots.setScaleY(1.5);
+
+                Image image = new Image(Application.class.getResourceAsStream("/img/boots.png"));
+                grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
+
+            }
+            isBootsActive = !isBootsActive;
             System.out.println("Panier actif");
         }
         System.out.println("Panier unable");
