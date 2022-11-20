@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -48,6 +49,7 @@ public class ChoosePlayerController {
 
     public void choosePlayer(int playerId) throws IOException {
         model.setParamPlayer(playerId);
+        System.out.println("Choose : "+playerId);
         goToMenu();
     }
 
@@ -61,42 +63,40 @@ public class ChoosePlayerController {
 
     public void initialize(){
         model = new ChoosePlayerModel();
-        List<String> players = model.getAllData();
+        List<List<String>> players = model.getAllData();
         List<Button> containerPlayerslist = new ArrayList<>();
-        String stringPlayers = "";
-        int compt = 0;
-        for(String i : players){
 
-            compt++;
-            if(compt%3 == 2)stringPlayers+="Niveau :   ";
-            if(compt%3 == 0)stringPlayers+="Points :   ";
-            stringPlayers+=i+"\n";
+        int index = 0;
+        for(List<String> i : players){
 
-            if(compt%3 == 0) {
-                Button container = new Button();
+            String stringPlayers = i.get(0)+"\n"+i.get(1)+"\n"+i.get(2)+"\n";
 
-                container.setPrefWidth(180);
-                container.setPrefHeight(90);
-                container.setCursor(Cursor.HAND);
-                container.setTextAlignment(TextAlignment.CENTER);
-                VBox.setVgrow(container, Priority.ALWAYS);
-                VBox.setMargin(container,new Insets(10,20,0,20));
-                container.setStyle("-fx-background-color : #a25e26; -fx-background-radius : 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-font-size: 16px; -fx-text-fill: white;");
+            Button container = new Button();
 
-                //container.setLayoutY(400*((compt-3)/3));
-                int id = compt/3;
-                container.setUserData(id);
-                container.setOnAction(event -> {
-                    try {
-                        choosePlayer((Integer)container.getUserData());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-                container.textProperty().set(stringPlayers);
-                containerPlayerslist.add(container);
-                stringPlayers = "";
-            }
+            container.setPrefWidth(180);
+            container.setPrefHeight(90);
+            container.setCursor(Cursor.HAND);
+            container.setTextAlignment(TextAlignment.CENTER);
+            VBox.setVgrow(container, Priority.ALWAYS);
+            VBox.setMargin(container,new Insets(10,20,0,20));
+            container.setStyle("-fx-background-color : #a25e26; -fx-background-radius : 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-font-size: 16px; -fx-text-fill: white;");
+
+
+            container.setUserData(index);
+            container.setOnAction(event -> {
+                try {
+                    Node target = (Node)event.getTarget();
+                    int idPlayer = (int)target.getUserData();
+                    System.out.println("Choose : "+idPlayer);
+                    choosePlayer(idPlayer);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            container.textProperty().set(stringPlayers);
+            containerPlayerslist.add(container);
+
+            index++;
         }
         existingAccounts.getChildren().addAll(containerPlayerslist);
     }

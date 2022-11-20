@@ -1,6 +1,7 @@
 package com.example.project_champitheque.MushMiner;
 
 import com.example.project_champitheque.*;
+import com.example.project_champitheque.fileManager.Read;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -17,7 +18,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -28,9 +31,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameController implements Quit, Help, NewGame, PopUpEnd {
+public class GameController implements Quit, Help, NewGame, PopUpEnd, Ranking {
 
-    Game model;
+    GameModel model;
 
     @FXML
     private Button quit;
@@ -49,6 +52,12 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
     @FXML
     private Text lvlEarned;
+
+
+    @FXML
+    private Pane ranking;
+    @FXML
+    private VBox containerRanking;
 
 
     @FXML
@@ -149,7 +158,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
     public void ShowPopUpEnd(int score){
         String scoreTxt = ""+score;
-        String findTxt = ""+model.champiRestantsProperty().get();
+        String findTxt = ""+model.scoreProperty().get();
         finalScore.setText(findTxt);
         lvlEarned.setText(scoreTxt);
         popupend.setVisible(true);
@@ -164,13 +173,32 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
 
     }
 
+    public void ShowRanking(){
+        ranking.setVisible(true);
+        Read reader = new Read();
+        List<List<String>> listRanking = reader.readAllFromFile("MushMinerRanking");
+        //listRanking.sort((elem1, elem2) -> Integer.parseInt(elem1.get(1)) > Integer.parseInt(elem2.get(1)));
+        for(List<String> eachRanking : listRanking){
+            String name = reader.getName(Integer.parseInt(eachRanking.get(0)));
+            Label nodeLine = new Label();
+            nodeLine.setText(name+" : "+eachRanking.get(1)+" points");
+            containerRanking.getChildren().add(nodeLine);
+
+        }
+    }
+
+    public void CloseRanking(){
+        ranking.setVisible(false);
+        containerRanking.getChildren().clear();
+    }
+
 
 
 
     public void initialize(){
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
-        model = new Game(sizeX, sizeY);
+        model = new GameModel(sizeX, sizeY);
 
         champiFind.textProperty().bind(model.scoreProperty().asString());
         restant.textProperty().bind(model.coupsRestantsProperty().asString());
@@ -417,12 +445,13 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd {
             }
             else {
                 revealGrid();
+                ShowPopUpEnd(model.finalScore());
+                System.out.println("On affiche la grille de fin");
             }
 
         }
         else{
             revealGrid();
-            //ShowPopUpEnd(model.finalScore());
             System.out.println("On affiche la grille de fin");
         }
     }

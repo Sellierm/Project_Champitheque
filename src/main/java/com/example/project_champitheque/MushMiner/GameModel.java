@@ -1,12 +1,13 @@
 package com.example.project_champitheque.MushMiner;
 
+import com.example.project_champitheque.fileManager.Write;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class GameModel {
 
 
     private Grille plateau;
@@ -49,7 +50,7 @@ public class Game {
 
     private boolean gameEnd;
 
-    public Game(int sizeX, int sizeY){
+    public GameModel(int sizeX, int sizeY){
         startGame(sizeX, sizeY);
     }
 
@@ -101,6 +102,9 @@ public class Game {
                 if (result == ValueCase.CHAMPI) {
                     score.setValue(score.get() + 1);
                 }
+                if(result == ValueCase.VIDE){
+                    coupsRestants.setValue(coupsRestants.get() - 1);
+                }
 
                 updateValuesGame();
             }
@@ -136,7 +140,6 @@ public class Game {
 
     public void updateValuesGame(){
         coupsJoues++;
-        coupsRestants.setValue(coupsRestants.get() - 1);
         if(coupsRestants.get() < 0)coupsRestants.setValue(0);
         casesChampiTrouves = plateau.getChampiDiscovered();
         champiRestants.setValue(plateau.getChampiToDiscover());
@@ -159,5 +162,14 @@ public class Game {
         else {
             this.coupsRestants.setValue(this.coupsRestants.get() - 5);
         }
+    }
+
+
+    public int finalScore(){
+        //Score calculé en fonction de la difficulté, et des champignons trouvés, + le nombre de tours restants divisé par 2
+        int score =  (int)(this.score.get() * (this.difficulty * (this.difficulty+1)) + (this.coupsRestants.get()/2));
+        Write writer = new Write();
+        writer.writeScore(score, "MushMinerRanking");
+        return score;
     }
 }

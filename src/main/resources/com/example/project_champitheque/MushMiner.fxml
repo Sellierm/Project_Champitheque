@@ -28,7 +28,7 @@
          <left>
             <VBox prefHeight="550.0" prefWidth="173.0" style="-fx-background-color: #5c3a1b;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="81.0" prefWidth="174.0">
                      <children>
                         <VBox prefHeight="100.0" prefWidth="182.0">
                            <children>
@@ -36,7 +36,7 @@
                                  <children>
                                     <Label contentDisplay="CENTER" text="Taille" textAlignment="CENTER" textFill="WHITE">
                                        <font>
-                                          <Font size="31.0" />
+                                          <Font size="27.0" />
                                        </font>
                                     </Label>
                                  </children>
@@ -65,7 +65,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="120.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="95.0" prefWidth="174.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="110.0" prefWidth="174.0">
                            <children>
@@ -74,10 +74,10 @@
                                     <Font size="20.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets bottom="5.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </Label>
-                              <HBox alignment="CENTER" prefHeight="82.0" prefWidth="174.0">
+                              <HBox alignment="CENTER" prefHeight="53.0" prefWidth="174.0">
                                  <children>
                                     <ImageView fx:id="diff1" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#setDifficulty" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -116,7 +116,7 @@
                            </children></VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="51.0" prefWidth="174.0">
+                  <HBox alignment="CENTER" prefHeight="59.0" prefWidth="174.0">
                      <children>
                         <ImageView fx:id="loupe" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#useLoupe" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -243,7 +243,19 @@
                         </Button>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="133.0">
+                     <children>
+                        <Button alignment="CENTER" maxHeight="40.0" mnemonicParsing="false" onAction="#ShowRanking" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #800080; -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 2px;" text="Ranking" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="473.0">
                      <children>
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="MushMineur" textAlignment="CENTER">
                            <font>
@@ -487,6 +499,29 @@
                                  </children></VBox>
                            </children>
                         </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </Pane>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Pane fx:id="ranking" layoutY="50.0" onMouseReleased="#CloseRanking" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.3);" visible="false">
+         <children>
+            <Pane layoutX="304.0" layoutY="17.0" prefHeight="525.0" prefWidth="392.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
+               <children>
+                  <VBox fx:id="containerRanking" alignment="TOP_CENTER" prefHeight="525.0" prefWidth="392.0">
+                     <children>
+                        <Label graphicTextGap="0.0" prefHeight="58.0" prefWidth="203.0" text="Classement" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
                      </children>
                   </VBox>
                </children>

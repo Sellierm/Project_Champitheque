@@ -13,20 +13,19 @@ public class MenuModel {
     private final IntegerProperty level;
     private final StringProperty pseudo;
 
-    /*public MenuModel(Integer ranking, String name) {
-        this.level = new SimpleIntegerProperty(ranking);
-        this.pseudo = new SimpleStringProperty(name);
-    }*/
 
     public MenuModel() {
         //Get all players
-        List<String> allData = new ArrayList<>();
+        List<List<String>> allData = new ArrayList<>();
         try {
             File myObj = new File("src/main/resources/data/players.txt");
-            //File myObj = new File(getClass().getResource("data/players.txt"));
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
-                allData.add(myReader.nextLine());
+                String data = myReader.nextLine();
+                String[] arr = null;
+                arr = data.split(",");
+                List<String> list = Arrays.asList(arr);
+                allData.add(list);
             }
             System.out.println(allData);
             myReader.close();
@@ -41,7 +40,7 @@ public class MenuModel {
             File myObj = new File("src/main/resources/data/param.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
-                id = (Integer.parseInt(myReader.nextLine()) - 1)*3;
+                id = Integer.parseInt(myReader.nextLine());
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -49,8 +48,8 @@ public class MenuModel {
             e.printStackTrace();
         }
 
-        this.level = new SimpleIntegerProperty(Integer.parseInt(allData.get(id+2)));
-        this.pseudo = new SimpleStringProperty(allData.get(id));
+        this.level = new SimpleIntegerProperty(Integer.parseInt(allData.get(id).get(2)));
+        this.pseudo = new SimpleStringProperty(allData.get(id).get(0));
     }
 
 

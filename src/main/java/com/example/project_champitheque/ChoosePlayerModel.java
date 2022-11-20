@@ -9,13 +9,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.io.IOException;
 
 public class ChoosePlayerModel {
 
-    public List<String> allData = new ArrayList<>();
+    public List<List<String>> allData = new ArrayList<>();
 
     // CONSTRUCTEUR
     public ChoosePlayerModel() {
@@ -23,7 +24,11 @@ public class ChoosePlayerModel {
             File myObj = new File("src/main/resources/data/players.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
-                allData.add(myReader.nextLine());
+                String data = myReader.nextLine();
+                String[] arr = null;
+                arr = data.split(",");
+                List<String> list = Arrays.asList(arr);
+                allData.add(list);
             }
             System.out.println(allData);
             myReader.close();
@@ -62,9 +67,7 @@ public class ChoosePlayerModel {
             e.printStackTrace();
         }
 
-        allLines+=newName+"\n";
-        allLines+="0\n";
-        allLines+="0\n";
+        allLines+=newName+",0,0";
 
 
         try {
@@ -77,12 +80,12 @@ public class ChoosePlayerModel {
             e.printStackTrace();
         }
 
-        setParamPlayer(compt/3 +1);
+        setParamPlayer(compt +1);
     }
 
     // GETTERS
 
-    public List<String> getAllData() {
+    public List<List<String>> getAllData() {
         return allData;
     }
 
