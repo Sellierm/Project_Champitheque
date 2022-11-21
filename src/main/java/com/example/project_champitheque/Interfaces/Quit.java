@@ -1,4 +1,4 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.Interfaces;
 
 import java.io.IOException;
 

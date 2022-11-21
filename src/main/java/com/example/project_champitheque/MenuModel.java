@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.*;
 
 public class MenuModel {
-    private final IntegerProperty level;
+    private final IntegerProperty score;
     private final StringProperty pseudo;
 
 
@@ -48,16 +48,16 @@ public class MenuModel {
             e.printStackTrace();
         }
 
-        this.level = new SimpleIntegerProperty(Integer.parseInt(allData.get(id).get(2)));
+        this.score = new SimpleIntegerProperty(Integer.parseInt(allData.get(id).get(1)));
         this.pseudo = new SimpleStringProperty(allData.get(id).get(0));
     }
 
 
-    public int getLevel() {
-        return level.get();
+    public int getScore() {
+        return score.get();
     }
-    public IntegerProperty levelProperty() {
-        return level;
+    public IntegerProperty scoreProperty() {
+        return score;
     }
     public String getPseudo() {
         return pseudo.get();

@@ -169,7 +169,7 @@ public class GameModel {
         //Score calculé en fonction de la difficulté, et des champignons trouvés, + le nombre de tours restants divisé par 2
         int score =  (int)(this.score.get() * (this.difficulty * (this.difficulty+1)) + (this.coupsRestants.get()/2));
         Write writer = new Write();
-        writer.writeScore(score, "MushMinerRanking");
+        writer.writeScore(score, "MushMinerScores");
         return score;
     }
 }

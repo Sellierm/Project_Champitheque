@@ -1,6 +1,11 @@
 package com.example.project_champitheque.PowerMush;
 
 import com.example.project_champitheque.*;
+import com.example.project_champitheque.Interfaces.Help;
+import com.example.project_champitheque.Interfaces.NewGame;
+import com.example.project_champitheque.Interfaces.PopUpEnd;
+import com.example.project_champitheque.Interfaces.Quit;
+import com.example.project_champitheque.fileManager.Read;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -8,12 +13,14 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -46,6 +53,12 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
     @FXML
     private Pane popuphelp;
+
+
+    @FXML
+    private Pane ranking;
+    @FXML
+    private VBox containerRanking;
 
 
 
@@ -135,6 +148,28 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
     }
 
+    public void ShowStats(){
+        ranking.setVisible(true);
+        Read reader = new Read();
+        List<List<String>> listRanking = reader.readAllFromFile("PowerMushScores");
+        System.out.println(listRanking);
+        listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
+        for(int i = 0; i < listRanking.size() && i < 10; i++){
+            List<String> eachRanking = listRanking.get(i);
+            String name = reader.getName(Integer.parseInt(eachRanking.get(0)));
+            Label nodeLine = new Label();
+            nodeLine.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+            nodeLine.setText(name+" : "+eachRanking.get(1)+" points");
+            containerRanking.getChildren().add(nodeLine);
+
+        }
+    }
+
+    public void CloseStats(){
+        ranking.setVisible(false);
+        containerRanking.getChildren().clear();
+    }
+
 
 
 
@@ -213,16 +248,16 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         } else {
             resultPartie = model.play(x, joueurCourant);
             if(resultPartie == 1){
-                ShowPopUpEnd("RedMush", model.getScore());
+                ShowPopUpEnd("RedMush", model.finalScore());
             }
             else if (resultPartie == -1) {
-                ShowPopUpEnd("MushBot", model.getScore());
+                ShowPopUpEnd("MushBot", model.finalScore());
             }
             else if (resultPartie == 2) {
-                ShowPopUpEnd("YellowMush", model.getScore());
+                ShowPopUpEnd("YellowMush", model.finalScore());
             }
             else if (resultPartie == 3){
-                ShowPopUpEnd("Aucun", model.getScore());
+                ShowPopUpEnd("Aucun", model.finalScore());
             }
             if(resultPartie != 0){
                 showWin(model.getListCooChampiWin());

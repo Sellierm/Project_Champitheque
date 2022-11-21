@@ -1,6 +1,7 @@
 package com.example.project_champitheque.PowerMush;
 
 
+import com.example.project_champitheque.fileManager.Write;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -374,15 +375,16 @@ public class PowerMushModel {
     }
 
 
-
-    public int getScore(){
+    public int finalScore(){
         int score = 0;
         if(end) {
             System.out.println(score);
-            if(winner == 1)score = (this.sizeChampiWin * this.difficulty)*10 / this.compteCasesVide();
+            if(winner == 1)score = (this.sizeChampiWin * this.difficulty)*10;
             if(winner == -1)score = 0;
             if(winner == 0)score = this.difficulty*2;
         }
+        Write writer = new Write();
+        writer.writeScore(score, "PowerMushScores");
         return score;
     }
 

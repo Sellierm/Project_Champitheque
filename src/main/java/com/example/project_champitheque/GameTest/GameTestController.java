@@ -1,14 +1,16 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.GameTest;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.example.project_champitheque.*;
+import com.example.project_champitheque.Interfaces.Help;
+import com.example.project_champitheque.Interfaces.NewGame;
+import com.example.project_champitheque.Interfaces.PopUpEnd;
+import com.example.project_champitheque.Interfaces.Quit;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -18,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-public class GameTestController implements Quit, Help, NewGame, PopUpEnd{
+public class GameTestController implements Quit, Help, NewGame, PopUpEnd {
 
     GameTestModel model;
 

@@ -1,6 +1,7 @@
 package com.example.project_champitheque.MushMiner;
 
 import com.example.project_champitheque.*;
+import com.example.project_champitheque.Interfaces.*;
 import com.example.project_champitheque.fileManager.Read;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,7 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameController implements Quit, Help, NewGame, PopUpEnd, Ranking {
+public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame {
 
     GameModel model;
 
@@ -173,21 +173,24 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, Ranking {
 
     }
 
-    public void ShowRanking(){
+    public void ShowStats(){
         ranking.setVisible(true);
         Read reader = new Read();
-        List<List<String>> listRanking = reader.readAllFromFile("MushMinerRanking");
-        //listRanking.sort((elem1, elem2) -> Integer.parseInt(elem1.get(1)) > Integer.parseInt(elem2.get(1)));
-        for(List<String> eachRanking : listRanking){
+        List<List<String>> listRanking = reader.readAllFromFile("MushMinerScores");
+        System.out.println(listRanking);
+        listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
+        for(int i = 0; i < listRanking.size() && i < 10; i++){
+            List<String> eachRanking = listRanking.get(i);
             String name = reader.getName(Integer.parseInt(eachRanking.get(0)));
             Label nodeLine = new Label();
+            nodeLine.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
             nodeLine.setText(name+" : "+eachRanking.get(1)+" points");
             containerRanking.getChildren().add(nodeLine);
 
         }
     }
 
-    public void CloseRanking(){
+    public void CloseStats(){
         ranking.setVisible(false);
         containerRanking.getChildren().clear();
     }

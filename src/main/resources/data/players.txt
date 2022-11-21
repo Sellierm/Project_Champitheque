@@ -1,3 +1,2 @@
-Jean,1,100
-Pierre,2,80
-Math,0,0
+Ben,204,4,
+Hugo,230,1,

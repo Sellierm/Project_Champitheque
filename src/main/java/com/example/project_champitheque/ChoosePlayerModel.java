@@ -1,6 +1,7 @@
 package com.example.project_champitheque;
 
 
+import com.example.project_champitheque.fileManager.Write;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -80,7 +81,12 @@ public class ChoosePlayerModel {
             e.printStackTrace();
         }
 
-        setParamPlayer(compt +1);
+        setParamPlayer(compt);
+
+
+        //Ajout du joueur dans le global ranking
+        /*Write writer = new Write();
+        writer.writeNewLineInFile("0,0", "globalRanking");*/
     }
 
     // GETTERS

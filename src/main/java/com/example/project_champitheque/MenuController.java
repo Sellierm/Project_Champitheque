@@ -1,13 +1,17 @@
 package com.example.project_champitheque;
 
+import com.example.project_champitheque.fileManager.Read;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class MenuController {
@@ -16,7 +20,11 @@ public class MenuController {
     private Text pseudo;
 
     @FXML
-    private Text level;
+    private Text score;
+
+
+    @FXML
+    private VBox containerRanking;
 
 
     @FXML
@@ -64,8 +72,21 @@ public class MenuController {
 
     public void initialize(){
         tmp = new MenuModel();
-        level.textProperty().bind(tmp.levelProperty().asString());
+        score.textProperty().bind(tmp.scoreProperty().asString());
         pseudo.textProperty().bind(tmp.pseudoProperty());
+
+
+        Read reader = new Read();
+        List<List<String>> listRanking = reader.readAllFromFile("players");
+        System.out.println(listRanking);
+        listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
+        for(List<String> eachRanking : listRanking){
+            Label nodeLine = new Label();
+            nodeLine.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+            nodeLine.setText(eachRanking.get(0)+" : "+eachRanking.get(1)+" points");
+            containerRanking.getChildren().add(nodeLine);
+
+        }
     }
 
 }

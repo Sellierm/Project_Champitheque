@@ -1,4 +1,4 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.Interfaces;
 
 public interface PopUpEnd {
     public void ShowPopUpEnd(int score);
