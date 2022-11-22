@@ -64,8 +64,8 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame 
     private Pane popuphelp;
 
 
-
-    public GridPane grid;
+    @FXML
+    private GridPane grid;
 
     @FXML
     private Text champiFind;

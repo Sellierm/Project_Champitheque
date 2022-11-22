@@ -81,7 +81,7 @@
                                  <children>
                                     <ImageView fx:id="diff1" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#setDifficulty" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../img/1.png" />
+                                          <Image url="@../../../img/lvl1.png" />
                                        </image>
                                        <HBox.margin>
                                           <Insets left="5.0" right="5.0" />
@@ -92,7 +92,7 @@
                                     </ImageView>
                                     <ImageView fx:id="diff2" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#setDifficulty" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../img/2.png" />
+                                          <Image url="@../../../img/lvl2.png" />
                                        </image>
                                        <HBox.margin>
                                           <Insets left="5.0" right="5.0" />
@@ -103,7 +103,7 @@
                                     </ImageView>
                                     <ImageView fx:id="diff3" fitHeight="40.0" fitWidth="40.0" onMouseReleased="#setDifficulty" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../img/3.png" />
+                                          <Image url="@../../../img/lvl3.png" />
                                        </image>
                                        <HBox.margin>
                                           <Insets left="5.0" right="5.0" />

@@ -28,20 +28,23 @@ public class MenuController {
 
 
     @FXML
-    private Button changePlayerButton;//boutton pour lancer jeu
+    private Button changePlayerButton;
 
 
     @FXML
-    private Button MushMiner;//boutton pour lancer jeu
+    private Button MushMiner;
 
     @FXML
-    private Button PowerMush;//boutton pour lancer jeu
+    private Button PowerMush;
 
     @FXML
-    private Button GameTest;//boutton pour lancer jeu
+    private Button ChampiMerge;
 
-    public void handleMushMiner() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MushMiner.fxml"));//deuième fichier fxml
+    @FXML
+    private Button GameTest;
+
+    public void handleMushMiner() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MushMiner.fxml"));
         Stage window =(Stage) MushMiner.getScene().getWindow();
         window.setMinWidth(1000);
         window.setMinHeight(650);
@@ -49,23 +52,30 @@ public class MenuController {
         window.setTitle("MushMiner");
     }
 
-    public void handlePowerMush() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("PowerMush.fxml"));//deuième fichier fxml
+    public void handlePowerMush() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("PowerMush.fxml"));
         Stage window =(Stage) PowerMush.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
         window.setTitle("PowerMush");
     }
 
-    public void handleGameTest() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("GameTest.fxml"));//deuième fichier fxml
+    public void handleChampiMerge() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("ChampiMerge.fxml"));
+        Stage window =(Stage) ChampiMerge.getScene().getWindow();
+        window.setScene(new Scene(fxmlLoader.load()));
+        window.setTitle("Game 2048");
+    }
+
+    public void handleGameTest() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("GameTest.fxml"));
         Stage window =(Stage) GameTest.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
-        window.setTitle("PowerMush");
+        window.setTitle("Game Test");
     }
 
 
-    public void changePlayer() throws IOException {//fonction pour changer de jeu, ici du menu de base au menu moche de corentin
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("ChoosePlayer.fxml"));//deuième fichier fxml
+    public void changePlayer() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("ChoosePlayer.fxml"));
         Stage window =(Stage) changePlayerButton.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
     }

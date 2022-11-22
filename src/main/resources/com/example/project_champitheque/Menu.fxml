@@ -174,7 +174,7 @@
                               <Insets bottom="10.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="Coming soon..." textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                        <Button fx:id="ChampiMerge" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleChampiMerge" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="ChampiMerge" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>

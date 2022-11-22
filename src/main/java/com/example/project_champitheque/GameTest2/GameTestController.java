@@ -1,4 +1,4 @@
-package com.example.project_champitheque.GameTest;
+package com.example.project_champitheque.GameTest2;
 
 import com.example.project_champitheque.*;
 import com.example.project_champitheque.Interfaces.Help;

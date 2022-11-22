@@ -1,6 +1,4 @@
-package com.example.project_champitheque.GameTest;
-
-import javafx.beans.property.SimpleIntegerProperty;
+package com.example.project_champitheque.GameTest2;
 
 public class GameTestModel {
 
