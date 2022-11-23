@@ -47,7 +47,7 @@ public class MenuController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MushMiner.fxml"));
         Stage window =(Stage) MushMiner.getScene().getWindow();
         window.setMinWidth(1000);
-        window.setMinHeight(650);
+        window.setMinHeight(600);
         window.setScene(new Scene(fxmlLoader.load()));
         window.setTitle("MushMiner");
     }
