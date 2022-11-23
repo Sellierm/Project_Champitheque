@@ -237,6 +237,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
             panier.setScaleY(1);
             if(joueur2 == -1)panier.setOpacity(0.5);
             grid.setCursor(Cursor.DEFAULT);
+            if(model.isGameEnd())showWin(model.getListCooChampiWin());
         } else if (isBootsActive && model.ableBoots()) {
             model.playBoots(x);
             isBootsActive = false;

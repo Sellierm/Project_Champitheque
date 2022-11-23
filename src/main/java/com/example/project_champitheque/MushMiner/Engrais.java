@@ -24,12 +24,12 @@ public class Engrais {
 
             int min = -2;
             int max = 2;
-            //Boucle de randomise des positions de 2 cases autour de la case principale (différente de la case d'origine) et vide de champignon
+            //Boucle de randomise des positions de 2 cases autour de la case principale (différente de la case d'origine)
             for (int i = 0; i < randNbChampi; i++){
                 int newX = x + rand.nextInt(max - min + 1) + min;
                 int newY = y + rand.nextInt(max - min + 1) + min;
                 if(!plateau.setEngraisCase(ValueCase.CHAMPI, newX, newY)){
-                    //Si la case est hors limite ou a déjà un champignon, il faut reboucler 1 fois de plus
+                    //Si la case est hors limite ou la case a été révélée
                     i--;
                 }
             }

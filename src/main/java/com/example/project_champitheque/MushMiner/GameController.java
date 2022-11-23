@@ -256,14 +256,14 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame 
 
     public void setGrilleFX(){
         grid.getChildren().clear();
-        List<List<CaseLow>> grille = model.getGrilleToDisplay();
+        List<List<CaseToDisplay>> grille = model.getGrilleToDisplay();
         for(int i = 0; i< grille.size(); i++){
             for(int j = 0; j < grille.get(i).size(); j++) {
                 int x = j%grille.get(i).size();
                 int y = i;
                 String txt = x+"-"+y;
 
-                CaseLow caseValue = grille.get(y).get(x);
+                CaseToDisplay caseValue = grille.get(y).get(x);
                 ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
 
 
@@ -365,7 +365,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame 
 
     public void revealGrid(){
         grid.getChildren().clear();
-        List<List<CaseLow>> grille = model.getGrilleEnd();
+        List<List<CaseToDisplay>> grille = model.getGrilleEnd();
         for(int i = 0; i< grille.size(); i++){
             for(int j = 0; j < grille.get(i).size(); j++) {
                 int x = j%grille.get(i).size();
@@ -377,7 +377,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame 
                 txtNode.setTextAlignment(TextAlignment.CENTER);
                 grid.add(txtNode, x, y);
 
-                CaseLow caseValue = grille.get(y).get(x);
+                CaseToDisplay caseValue = grille.get(y).get(x);
                 ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
 
                 if(caseValue.value == ValueCase.VIDE) {

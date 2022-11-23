@@ -116,7 +116,7 @@ public class GameModel {
     }
 
 
-    public List<List<CaseLow>> getGrilleToDisplay(){
+    public List<List<CaseToDisplay>> getGrilleToDisplay(){
         return plateau.showGrille();
     }
 
@@ -147,7 +147,7 @@ public class GameModel {
         System.out.println("Coups joués : "+coupsJoues+", coups restants : "+coupsRestants.get()+ ", coups max : "+ nbCoupsMax +", champi restants : "+champiRestants.get());
     }
 
-    public List<List<CaseLow>> getGrilleEnd(){
+    public List<List<CaseToDisplay>> getGrilleEnd(){
         if(isGameEnd()){
             return plateau.showGrilleEnd();
         }

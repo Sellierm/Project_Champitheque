@@ -141,7 +141,7 @@ public class PowerMushModel {
                     } else {
                         placeItem(x, joueur);
                     }
-                    if (checkWinner(joueurCourant)) {
+                    if (checkWinner(joueurCourant, lastXPlay.get(0), lastYPlay.get(0))) {
                         System.out.println("Quelqu'un a gagné");
                         return joueur;
                     } else if (compteCasesVide() > 0) {
@@ -211,16 +211,14 @@ public class PowerMushModel {
         }
     }
 
-    public boolean checkWinner(int player){
-        System.out.println("Hallo on check si y a un gagnant");
-        boolean win = false;
+    public boolean checkWinner(int player, int x, int y){
+        //Si la victoire est actée, une nouvelle vérification ne doit pas réécrire la variable end
+        boolean win = this.end;
         List<Integer[]> cooLignes = new ArrayList<>();
         int yMax = sizeY - 1;
         int yMin = 0;
         int xMax = sizeX - 1;
         int xMin = 0;
-        int y = lastYPlay.get(0);
-        int x = lastXPlay.get(0);
 
         System.out.println("On vérifie le coup : "+x+", "+y);
 
@@ -355,6 +353,7 @@ public class PowerMushModel {
             }
         }
 
+        if(win)System.out.println("win");
         if(win)winner=player;
         if(win)sizeChampiWin = compteChampi;
         listCooChampiWin = cooLignes;
@@ -401,6 +400,9 @@ public class PowerMushModel {
             List<Integer> y = grille.get(x);
             for(int indexY = sizeY - 1; indexY > 1; indexY--){
                 y.set(indexY, y.get(indexY-2));
+                //Vérification de victoire avec les pions qui tombent
+                System.out.println("Vérification victoire panier en y = "+indexY);
+                checkWinner(joueurCourant, x, indexY);
             }
             y.set(0, 0);
             y.set(1, 0);

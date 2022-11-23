@@ -1,9 +1,5 @@
 package com.example.project_champitheque.MushMiner;
 
-import com.example.project_champitheque.Application;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,30 +140,30 @@ public class Grille {
     protected boolean setEngraisCase(ValueCase nouvelleValeur, int x, int y){
         if(isInGrille(x, y)){
             Case caseToReset = grille.get(y).get(x);
-            caseToReset.resetValue(nouvelleValeur);
-            if(caseToReset.isDiscover()){
-                caseToReset.resetDiscover();
-            }
+            if(!caseToReset.isDiscover()){
+                caseToReset.resetValue(nouvelleValeur);
 
-            compterChampisAutour();
-            return true;
+                compterChampisAutour();
+                return true;
+            }
+            return false;
         }
         return false;
     }
 
-    public List<List<CaseLow>> showGrille(){
-        List<List<CaseLow>> grilleToReturn = new ArrayList<>();
+    public List<List<CaseToDisplay>> showGrille(){
+        List<List<CaseToDisplay>> grilleToReturn = new ArrayList<>();
         for(List<Case> y : grille){
-            List<CaseLow> tmpGrilleToReturn = new ArrayList<>();
+            List<CaseToDisplay> tmpGrilleToReturn = new ArrayList<>();
             for(Case x : y){
                 if(x.isDiscover()){
-                    tmpGrilleToReturn.add(new CaseLow(x.getValue(), x.getLocked(), x.getChampiAutour()));
+                    tmpGrilleToReturn.add(new CaseToDisplay(x.getValue(), x.getLocked(), x.getChampiAutour()));
                 }
                 else if(x.getLocked()) {
-                    tmpGrilleToReturn.add(new CaseLow(x.defaultValue, true, 0));
+                    tmpGrilleToReturn.add(new CaseToDisplay(x.defaultValue, true, 0));
                 }
                 else {
-                    tmpGrilleToReturn.add(new CaseLow(x.defaultValue, false, 0));
+                    tmpGrilleToReturn.add(new CaseToDisplay(x.defaultValue, false, 0));
                 }
             }
             grilleToReturn.add(tmpGrilleToReturn);
@@ -176,14 +172,14 @@ public class Grille {
     }
 
 
-    public List<List<CaseLow>> showGrilleEnd(){
-        List<List<CaseLow>> grilleToReturn = new ArrayList<>();
+    public List<List<CaseToDisplay>> showGrilleEnd(){
+        List<List<CaseToDisplay>> grilleToReturn = new ArrayList<>();
         for(List<Case> y : grille){
-            List<CaseLow> tmpGrilleToReturn = new ArrayList<>();
+            List<CaseToDisplay> tmpGrilleToReturn = new ArrayList<>();
             for(Case x : y){
                 //On découvre tout pour obtenir les valeurs
                 x.setDiscover();
-                tmpGrilleToReturn.add(new CaseLow(x.getValue(), x.getLocked(), x.getChampiAutour()));
+                tmpGrilleToReturn.add(new CaseToDisplay(x.getValue(), x.getLocked(), x.getChampiAutour()));
             }
             grilleToReturn.add(tmpGrilleToReturn);
         }

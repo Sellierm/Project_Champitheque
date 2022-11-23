@@ -1,6 +1,6 @@
 package com.example.project_champitheque.MushMiner;
 
-public class CaseLow {
+public class CaseToDisplay {
 
     public ValueCase value;
 
@@ -8,7 +8,7 @@ public class CaseLow {
 
     public boolean locked;
 
-    public CaseLow(ValueCase valeurCase, boolean locked, int nbChampiAutour){
+    public CaseToDisplay(ValueCase valeurCase, boolean locked, int nbChampiAutour){
         this.value = valeurCase;
         this.locked = locked;
         this.champiAutour = nbChampiAutour;
