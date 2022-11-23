@@ -179,6 +179,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame 
         List<List<String>> listRanking = reader.readAllFromFile("MushMinerScores");
         System.out.println(listRanking);
         listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
+        containerRanking.getChildren().clear();
         for(int i = 0; i < listRanking.size() && i < 10; i++){
             List<String> eachRanking = listRanking.get(i);
             String name = reader.getName(Integer.parseInt(eachRanking.get(0)));

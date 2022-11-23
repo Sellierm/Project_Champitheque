@@ -1,4 +1,4 @@
-package com.example.project_champitheque.PowerMush;
+package com.example.project_champitheque.ChampiMerge;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

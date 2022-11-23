@@ -1,4 +1,4 @@
-package com.example.project_champitheque.MushMiner;
+package com.example.project_champitheque.Poubelle;
 
 
 import javafx.beans.property.IntegerProperty;

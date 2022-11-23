@@ -1,4 +1,4 @@
-package com.example.project_champitheque.PowerMush;
+package com.example.project_champitheque.ChampiMerge;
 
 import com.example.project_champitheque.Application;
 import com.example.project_champitheque.Interfaces.*;

@@ -1,4 +1,4 @@
-package com.example.project_champitheque.PowerMush;
+package com.example.project_champitheque.ChampiMerge;
 
 import java.util.Objects;
 

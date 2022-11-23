@@ -14,4 +14,8 @@ module com.example.project_champitheque {
     opens com.example.project_champitheque.GameTest2 to javafx.fxml;
     exports com.example.project_champitheque.Interfaces;
     opens com.example.project_champitheque.Interfaces to javafx.fxml;
+    exports com.example.project_champitheque.Poubelle;
+    opens com.example.project_champitheque.Poubelle to javafx.fxml;
+    exports com.example.project_champitheque.ChampiMerge;
+    opens com.example.project_champitheque.ChampiMerge to javafx.fxml;
 }
