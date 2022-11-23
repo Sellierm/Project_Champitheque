@@ -35,6 +35,8 @@ public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, Sta
 
     @FXML
     private Pane popupend;
+    @FXML
+    private Text scoreNode;
 
 
     @FXML
@@ -100,6 +102,8 @@ public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, Sta
 
 
     public void ShowPopUpEnd(int score){
+        String scoreTxt = ""+score;
+        scoreNode.setText(scoreTxt);
         popupend.setVisible(true);
 
     }
@@ -115,7 +119,7 @@ public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, Sta
     public void ShowStats(){
         ranking.setVisible(true);
         Read reader = new Read();
-        List<List<String>> listRanking = reader.readAllFromFile("Game2048Scores");
+        List<List<String>> listRanking = reader.readAllFromFile("ChampiMergeScores");
         System.out.println(listRanking);
         listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
         for(int i = 0; i < listRanking.size() && i < 10; i++){
@@ -175,7 +179,7 @@ public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, Sta
 
                 if(caseValue > 2048) {
                     Text txtNode = new Text(String.valueOf(caseValue));
-                    txtNode.setStyle("-fx-font: 35 arial;");
+                    txtNode.setStyle("-fx-font: 28 arial;");
                     txtNode.setFill(Color.WHITE);
                     txtNode.setWrappingWidth(60);
                     txtNode.setTextAlignment(TextAlignment.CENTER);
@@ -211,6 +215,9 @@ public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, Sta
         if(!model.isGameEnd()) {
             model.play(direction);
             setGrilleFX();
+        }
+        else {
+            ShowPopUpEnd(model.getScore());
         }
     }
 

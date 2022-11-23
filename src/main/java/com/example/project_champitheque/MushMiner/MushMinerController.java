@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame {
+public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, StatsGame {
 
-    GameModel model;
+    MushMinerModel model;
 
     @FXML
     private Button quit;
@@ -158,7 +158,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame 
 
     public void ShowPopUpEnd(int score){
         String scoreTxt = ""+score;
-        String findTxt = ""+model.scoreProperty().get();
+        String findTxt = ""+model.scoreChampiProperty().get();
         finalScore.setText(findTxt);
         lvlEarned.setText(scoreTxt);
         popupend.setVisible(true);
@@ -202,9 +202,9 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame 
     public void initialize(){
         int sizeX = Integer.parseInt(inputSizeX.getText());
         int sizeY = Integer.parseInt(inputSizeY.getText());
-        model = new GameModel(sizeX, sizeY);
+        model = new MushMinerModel(sizeX, sizeY);
 
-        champiFind.textProperty().bind(model.scoreProperty().asString());
+        champiFind.textProperty().bind(model.scoreChampiProperty().asString());
         restant.textProperty().bind(model.coupsRestantsProperty().asString());
         champiRestant.textProperty().bind(model.champiRestantsProperty().asString());
 
@@ -449,7 +449,7 @@ public class GameController implements Quit, Help, NewGame, PopUpEnd, StatsGame 
             }
             else {
                 revealGrid();
-                ShowPopUpEnd(model.finalScore());
+                ShowPopUpEnd(model.getScore());
                 System.out.println("On affiche la grille de fin");
             }
 

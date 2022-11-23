@@ -1,19 +1,34 @@
 package com.example.project_champitheque.ChampiMerge;
 
+import com.example.project_champitheque.Interfaces.EndGame;
+import com.example.project_champitheque.fileManager.Write;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.List;
 
-public class ChampiMergeModel {
+public class ChampiMergeModel implements EndGame {
 
     private Grid grille;
 
-    private boolean end;
+    private boolean gameEnd;
+
+    public void setGameEnd(){
+        this.gameEnd = true;
+        Write writer = new Write();
+        writer.writeScore(score.get(), "ChampiMergeScores");
+    }
+    public void resetGameEnd(){
+        this.gameEnd = false;
+        this.score.setValue(0);
+    }
 
     private final IntegerProperty score = new SimpleIntegerProperty();
     public IntegerProperty scoreProperty() {
         return score;
+    }
+    public int getScore() {
+        return score.get();
     }
 
     public ChampiMergeModel(int size){
@@ -27,7 +42,8 @@ public class ChampiMergeModel {
     private void startGame(int size){
 
         grille = new Grid(size);
-        end = false;
+
+        resetGameEnd();
 
     }
 
@@ -37,21 +53,23 @@ public class ChampiMergeModel {
     }
 
     public void play(Direction direction) {
-        if (!end) {
+        if (!gameEnd) {
+            boolean resultCoup = false;
             switch (direction) {
                 case UP:
-                    grille.goUp();
+                    resultCoup = grille.goUp();
                     break;
                 case DOWN:
-                    end = grille.goDown();
+                    resultCoup = grille.goDown();
                     break;
                 case LEFT:
-                    grille.goLeft();
+                    resultCoup = grille.goLeft();
                     break;
                 case RIGHT:
-                    grille.goRight();
+                    resultCoup = grille.goRight();
                     break;
             }
+            if(resultCoup)setGameEnd();
             updateScore();
         }
     }
@@ -61,6 +79,6 @@ public class ChampiMergeModel {
     }
 
     public boolean isGameEnd(){
-        return end;
+        return gameEnd;
     }
 }

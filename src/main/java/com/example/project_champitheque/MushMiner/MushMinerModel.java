@@ -1,5 +1,6 @@
 package com.example.project_champitheque.MushMiner;
 
+import com.example.project_champitheque.Interfaces.EndGame;
 import com.example.project_champitheque.fileManager.Write;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -7,7 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameModel {
+public class MushMinerModel implements EndGame {
 
 
     private Grille plateau;
@@ -21,9 +22,9 @@ public class GameModel {
         return coupsRestants;
     }
 
-    private final IntegerProperty score = new SimpleIntegerProperty();
-    public IntegerProperty scoreProperty() {
-        return score;
+    private final IntegerProperty scoreChampi = new SimpleIntegerProperty();
+    public IntegerProperty scoreChampiProperty() {
+        return scoreChampi;
     }
 
     private int casesChampiTrouves;
@@ -36,6 +37,9 @@ public class GameModel {
     private int coupsJoues;
 
     private int nbCoupsMax;
+
+    private int score;
+    public int getScore(){return this.score;}
 
     private int difficulty = 1;
     public void setDifficulty(int difficulty) {
@@ -50,7 +54,19 @@ public class GameModel {
 
     private boolean gameEnd;
 
-    public GameModel(int sizeX, int sizeY){
+
+    public void setGameEnd(){
+        this.gameEnd = true;
+        this.score = (int)(this.scoreChampi.get() * (this.difficulty * (this.difficulty+1)) + (this.coupsRestants.get()/2));
+        Write writer = new Write();
+        writer.writeScore(score, "MushMinerScores");
+    }
+    public void resetGameEnd(){
+        this.gameEnd = false;
+        this.score = 0;
+    }
+
+    public MushMinerModel(int sizeX, int sizeY){
         startGame(sizeX, sizeY);
     }
 
@@ -80,12 +96,13 @@ public class GameModel {
         coupsJoues = 0;
         nbCoupsMax = sizeX*sizeY;
         casesChampiTrouves = 0;
-        gameEnd = false;
         loupe = new Loupe();
         engrais = new Engrais();
 
-        score.setValue(0);
+        scoreChampi.setValue(0);
         champiRestants.setValue(plateau.getChampiToDiscover());
+
+        resetGameEnd();
     }
 
 
@@ -97,10 +114,10 @@ public class GameModel {
                     coupsRestants.setValue(coupsRestants.get() - 4);
                 }
                 if (result == ValueCase.JACKPOT) {
-                    score.setValue(score.get() + 5);
+                    scoreChampi.setValue(scoreChampi.get() + 5);
                 }
                 if (result == ValueCase.CHAMPI) {
-                    score.setValue(score.get() + 1);
+                    scoreChampi.setValue(scoreChampi.get() + 1);
                 }
                 if(result == ValueCase.VIDE){
                     coupsRestants.setValue(coupsRestants.get() - 1);
@@ -124,6 +141,8 @@ public class GameModel {
         return gameEnd;
     }
 
+
+    //Bonus
     public boolean playLoupe(int x, int y){
         return loupe.useLoupe(plateau, x, y);
     }
@@ -138,12 +157,13 @@ public class GameModel {
         return !engrais.getUsed();
     }
 
+    //Vérification de l'état du jeu
     public void updateValuesGame(){
         coupsJoues++;
         if(coupsRestants.get() < 0)coupsRestants.setValue(0);
         casesChampiTrouves = plateau.getChampiDiscovered();
         champiRestants.setValue(plateau.getChampiToDiscover());
-        if(this.coupsRestants.get() <= 0 || coupsJoues > nbCoupsMax || champiRestants.get() <= 0)gameEnd=true;
+        if(this.coupsRestants.get() <= 0 || coupsJoues > nbCoupsMax || champiRestants.get() <= 0)setGameEnd();
         System.out.println("Coups joués : "+coupsJoues+", coups restants : "+coupsRestants.get()+ ", coups max : "+ nbCoupsMax +", champi restants : "+champiRestants.get());
     }
 
@@ -164,12 +184,4 @@ public class GameModel {
         }
     }
 
-
-    public int finalScore(){
-        //Score calculé en fonction de la difficulté, et des champignons trouvés, + le nombre de tours restants divisé par 2
-        int score =  (int)(this.score.get() * (this.difficulty * (this.difficulty+1)) + (this.coupsRestants.get()/2));
-        Write writer = new Write();
-        writer.writeScore(score, "MushMinerScores");
-        return score;
-    }
 }
