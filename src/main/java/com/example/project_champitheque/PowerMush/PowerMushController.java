@@ -28,42 +28,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
+public class PowerMushController extends GameController {
 
     PowerMushModel model;
 
-    @FXML
-    private Button quit;
-
-    @FXML
-    private Button help;
-
-    @FXML
-    private Button newGame;
-
-    @FXML
-    private Pane popupend;
-
-    @FXML
-    private Text winnerNode;
-
-    @FXML
-    private Text scoreNode;
-
-
-    @FXML
-    private Pane popuphelp;
-
-
-    @FXML
-    private Pane ranking;
-    @FXML
-    private VBox containerRanking;
-
-
 
     public GridPane grid;
-
 
 
 
@@ -81,19 +51,6 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
 
     @FXML
-    private ImageView diff1;
-
-    @FXML
-    private ImageView diff2;
-
-    @FXML
-    private ImageView diff3;
-
-    public List<ImageView> tabDiff = new ArrayList<ImageView>();
-
-
-
-    @FXML
     private ImageView playerIcone;
 
     @FXML
@@ -102,72 +59,45 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
     public List<ImageView> tabIcone = new ArrayList<ImageView>();
 
 
-    public int joueurCourant = 0;
-    public int joueur1 = 1;
-    public int joueur2 = -1;
+    public Joueur joueurCourant = Joueur.AUCUN;
+    public Joueur joueur1 = Joueur.JOUEUR1;
+    public Joueur joueur2 = Joueur.BOT;
 
 
-
-
-    @Override
-    public void Quit() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
-        Stage window =(Stage) quit.getScene().getWindow();
-        window.setMinWidth(1000);
-        window.setMinHeight(600);
-        window.setScene(new Scene(fxmlLoader.load()));
-        window.setTitle("Champithèque");
-    }
-
-    public void Help(){
-        popuphelp.setVisible(true);
-    }
-
-    public void CloseHelp(){
-        popuphelp.setVisible(false);
-    }
 
     public void NewGame() {
-        model.restartGame(1, joueur1, joueur2);
+        model.restartGame(joueur1, joueur2);
         setGrilleFX();
         ClosePopUpEnd();
     }
 
-    public void ShowPopUpEnd(int score){
-        popupend.setVisible(true);
-    }
-    public void ShowPopUpEnd(String winner, int score){
+    public void ShowPopUpEnd(Joueur winner, int score){
         String scoreTxt = ""+score;
-        winnerNode.setText(winner);
-        scoreNode.setText(scoreTxt);
+        String winnerText = "Aucun";
+        if(winner == Joueur.JOUEUR1)winnerText = "RedMush";
+        if(winner == Joueur.JOUEUR2)winnerText = "YellowMush";
+        if(winner == Joueur.BOT)winnerText = "MushBot";
+        scoreNode2.setText(winnerText);
+        scoreNode1.setText(scoreTxt);
         popupend.setVisible(true);
     }
 
-    public void ClosePopUpEnd(){
-        popupend.setVisible(false);
-
+    public String getFileToReadStats(){
+        return "PowerMushScores";
     }
 
-    public void ShowStats(){
-        ranking.setVisible(true);
-        Read reader = new Read();
-        List<List<String>> listRanking = reader.readAllFromFile("PowerMushScores");
-        System.out.println(listRanking);
-        listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
-        for(int i = 0; i < listRanking.size() && i < 10; i++){
-            List<String> eachRanking = listRanking.get(i);
-            String name = reader.getName(Integer.parseInt(eachRanking.get(0)));
-            Label nodeLine = new Label();
-            nodeLine.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
-            nodeLine.setText(name+" : "+eachRanking.get(1)+" points");
-            containerRanking.getChildren().add(nodeLine);
-
+    public void setDifficulty(MouseEvent event){
+        ImageView target = (ImageView) event.getTarget();
+        String data = (String) target.getUserData();
+        int valueData = Integer.parseInt(data);
+        if(model.setDifficulty(valueData)) {
+            for (ImageView img : this.tabDiff) {
+                img.setScaleX(1);
+                img.setScaleY(1);
+            }
+            target.setScaleX(1.3);
+            target.setScaleY(1.3);
         }
-    }
-
-    public void CloseStats(){
-        ranking.setVisible(false);
-        containerRanking.getChildren().clear();
     }
 
 
@@ -180,15 +110,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
         setGrilleFX();
 
-        //Set difficulty
-        diff1.setScaleX(1.3);
-        diff1.setScaleY(1.3);
-        diff1.setUserData("1");
-        diff2.setUserData("2");
-        diff3.setUserData("3");
-        this.tabDiff.add(diff1);
-        this.tabDiff.add(diff2);
-        this.tabDiff.add(diff3);
+        initializeDifficulty();
 
         //Set adversaire
         robotIcone.setScaleX(1.3);
@@ -229,55 +151,49 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
 
     public void play(int x){
-        int resultPartie = 0;
-        if(isPanierActive && model.ablePanier()){
-            model.playPanier(x);
-            isPanierActive = false;
-            panier.setScaleX(1);
-            panier.setScaleY(1);
-            if(joueur2 == -1)panier.setOpacity(0.5);
-            grid.setCursor(Cursor.DEFAULT);
-            if(model.isGameEnd())showWin(model.getListCooChampiWin());
-        } else if (isBootsActive && model.ableBoots()) {
-            model.playBoots(x);
-            isBootsActive = false;
-            boots.setScaleX(1);
-            boots.setScaleY(1);
-            if(joueur2 == -1)boots.setOpacity(0.5);
-            grid.setCursor(Cursor.DEFAULT);
+        if(!model.isGameEnd()) {
+            if (isPanierActive && model.ablePanier()) {
+                model.playPanier(x);
+                isPanierActive = false;
+                panier.setScaleX(1);
+                panier.setScaleY(1);
+                if (joueur2 == Joueur.BOT) panier.setOpacity(0.5);
+                grid.setCursor(Cursor.DEFAULT);
+                if (model.isGameEnd()) {
+                    showWin(model.getListCooChampiWin());
+                    ShowPopUpEnd(model.getWinner(), model.getScore());
+                }
+            } else if (isBootsActive && model.ableBoots()) {
+                model.playBoots(x);
+                isBootsActive = false;
+                boots.setScaleX(1);
+                boots.setScaleY(1);
+                if (joueur2 == Joueur.BOT) boots.setOpacity(0.5);
+                grid.setCursor(Cursor.DEFAULT);
+                if (model.isGameEnd()) {
+                    showWin(model.getListCooChampiWin());
+                    ShowPopUpEnd(model.getWinner(), model.getScore());
+                }
+            } else {
+                model.play(x, joueurCourant);
+            }
 
-        } else {
-            resultPartie = model.play(x, joueurCourant);
-            if(resultPartie == 1){
-                ShowPopUpEnd("RedMush", model.finalScore());
-            }
-            else if (resultPartie == -1) {
-                ShowPopUpEnd("MushBot", model.finalScore());
-            }
-            else if (resultPartie == 2) {
-                ShowPopUpEnd("YellowMush", model.finalScore());
-            }
-            else if (resultPartie == 3){
-                ShowPopUpEnd("Aucun", model.finalScore());
-            }
-            if(resultPartie != 0){
+            joueurCourant = model.getJoueurCourant();
+            setCursor();
+            updateGrid();
+
+            if (model.isGameEnd()) {
                 showWin(model.getListCooChampiWin());
+                ShowPopUpEnd(model.getWinner(), model.getScore());
+            }
+
+            if (joueurCourant == Joueur.BOT && !model.isGameEnd()) {
+                play(0);
             }
         }
-        updateGrid();
-
-        if(resultPartie != 0){
+        else {
+            updateGrid();
             showWin(model.getListCooChampiWin());
-        }
-
-        joueurCourant = model.getJoueurCourant();
-        setCursor();
-
-        if(joueurCourant == -1 && !model.isGameEnd()){
-            System.out.println("Au tour du robot");
-            //CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
-                play(0);
-            //});
         }
     }
 
@@ -285,7 +201,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
     public void updateGrid(){
 
         grid.getChildren().clear();
-        ArrayList<ArrayList> grille = model.getGrille();
+        ArrayList<ArrayList<Joueur>> grille = model.getGrilleToDisplay();
         for(int i = 0; i< grille.size(); i++){
             for(int j = 0; j < grille.get(i).size(); j++) {
                 int x = i;
@@ -296,13 +212,13 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
                 selectedImage.setUserData(txt);
                 grid.add(selectedImage, x, y);
 
-                if((int)grille.get(x).get(y) == 1){
+                if(grille.get(x).get(y) == Joueur.JOUEUR1){
                     ImageView pionImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/testred.png")));
                     pionImage.setUserData(txt);
                     grid.add(pionImage, x, y);
 
                 }
-                if((int)grille.get(x).get(y) == -1 || (int)grille.get(x).get(y) == 2){
+                if(grille.get(x).get(y) == Joueur.BOT || grille.get(x).get(y) == Joueur.JOUEUR2){
                     ImageView pionImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/testyellow.png")));
                     pionImage.setUserData(txt);
                     grid.add(pionImage, x, y);
@@ -317,9 +233,6 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
                     clickedCase(e);
 
                 }
-                /*if(e.getButton() == MouseButton.SECONDARY){
-                    placeBarriere(e);
-                }*/
             });
         }
 
@@ -337,14 +250,14 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
 
     //Fonction utilitaires
     public void setCursor(){
-        if(joueurCourant == 1){
+        if(joueurCourant == Joueur.JOUEUR1){
             Image image = new Image(Application.class.getResourceAsStream("/img/redCursor.png"));
             grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
         }
-        if(joueurCourant == -1){
+        if(joueurCourant == Joueur.BOT){
             grid.setCursor(Cursor.DEFAULT);
         }
-        if(joueurCourant == 2){
+        if(joueurCourant == Joueur.JOUEUR2){
             Image image = new Image(Application.class.getResourceAsStream("/img/yellowCursor.png"));
             grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
         }
@@ -354,7 +267,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
         ImageView target = (ImageView) e.getTarget();
         String data = (String) target.getUserData();
         if(data.equals("player")){
-            joueur2 = 2;
+            joueur2 = Joueur.JOUEUR2;
             for (ImageView img : this.tabIcone) {
                 img.setScaleX(1);
                 img.setScaleY(1);
@@ -363,7 +276,7 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
             target.setScaleY(1.3);
         }
         if(data.equals("robot")){
-            joueur2 = -1;
+            joueur2 = Joueur.BOT;
             for (ImageView img : this.tabIcone) {
                 img.setScaleX(1);
                 img.setScaleY(1);
@@ -372,20 +285,6 @@ public class PowerMushController implements Quit, Help, NewGame, PopUpEnd {
             target.setScaleY(1.3);
         }
         System.out.println("Changement de joueur"+this.joueur2);
-    }
-
-    public void setDifficulty(MouseEvent event){
-        ImageView target = (ImageView) event.getTarget();
-        String data = (String) target.getUserData();
-        int valueData = Integer.parseInt(data);
-        if(model.setDifficulty(valueData)) {
-            for (ImageView img : this.tabDiff) {
-                img.setScaleX(1);
-                img.setScaleY(1);
-            }
-            target.setScaleX(1.3);
-            target.setScaleY(1.3);
-        }
     }
 
 

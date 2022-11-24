@@ -1,8 +1,6 @@
 package com.example.project_champitheque.ChampiMerge;
 
-import java.util.Objects;
-
-public class Box {
+public class BoxChampiMerge {
 
     private int value;
 
@@ -12,7 +10,7 @@ public class Box {
         return String.valueOf(this.value);
     }
 
-    public Box(int value){
+    public BoxChampiMerge(int value){
         this.value = value;
     }
 
@@ -21,6 +19,5 @@ public class Box {
     }
 
     public int getValue(){return this.value;}
-
 
 }

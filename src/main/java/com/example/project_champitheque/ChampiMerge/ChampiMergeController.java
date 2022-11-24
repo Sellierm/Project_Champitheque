@@ -1,7 +1,9 @@
 package com.example.project_champitheque.ChampiMerge;
 
 import com.example.project_champitheque.Application;
+import com.example.project_champitheque.GameController;
 import com.example.project_champitheque.Interfaces.*;
+import com.example.project_champitheque.PowerMush.Joueur;
 import com.example.project_champitheque.fileManager.Read;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,27 +28,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, StatsGame {
+public class ChampiMergeController extends GameController {
 
     ChampiMergeModel model;
-
-    @FXML
-    private Button quit;
-
-    @FXML
-    private Pane popupend;
-    @FXML
-    private Text scoreNode;
-
-
-    @FXML
-    private Pane ranking;
-    @FXML
-    private VBox containerRanking;
-
-
-    @FXML
-    private Pane popuphelp;
 
 
 
@@ -74,24 +58,6 @@ public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, Sta
     public int size;
     List<Button> tabSizeGrid = new ArrayList<>();
 
-    @Override
-    public void Quit() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
-        Stage window =(Stage) quit.getScene().getWindow();
-        window.setMinWidth(1000);
-        window.setMinHeight(600);
-        window.setScene(new Scene(fxmlLoader.load()));
-        window.setTitle("Champithèque");
-    }
-
-
-    public void Help(){
-        popuphelp.setVisible(true);
-    }
-
-    public void CloseHelp(){
-        popuphelp.setVisible(false);
-    }
 
 
     public void NewGame() {
@@ -103,40 +69,18 @@ public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, Sta
 
     public void ShowPopUpEnd(int score){
         String scoreTxt = ""+score;
-        scoreNode.setText(scoreTxt);
+        scoreNode1.setText(scoreTxt);
         popupend.setVisible(true);
 
     }
-    public void ShowPopUpEnd(String winner, int score){
-        popupend.setVisible(true);
+
+    public String getFileToReadStats(){
+        return "ChampiMergeScores";
+    }
+    public void setDifficulty(MouseEvent event){
+
     }
 
-    public void ClosePopUpEnd(){
-        popupend.setVisible(false);
-
-    }
-
-    public void ShowStats(){
-        ranking.setVisible(true);
-        Read reader = new Read();
-        List<List<String>> listRanking = reader.readAllFromFile("ChampiMergeScores");
-        System.out.println(listRanking);
-        listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
-        for(int i = 0; i < listRanking.size() && i < 10; i++){
-            List<String> eachRanking = listRanking.get(i);
-            String name = reader.getName(Integer.parseInt(eachRanking.get(0)));
-            Label nodeLine = new Label();
-            nodeLine.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
-            nodeLine.setText(name+" : "+eachRanking.get(1)+" points");
-            containerRanking.getChildren().add(nodeLine);
-
-        }
-    }
-
-    public void CloseStats(){
-        ranking.setVisible(false);
-        containerRanking.getChildren().clear();
-    }
 
 
 
@@ -145,7 +89,7 @@ public class ChampiMergeController implements Quit, Help, NewGame, PopUpEnd, Sta
 
         model = new ChampiMergeModel(this.size);
 
-        scoreMerge.textProperty().bind(model.scoreProperty().asString());
+        scoreMerge.textProperty().bind(model.scoreMergeProperty().asString());
 
         setGrilleFX();
 

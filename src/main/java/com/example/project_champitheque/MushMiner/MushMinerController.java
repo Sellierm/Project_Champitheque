@@ -1,17 +1,12 @@
 package com.example.project_champitheque.MushMiner;
 
 import com.example.project_champitheque.*;
-import com.example.project_champitheque.Interfaces.*;
-import com.example.project_champitheque.fileManager.Read;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -19,49 +14,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, StatsGame {
+public class MushMinerController extends GameController {
 
     MushMinerModel model;
-
-    @FXML
-    private Button quit;
-
-    @FXML
-    private Button help;
-
-    @FXML
-    private Button newGame;
-
-    @FXML
-    private Pane popupend;
-
-    @FXML
-    private Text finalScore;
-
-    @FXML
-    private Text lvlEarned;
-
-
-    @FXML
-    private Pane ranking;
-    @FXML
-    private VBox containerRanking;
-
-
-    @FXML
-    private Pane popuphelp;
 
 
     @FXML
@@ -84,18 +46,6 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
 
 
 
-    @FXML
-    private ImageView diff1;
-
-    @FXML
-    private ImageView diff2;
-
-    @FXML
-    private ImageView diff3;
-
-    public List<ImageView> tabDiff = new ArrayList<ImageView>();
-
-
 
     @FXML
     public ImageView loupe;
@@ -115,24 +65,6 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
     @FXML
     private Label labelRestants;
 
-    @Override
-    public void Quit() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Menu.fxml"));
-        Stage window =(Stage) quit.getScene().getWindow();
-        window.setMinWidth(1000);
-        window.setMinHeight(600);
-        window.setScene(new Scene(fxmlLoader.load()));
-        window.setTitle("Champithèque");
-    }
-
-
-    public void Help(){
-        popuphelp.setVisible(true);
-    }
-
-    public void CloseHelp(){
-        popuphelp.setVisible(false);
-    }
 
 
     public void NewGame() {
@@ -155,45 +87,29 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
         manure.setOpacity(1);
     }
 
-
     public void ShowPopUpEnd(int score){
         String scoreTxt = ""+score;
         String findTxt = ""+model.scoreChampiProperty().get();
-        finalScore.setText(findTxt);
-        lvlEarned.setText(scoreTxt);
+        scoreNode2.setText(findTxt);
+        scoreNode1.setText(scoreTxt);
         popupend.setVisible(true);
 
     }
-    public void ShowPopUpEnd(String winner, int score){
-        popupend.setVisible(true);
+
+    public String getFileToReadStats(){
+        return "MushMinerScores";
     }
-
-    public void ClosePopUpEnd(){
-        popupend.setVisible(false);
-
-    }
-
-    public void ShowStats(){
-        ranking.setVisible(true);
-        Read reader = new Read();
-        List<List<String>> listRanking = reader.readAllFromFile("MushMinerScores");
-        System.out.println(listRanking);
-        listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
-        containerRanking.getChildren().clear();
-        for(int i = 0; i < listRanking.size() && i < 10; i++){
-            List<String> eachRanking = listRanking.get(i);
-            String name = reader.getName(Integer.parseInt(eachRanking.get(0)));
-            Label nodeLine = new Label();
-            nodeLine.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
-            nodeLine.setText(name+" : "+eachRanking.get(1)+" points");
-            containerRanking.getChildren().add(nodeLine);
-
+    public void setDifficulty(MouseEvent event){
+        ImageView target = (ImageView) event.getTarget();
+        String data = (String) target.getUserData();
+        int valueData = Integer.parseInt(data);
+        for(ImageView img : this.tabDiff){
+            img.setScaleX(1);
+            img.setScaleY(1);
         }
-    }
-
-    public void CloseStats(){
-        ranking.setVisible(false);
-        containerRanking.getChildren().clear();
+        target.setScaleX(1.3);
+        target.setScaleY(1.3);
+        model.setDifficulty(valueData);
     }
 
 
@@ -230,16 +146,7 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
             }
         });
 
-        //Set difficulty
-
-        diff1.setScaleX(1.3);
-        diff1.setScaleY(1.3);
-        diff1.setUserData("1");
-        diff2.setUserData("2");
-        diff3.setUserData("3");
-        this.tabDiff.add(diff1);
-        this.tabDiff.add(diff2);
-        this.tabDiff.add(diff3);
+        initializeDifficulty();
 
 
         //CheatCode pour faire varier le nombre de coups restants
@@ -257,18 +164,18 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
 
     public void setGrilleFX(){
         grid.getChildren().clear();
-        List<List<CaseToDisplay>> grille = model.getGrilleToDisplay();
+        List<List<BoxMushMinerToDisplay>> grille = model.getGrilleToDisplay();
         for(int i = 0; i< grille.size(); i++){
             for(int j = 0; j < grille.get(i).size(); j++) {
                 int x = j%grille.get(i).size();
                 int y = i;
                 String txt = x+"-"+y;
 
-                CaseToDisplay caseValue = grille.get(y).get(x);
+                BoxMushMinerToDisplay caseValue = grille.get(y).get(x);
                 ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
 
 
-                if(caseValue.value == ValueCase.DEFAULT1) {
+                if(caseValue.value == BoxValueMushMiner.DEFAULT1) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
                     selectedImage.setOnMouseReleased(e -> {
                         if(e.getButton() == MouseButton.PRIMARY){
@@ -280,7 +187,7 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
                         }
                     });
                 }
-                if(caseValue.value == ValueCase.DEFAULT2) {
+                if(caseValue.value == BoxValueMushMiner.DEFAULT2) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe2.png")));
                     selectedImage.setOnMouseReleased(e -> {
                         if(e.getButton() == MouseButton.PRIMARY){
@@ -292,7 +199,7 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
                         }
                     });
                 }
-                if(caseValue.value == ValueCase.DEFAULT3) {
+                if(caseValue.value == BoxValueMushMiner.DEFAULT3) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe3.png")));
                     selectedImage.setOnMouseReleased(e -> {
                         if(e.getButton() == MouseButton.PRIMARY){
@@ -304,7 +211,7 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
                         }
                     });
                 }
-                if(caseValue.value == ValueCase.DEFAULT4) {
+                if(caseValue.value == BoxValueMushMiner.DEFAULT4) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe4.png")));
                     selectedImage.setOnMouseReleased(e -> {
                         if(e.getButton() == MouseButton.PRIMARY){
@@ -316,16 +223,16 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
                         }
                     });
                 }
-                if(caseValue.value == ValueCase.VIDE) {
+                if(caseValue.value == BoxValueMushMiner.VIDE) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/feuille.png")));
                 }
-                if(caseValue.value == ValueCase.CHAMPI) {
+                if(caseValue.value == BoxValueMushMiner.CHAMPI) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.png")));
                 }
-                if(caseValue.value == ValueCase.JACKPOT) {
+                if(caseValue.value == BoxValueMushMiner.JACKPOT) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/megaChampi.png")));
                 }
-                if(caseValue.value == ValueCase.BAD) {
+                if(caseValue.value == BoxValueMushMiner.BAD) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/badChampi.png")));
                 }
                 selectedImage.setUserData(txt);
@@ -333,7 +240,7 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
                 grid.add(selectedImage, x, y);
 
 
-                if(caseValue.value == ValueCase.VIDE) {
+                if(caseValue.value == BoxValueMushMiner.VIDE) {
                     Text txtNode = new Text(String.valueOf(caseValue.champiAutour));
                     txtNode.setStyle("-fx-font: 30 arial;");
                     txtNode.setFill(Color.WHITE);
@@ -349,24 +256,12 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
             }
         }
 
-        /*for(Node node : grid.getChildren()){
-            node.setOnMouseReleased(e -> {
-                if(e.getButton() == MouseButton.PRIMARY){
-                    clickedCase(e);
-
-                }
-                if(e.getButton() == MouseButton.SECONDARY){
-                    placeBarriere(e);
-                }
-            });
-        }*/
-
     }
 
 
     public void revealGrid(){
         grid.getChildren().clear();
-        List<List<CaseToDisplay>> grille = model.getGrilleEnd();
+        List<List<BoxMushMinerToDisplay>> grille = model.getGrilleEnd();
         for(int i = 0; i< grille.size(); i++){
             for(int j = 0; j < grille.get(i).size(); j++) {
                 int x = j%grille.get(i).size();
@@ -378,19 +273,19 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
                 txtNode.setTextAlignment(TextAlignment.CENTER);
                 grid.add(txtNode, x, y);
 
-                CaseToDisplay caseValue = grille.get(y).get(x);
+                BoxMushMinerToDisplay caseValue = grille.get(y).get(x);
                 ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/herbe.png")));
 
-                if(caseValue.value == ValueCase.VIDE) {
+                if(caseValue.value == BoxValueMushMiner.VIDE) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/feuille.png")));
                 }
-                if(caseValue.value == ValueCase.CHAMPI) {
+                if(caseValue.value == BoxValueMushMiner.CHAMPI) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/champi.png")));
                 }
-                if(caseValue.value == ValueCase.JACKPOT) {
+                if(caseValue.value == BoxValueMushMiner.JACKPOT) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/megaChampi.png")));
                 }
-                if(caseValue.value == ValueCase.BAD) {
+                if(caseValue.value == BoxValueMushMiner.BAD) {
                     selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/badChampi.png")));
                 }
                 selectedImage.setUserData(txt);
@@ -474,20 +369,6 @@ public class MushMinerController implements Quit, Help, NewGame, PopUpEnd, Stats
         model.lockCase(x, y);
 
         setGrilleFX();
-    }
-
-
-    public void setDifficulty(MouseEvent event){
-        ImageView target = (ImageView) event.getTarget();
-        String data = (String) target.getUserData();
-        int valueData = Integer.parseInt(data);
-        for(ImageView img : this.tabDiff){
-            img.setScaleX(1);
-            img.setScaleY(1);
-        }
-        target.setScaleX(1.3);
-        target.setScaleY(1.3);
-        model.setDifficulty(valueData);
     }
 
 

@@ -12,7 +12,7 @@ public class Engrais {
 
     }
 
-    public boolean useEngrais(Grille plateau, int x, int y){
+    public boolean useEngrais(GrilleMushMiner plateau, int x, int y){
         if(!this.used){
             Random rand = new Random();
 
@@ -28,7 +28,7 @@ public class Engrais {
             for (int i = 0; i < randNbChampi; i++){
                 int newX = x + rand.nextInt(max - min + 1) + min;
                 int newY = y + rand.nextInt(max - min + 1) + min;
-                if(!plateau.setEngraisCase(ValueCase.CHAMPI, newX, newY)){
+                if(!plateau.setEngraisCase(BoxValueMushMiner.CHAMPI, newX, newY)){
                     //Si la case est hors limite ou la case a été révélée
                     i--;
                 }
@@ -36,7 +36,7 @@ public class Engrais {
 
             int xVeneneux = x + rand.nextInt(max - min + 1) + min;
             int yVeneneux = y + rand.nextInt(max - min + 1) + min;
-            while((xVeneneux == x && yVeneneux == y) || !plateau.setEngraisCase(ValueCase.BAD, xVeneneux, yVeneneux)){
+            while((xVeneneux == x && yVeneneux == y) || !plateau.setEngraisCase(BoxValueMushMiner.BAD, xVeneneux, yVeneneux)){
                 System.out.println("Coordonnées invalides : " + xVeneneux + ", " + xVeneneux);
                 xVeneneux = x + rand.nextInt(max - min + 1) + min;
                 yVeneneux = y + rand.nextInt(max - min + 1) + min;
@@ -45,7 +45,7 @@ public class Engrais {
 
             int xJackpot = x + rand.nextInt(max - min + 1) + min;
             int yJackPot = y + rand.nextInt(max - min + 1) + min;
-            while((xJackpot == x && yJackPot == y) || (xJackpot == xVeneneux && yJackPot == yVeneneux) || !plateau.setEngraisCase(ValueCase.JACKPOT, xJackpot, yJackPot)){
+            while((xJackpot == x && yJackPot == y) || (xJackpot == xVeneneux && yJackPot == yVeneneux) || !plateau.setEngraisCase(BoxValueMushMiner.JACKPOT, xJackpot, yJackPot)){
                 System.out.println("Coordonnées invalides : " + xJackpot + ", " + yJackPot);
                 xJackpot = x + rand.nextInt(max - min + 1) + min;
                 yJackPot = y + rand.nextInt(max - min + 1) + min;

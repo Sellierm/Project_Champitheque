@@ -252,7 +252,7 @@
          <children>
             <Pane layoutX="304.0" layoutY="125.0" prefHeight="311.0" prefWidth="392.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
                <children>
-                  <Text fx:id="scoreNode" fill="#0dff00" layoutX="159.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="117.98828124999989">
+                  <Text fx:id="scoreNode1" fill="#0dff00" layoutX="159.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="117.98828124999989">
                      <font>
                         <Font size="40.0" />
                      </font>
@@ -267,6 +267,7 @@
                         <Font size="40.0" />
                      </font>
                   </Label>
+                  <Text fx:id="scoreNode2" layoutX="39.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                </children>
             </Pane>
          </children>

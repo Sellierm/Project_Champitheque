@@ -3,15 +3,15 @@ package com.example.project_champitheque.MushMiner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grille {
+public class GrilleMushMiner {
 
-    private List<List<Case>> grille;
+    private List<List<BoxMushMiner>> grille;
 
     private int sizeX;
     private int sizeY;
 
 
-    public Grille(int sizeX, int sizeY, int difficulty){
+    public GrilleMushMiner(int sizeX, int sizeY, int difficulty){
 
         if(sizeX >= 7 && sizeX <= 18){
             this.sizeX = sizeX;
@@ -46,26 +46,26 @@ public class Grille {
 
 
         for (int y = 0; y < this.sizeY; y++) {
-            ArrayList<Case> tmpX = new ArrayList<Case>();
+            ArrayList<BoxMushMiner> tmpX = new ArrayList<BoxMushMiner>();
             for (int x = 0; x < this.sizeX; x++) {
                 double value = Math.random();
-                Case caseGrille;
-                ValueCase defautValue = ValueCase.DEFAULT1;
+                BoxMushMiner boxMushMinerGrille;
+                BoxValueMushMiner defautValue = BoxValueMushMiner.DEFAULT1;
                 if(Math.random() <= 0.2){
-                    defautValue = ValueCase.DEFAULT2;
+                    defautValue = BoxValueMushMiner.DEFAULT2;
                 } else if (Math.random() <= 0.4) {
-                    defautValue = ValueCase.DEFAULT3;
+                    defautValue = BoxValueMushMiner.DEFAULT3;
                 } else if (Math.random() <= 0.6) {
-                    defautValue = ValueCase.DEFAULT4;
+                    defautValue = BoxValueMushMiner.DEFAULT4;
                 }
 
                 if(value < randDifficulty){
-                    caseGrille = new Case(ValueCase.CHAMPI, defautValue);
+                    boxMushMinerGrille = new BoxMushMiner(BoxValueMushMiner.CHAMPI, defautValue);
                 }
                 else{
-                    caseGrille = new Case(ValueCase.VIDE, defautValue);
+                    boxMushMinerGrille = new BoxMushMiner(BoxValueMushMiner.VIDE, defautValue);
                 }
-                tmpX.add(caseGrille);
+                tmpX.add(boxMushMinerGrille);
             }
             grille.add(tmpX);
         }
@@ -74,18 +74,18 @@ public class Grille {
     }
 
 
-    protected ValueCase revealCase(int x, int y){
+    protected BoxValueMushMiner revealCase(int x, int y){
         if(isInGrille(x, y)){
-            Case caseToReveal = grille.get(y).get(x);
+            BoxMushMiner boxMushMinerToReveal = grille.get(y).get(x);
             //On vérifie que la case n'a pas été révélée pour éviter les clics multiples
-            if(!caseToReveal.isDiscover()){
-                caseToReveal.setDiscover();
-                caseToReveal.setLocked(false);
-                return caseToReveal.getValue();
+            if(!boxMushMinerToReveal.isDiscover()){
+                boxMushMinerToReveal.setDiscover();
+                boxMushMinerToReveal.setLocked(false);
+                return boxMushMinerToReveal.getValue();
             }
-            return ValueCase.VIDE;
+            return BoxValueMushMiner.VIDE;
         }
-        return ValueCase.VIDE;
+        return BoxValueMushMiner.VIDE;
     }
 
     protected boolean isRevealedCase(int x, int y){
@@ -104,8 +104,8 @@ public class Grille {
                 int result = compteOneCase(x - 1, y - 1) + compteOneCase(x, y - 1) + compteOneCase(x + 1, y - 1)
                         + compteOneCase(x - 1, y) + compteOneCase(x + 1, y)
                         + compteOneCase(x - 1, y + 1) + compteOneCase(x, y + 1) + compteOneCase(x + 1, y + 1);
-                Case caseToCalcul = grille.get(y).get(x);
-                caseToCalcul.setChampiAutour(result);
+                BoxMushMiner boxMushMinerToCalcul = grille.get(y).get(x);
+                boxMushMinerToCalcul.setChampiAutour(result);
             }
         }
     }
@@ -113,13 +113,13 @@ public class Grille {
     private int compteOneCase(int x, int y){
         if(isInGrille(x, y)){
             int result = 0;
-            if(grille.get(y).get(x).getValue() == ValueCase.CHAMPI){
+            if(grille.get(y).get(x).getValue() == BoxValueMushMiner.CHAMPI){
                 result = 1;
             }
-            if(grille.get(y).get(x).getValue() == ValueCase.JACKPOT){
+            if(grille.get(y).get(x).getValue() == BoxValueMushMiner.JACKPOT){
                 result = 5;
             }
-            if(grille.get(y).get(x).getValue() == ValueCase.BAD){
+            if(grille.get(y).get(x).getValue() == BoxValueMushMiner.BAD){
                 result = 4;
             }
             return result;
@@ -129,19 +129,19 @@ public class Grille {
 
     protected void lockCase(int x, int y){
         if(isInGrille(x, y)){
-            Case caseToReveal = grille.get(y).get(x);
-            if(!caseToReveal.isDiscover()){
+            BoxMushMiner boxMushMinerToReveal = grille.get(y).get(x);
+            if(!boxMushMinerToReveal.isDiscover()){
                 //On inverse
-                caseToReveal.setLocked(!caseToReveal.getLocked());
+                boxMushMinerToReveal.setLocked(!boxMushMinerToReveal.getLocked());
             }
         }
     }
 
-    protected boolean setEngraisCase(ValueCase nouvelleValeur, int x, int y){
+    protected boolean setEngraisCase(BoxValueMushMiner nouvelleValeur, int x, int y){
         if(isInGrille(x, y)){
-            Case caseToReset = grille.get(y).get(x);
-            if(!caseToReset.isDiscover()){
-                caseToReset.resetValue(nouvelleValeur);
+            BoxMushMiner boxMushMinerToReset = grille.get(y).get(x);
+            if(!boxMushMinerToReset.isDiscover()){
+                boxMushMinerToReset.resetValue(nouvelleValeur);
 
                 compterChampisAutour();
                 return true;
@@ -151,19 +151,19 @@ public class Grille {
         return false;
     }
 
-    public List<List<CaseToDisplay>> showGrille(){
-        List<List<CaseToDisplay>> grilleToReturn = new ArrayList<>();
-        for(List<Case> y : grille){
-            List<CaseToDisplay> tmpGrilleToReturn = new ArrayList<>();
-            for(Case x : y){
+    public List<List<BoxMushMinerToDisplay>> showGrille(){
+        List<List<BoxMushMinerToDisplay>> grilleToReturn = new ArrayList<>();
+        for(List<BoxMushMiner> y : grille){
+            List<BoxMushMinerToDisplay> tmpGrilleToReturn = new ArrayList<>();
+            for(BoxMushMiner x : y){
                 if(x.isDiscover()){
-                    tmpGrilleToReturn.add(new CaseToDisplay(x.getValue(), x.getLocked(), x.getChampiAutour()));
+                    tmpGrilleToReturn.add(new BoxMushMinerToDisplay(x.getValue(), x.getLocked(), x.getChampiAutour()));
                 }
                 else if(x.getLocked()) {
-                    tmpGrilleToReturn.add(new CaseToDisplay(x.defaultValue, true, 0));
+                    tmpGrilleToReturn.add(new BoxMushMinerToDisplay(x.defaultValue, true, 0));
                 }
                 else {
-                    tmpGrilleToReturn.add(new CaseToDisplay(x.defaultValue, false, 0));
+                    tmpGrilleToReturn.add(new BoxMushMinerToDisplay(x.defaultValue, false, 0));
                 }
             }
             grilleToReturn.add(tmpGrilleToReturn);
@@ -172,14 +172,14 @@ public class Grille {
     }
 
 
-    public List<List<CaseToDisplay>> showGrilleEnd(){
-        List<List<CaseToDisplay>> grilleToReturn = new ArrayList<>();
-        for(List<Case> y : grille){
-            List<CaseToDisplay> tmpGrilleToReturn = new ArrayList<>();
-            for(Case x : y){
+    public List<List<BoxMushMinerToDisplay>> showGrilleEnd(){
+        List<List<BoxMushMinerToDisplay>> grilleToReturn = new ArrayList<>();
+        for(List<BoxMushMiner> y : grille){
+            List<BoxMushMinerToDisplay> tmpGrilleToReturn = new ArrayList<>();
+            for(BoxMushMiner x : y){
                 //On découvre tout pour obtenir les valeurs
                 x.setDiscover();
-                tmpGrilleToReturn.add(new CaseToDisplay(x.getValue(), x.getLocked(), x.getChampiAutour()));
+                tmpGrilleToReturn.add(new BoxMushMinerToDisplay(x.getValue(), x.getLocked(), x.getChampiAutour()));
             }
             grilleToReturn.add(tmpGrilleToReturn);
         }
@@ -195,9 +195,9 @@ public class Grille {
 
     protected int getChampiToDiscover(){
         int nbChampi = 0;
-        for(List<Case> y : grille) {
-            for (Case x : y) {
-                if(!x.isDiscover() && x.getValue() == ValueCase.CHAMPI){
+        for(List<BoxMushMiner> y : grille) {
+            for (BoxMushMiner x : y) {
+                if(!x.isDiscover() && x.getValue() == BoxValueMushMiner.CHAMPI){
                     nbChampi++;
                 }
             }
@@ -207,9 +207,9 @@ public class Grille {
 
     protected int getChampiDiscovered(){
         int nbChampi = 0;
-        for(List<Case> y : grille) {
-            for (Case x : y) {
-                if(x.isDiscover() && x.getValue() == ValueCase.CHAMPI){
+        for(List<BoxMushMiner> y : grille) {
+            for (BoxMushMiner x : y) {
+                if(x.isDiscover() && x.getValue() == BoxValueMushMiner.CHAMPI){
                     nbChampi++;
                 }
             }

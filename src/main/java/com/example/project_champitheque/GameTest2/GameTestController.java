@@ -5,6 +5,7 @@ import com.example.project_champitheque.Interfaces.Help;
 import com.example.project_champitheque.Interfaces.NewGame;
 import com.example.project_champitheque.Interfaces.PopUpEnd;
 import com.example.project_champitheque.Interfaces.Quit;
+import com.example.project_champitheque.PowerMush.Joueur;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -83,7 +84,7 @@ public class GameTestController implements Quit, Help, NewGame, PopUpEnd {
         popupend.setVisible(true);
 
     }
-    public void ShowPopUpEnd(String winner, int score){
+    public void ShowPopUpEnd(Joueur winner, int score){
         popupend.setVisible(true);
     }
 

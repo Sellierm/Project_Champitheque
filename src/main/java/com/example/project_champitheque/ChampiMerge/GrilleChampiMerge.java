@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Grid {
+public class GrilleChampiMerge {
 
-    private List<List<Box>> grille;
+    private List<List<BoxChampiMerge>> grille;
 
     private int size;
 
 
-    public Grid(int size){
+    public GrilleChampiMerge(int size){
         if(size >= 4 && size <= 8){
             this.size = size;
         }
@@ -22,10 +22,9 @@ public class Grid {
         this.grille = new ArrayList<>();
 
         for (int y = 0; y < this.size; y++) {
-            List<Box> tmpX = new ArrayList<Box>();
+            List<BoxChampiMerge> tmpX = new ArrayList<BoxChampiMerge>();
             for (int x = 0; x < this.size; x++) {
-                double value = Math.random();
-                tmpX.add(new Box(0));
+                tmpX.add(new BoxChampiMerge(0));
             }
             grille.add(tmpX);
         }
@@ -38,7 +37,7 @@ public class Grid {
 
     public void generateNewNumber(){
         Random rand = new Random();
-        List<Box> emptyCases = getEmptyCases();
+        List<BoxChampiMerge> emptyCases = getEmptyCases();
 
         int minNbNewNumber = 1;
         int maxNbNewNumber = 1 + (int)(emptyCases.size()/2);
@@ -55,8 +54,8 @@ public class Grid {
     }
 
 
-    private List<Box> getEmptyCases(){
-        List<Box> cooVides = new ArrayList<>();
+    private List<BoxChampiMerge> getEmptyCases(){
+        List<BoxChampiMerge> cooVides = new ArrayList<>();
 
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
@@ -73,9 +72,9 @@ public class Grid {
 
     public List<List<Integer>> showGrille(){
         List<List<Integer>> grilleToReturn = new ArrayList<>();
-        for(List<Box> y : grille){
+        for(List<BoxChampiMerge> y : grille){
             List<Integer> tmpGrilleToReturn = new ArrayList<>();
-            for(Box x : y){
+            for(BoxChampiMerge x : y){
                 tmpGrilleToReturn.add(x.getValue());
             }
             grilleToReturn.add(tmpGrilleToReturn);
@@ -93,8 +92,8 @@ public class Grid {
 
     protected int getScore(){
         int total = 0;
-        for(List<Box> y : grille){
-            for(Box x : y){
+        for(List<BoxChampiMerge> y : grille){
+            for(BoxChampiMerge x : y){
                 total+=x.getValue();
             }
         }
@@ -106,11 +105,11 @@ public class Grid {
         putAllDown();
         for(int x = 0; x < size; x++){
             for (int y = size - 1; y > 0; y--){
-                Box oneBox = grille.get(y).get(x);
-                Box prevBox = grille.get(y - 1).get(x);
-                if(oneBox.getValue() == prevBox.getValue()){
-                    prevBox.newValue(0);
-                    oneBox.newValue(oneBox.getValue()*2);
+                BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
+                BoxChampiMerge prevBoxChampiMerge = grille.get(y - 1).get(x);
+                if(oneBoxChampiMerge.getValue() == prevBoxChampiMerge.getValue()){
+                    prevBoxChampiMerge.newValue(0);
+                    oneBoxChampiMerge.newValue(oneBoxChampiMerge.getValue()*2);
                 }
                 putColDown(x);
             }
@@ -126,28 +125,28 @@ public class Grid {
     private void putAllDown(){
         for(int x = 0; x < size; x++){
             for (int y = size - 1; y >= 0; y--){
-                Box oneBox = grille.get(y).get(x);
+                BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
                 int newIndexY = y;
                 while (newIndexY < size - 1 && grille.get(newIndexY + 1).get(x).getValue() == 0){
                     newIndexY ++;
                 }
                 if(newIndexY != y){
-                    grille.get(newIndexY).get(x).newValue(oneBox.getValue());
-                    oneBox.newValue(0);
+                    grille.get(newIndexY).get(x).newValue(oneBoxChampiMerge.getValue());
+                    oneBoxChampiMerge.newValue(0);
                 }
             }
         }
     }
     private void putColDown(int x){
         for (int y = size - 1; y >= 0; y--){
-            Box oneBox = grille.get(y).get(x);
+            BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
             int newIndexY = y;
             while (newIndexY < size - 1 && grille.get(newIndexY + 1).get(x).getValue() == 0){
                 newIndexY ++;
             }
             if(newIndexY != y){
-                grille.get(newIndexY).get(x).newValue(oneBox.getValue());
-                oneBox.newValue(0);
+                grille.get(newIndexY).get(x).newValue(oneBoxChampiMerge.getValue());
+                oneBoxChampiMerge.newValue(0);
             }
         }
     }
@@ -158,11 +157,11 @@ public class Grid {
         putAllUp();
         for(int x = 0; x < size; x++){
             for (int y = 0; y < size-1; y++){
-                Box oneBox = grille.get(y).get(x);
-                Box nextBox = grille.get(y + 1).get(x);
-                if(oneBox.getValue() == nextBox.getValue()){
-                    nextBox.newValue(0);
-                    oneBox.newValue(oneBox.getValue()*2);
+                BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
+                BoxChampiMerge nextBoxChampiMerge = grille.get(y + 1).get(x);
+                if(oneBoxChampiMerge.getValue() == nextBoxChampiMerge.getValue()){
+                    nextBoxChampiMerge.newValue(0);
+                    oneBoxChampiMerge.newValue(oneBoxChampiMerge.getValue()*2);
                 }
                 putColUp(x);
 
@@ -176,28 +175,28 @@ public class Grid {
     private void putAllUp(){
         for(int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
-                Box oneBox = grille.get(y).get(x);
+                BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
                 int newIndexY = y;
                 while (newIndexY > 0 && grille.get(newIndexY - 1).get(x).getValue() == 0){
                     newIndexY --;
                 }
                 if(newIndexY != y){
-                    grille.get(newIndexY).get(x).newValue(oneBox.getValue());
-                    oneBox.newValue(0);
+                    grille.get(newIndexY).get(x).newValue(oneBoxChampiMerge.getValue());
+                    oneBoxChampiMerge.newValue(0);
                 }
             }
         }
     }
     private void putColUp(int x){
         for (int y = 0; y < size; y++){
-            Box oneBox = grille.get(y).get(x);
+            BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
             int newIndexY = y;
             while (newIndexY > 0 && grille.get(newIndexY - 1).get(x).getValue() == 0){
                 newIndexY --;
             }
             if(newIndexY != y){
-                grille.get(newIndexY).get(x).newValue(oneBox.getValue());
-                oneBox.newValue(0);
+                grille.get(newIndexY).get(x).newValue(oneBoxChampiMerge.getValue());
+                oneBoxChampiMerge.newValue(0);
             }
         }
     }
@@ -207,11 +206,11 @@ public class Grid {
         putAllLeft();
         for(int y = 0; y < size; y++){
             for (int x = 0; x < size-1; x++){
-                Box oneBox = grille.get(y).get(x);
-                Box nextBox = grille.get(y).get(x + 1);
-                if(oneBox.getValue() == nextBox.getValue()){
-                    nextBox.newValue(0);
-                    oneBox.newValue(oneBox.getValue()*2);
+                BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
+                BoxChampiMerge nextBoxChampiMerge = grille.get(y).get(x + 1);
+                if(oneBoxChampiMerge.getValue() == nextBoxChampiMerge.getValue()){
+                    nextBoxChampiMerge.newValue(0);
+                    oneBoxChampiMerge.newValue(oneBoxChampiMerge.getValue()*2);
                 }
                 putRowLeft(y);
             }
@@ -224,28 +223,28 @@ public class Grid {
     private void putAllLeft(){
         for(int y = 0; y < size; y++){
             for (int x = 0; x < size; x++){
-                Box oneBox = grille.get(y).get(x);
+                BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
                 int newIndexX = x;
                 while (newIndexX > 0 && grille.get(y).get(newIndexX - 1).getValue() == 0){
                     newIndexX --;
                 }
                 if(newIndexX != x){
-                    grille.get(y).get(newIndexX).newValue(oneBox.getValue());
-                    oneBox.newValue(0);
+                    grille.get(y).get(newIndexX).newValue(oneBoxChampiMerge.getValue());
+                    oneBoxChampiMerge.newValue(0);
                 }
             }
         }
     }
     private void putRowLeft(int y){
         for (int x = 0; x < size; x++){
-            Box oneBox = grille.get(y).get(x);
+            BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
             int newIndexX = x;
             while (newIndexX > 0 && grille.get(y).get(newIndexX - 1).getValue() == 0){
                 newIndexX --;
             }
             if(newIndexX != x){
-                grille.get(y).get(newIndexX).newValue(oneBox.getValue());
-                oneBox.newValue(0);
+                grille.get(y).get(newIndexX).newValue(oneBoxChampiMerge.getValue());
+                oneBoxChampiMerge.newValue(0);
             }
         }
     }
@@ -257,11 +256,11 @@ public class Grid {
         putAllRight();
         for(int y = 0; y < size; y++){
             for (int x = size - 1; x > 0; x--){
-                Box oneBox = grille.get(y).get(x);
-                Box nextBox = grille.get(y).get(x - 1);
-                if(oneBox.getValue() == nextBox.getValue()){
-                    nextBox.newValue(0);
-                    oneBox.newValue(oneBox.getValue()*2);
+                BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
+                BoxChampiMerge nextBoxChampiMerge = grille.get(y).get(x - 1);
+                if(oneBoxChampiMerge.getValue() == nextBoxChampiMerge.getValue()){
+                    nextBoxChampiMerge.newValue(0);
+                    oneBoxChampiMerge.newValue(oneBoxChampiMerge.getValue()*2);
                 }
                 putRowRight(y);
             }
@@ -274,28 +273,28 @@ public class Grid {
     private void putAllRight(){
         for(int y = 0; y < size; y++){
             for (int x = size - 1; x >= 0; x--){
-                Box oneBox = grille.get(y).get(x);
+                BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
                 int newIndexX = x;
                 while (newIndexX < size - 1 && grille.get(y).get(newIndexX + 1).getValue() == 0){
                     newIndexX ++;
                 }
                 if(newIndexX != x){
-                    grille.get(y).get(newIndexX).newValue(oneBox.getValue());
-                    oneBox.newValue(0);
+                    grille.get(y).get(newIndexX).newValue(oneBoxChampiMerge.getValue());
+                    oneBoxChampiMerge.newValue(0);
                 }
             }
         }
     }
     private void putRowRight(int y){
         for (int x = size - 1; x >= 0; x--){
-            Box oneBox = grille.get(y).get(x);
+            BoxChampiMerge oneBoxChampiMerge = grille.get(y).get(x);
             int newIndexX = x;
             while (newIndexX < size - 1 && grille.get(y).get(newIndexX + 1).getValue() == 0){
                 newIndexX ++;
             }
             if(newIndexX != x){
-                grille.get(y).get(newIndexX).newValue(oneBox.getValue());
-                oneBox.newValue(0);
+                grille.get(y).get(newIndexX).newValue(oneBoxChampiMerge.getValue());
+                oneBoxChampiMerge.newValue(0);
             }
         }
     }

@@ -209,7 +209,7 @@
             </HBox>
          </top>
       </BorderPane>
-      <Pane fx:id="popupend" layoutY="50.0" onMouseReleased="#ClosePopUpEnd" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.3);" visible="false">
+      <Pane fx:id="popupend" layoutY="50.0" onMouseReleased="#ClosePopUpEnd" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.3);">
          <children>
             <Pane layoutX="304.0" layoutY="125.0" prefHeight="311.0" prefWidth="392.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
                <children>
@@ -218,12 +218,12 @@
                         <Font size="50.0" />
                      </font>
                   </Label>
-                  <Text fx:id="winnerNode" fill="RED" layoutX="8.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true" wrappingWidth="375.59320068359375">
+                  <Text fx:id="scoreNode2" fill="RED" layoutX="8.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true" wrappingWidth="375.59320068359375">
                      <font>
                         <Font size="50.0" />
                      </font>
                   </Text>
-                  <Text fx:id="scoreNode" fill="#0dff00" layoutX="159.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="117.98828124999989">
+                  <Text fx:id="scoreNode1" fill="#0dff00" layoutX="159.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="117.98828124999989">
                      <font>
                         <Font size="40.0" />
                      </font>

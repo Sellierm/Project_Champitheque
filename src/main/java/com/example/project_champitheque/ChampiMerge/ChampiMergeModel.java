@@ -1,34 +1,26 @@
 package com.example.project_champitheque.ChampiMerge;
 
-import com.example.project_champitheque.Interfaces.EndGame;
-import com.example.project_champitheque.fileManager.Write;
+import com.example.project_champitheque.GameModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.List;
 
-public class ChampiMergeModel implements EndGame {
+public class ChampiMergeModel extends GameModel {
 
-    private Grid grille;
-
-    private boolean gameEnd;
-
-    public void setGameEnd(){
-        this.gameEnd = true;
-        Write writer = new Write();
-        writer.writeScore(score.get(), "ChampiMergeScores");
-    }
-    public void resetGameEnd(){
-        this.gameEnd = false;
-        this.score.setValue(0);
+    public int calculScore(){
+        return getScoreMerge();
     }
 
-    private final IntegerProperty score = new SimpleIntegerProperty();
-    public IntegerProperty scoreProperty() {
-        return score;
+    public String getFileToWriteStats(){
+        return "ChampiMergeScores";
     }
-    public int getScore() {
-        return score.get();
+    private GrilleChampiMerge grille;
+
+    private final IntegerProperty scoreMerge = new SimpleIntegerProperty();
+    public IntegerProperty scoreMergeProperty() { return scoreMerge; }
+    public int getScoreMerge() {
+        return scoreMerge.get();
     }
 
     public ChampiMergeModel(int size){
@@ -41,7 +33,7 @@ public class ChampiMergeModel implements EndGame {
 
     private void startGame(int size){
 
-        grille = new Grid(size);
+        grille = new GrilleChampiMerge(size);
 
         resetGameEnd();
 
@@ -75,10 +67,6 @@ public class ChampiMergeModel implements EndGame {
     }
 
     private void updateScore(){
-        score.setValue(grille.getScore());
-    }
-
-    public boolean isGameEnd(){
-        return gameEnd;
+        scoreMerge.setValue(grille.getScore());
     }
 }

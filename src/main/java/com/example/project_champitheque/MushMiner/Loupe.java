@@ -10,7 +10,7 @@ public class Loupe {
 
     }
 
-    public boolean useLoupe(Grille plateau, int x, int y){
+    public boolean useLoupe(GrilleMushMiner plateau, int x, int y){
         if(!this.used){
             //X e y vérifiés dans la fonction revealCase
             plateau.revealCase(x-1, y-1);

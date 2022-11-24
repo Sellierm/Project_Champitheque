@@ -1,17 +1,22 @@
 package com.example.project_champitheque.MushMiner;
 
-import com.example.project_champitheque.Interfaces.EndGame;
-import com.example.project_champitheque.fileManager.Write;
+import com.example.project_champitheque.GameModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MushMinerModel implements EndGame {
+public class MushMinerModel extends GameModel {
 
+    public int calculScore(){
+        return (int)(this.scoreChampi.get() * (this.difficulty * (this.difficulty+1)) + (this.coupsRestants.get()/2));
+    }
+    public String getFileToWriteStats(){
+        return "MushMinerScores";
+    }
 
-    private Grille plateau;
+    private GrilleMushMiner plateau;
 
     private Loupe loupe;
 
@@ -38,9 +43,6 @@ public class MushMinerModel implements EndGame {
 
     private int nbCoupsMax;
 
-    private int score;
-    public int getScore(){return this.score;}
-
     private int difficulty = 1;
     public void setDifficulty(int difficulty) {
         if(difficulty > 0 || difficulty <= 3){
@@ -50,20 +52,6 @@ public class MushMinerModel implements EndGame {
             this.difficulty = 1;
         }
         System.out.println("Difficulty set to : "+this.difficulty);
-    }
-
-    private boolean gameEnd;
-
-
-    public void setGameEnd(){
-        this.gameEnd = true;
-        this.score = (int)(this.scoreChampi.get() * (this.difficulty * (this.difficulty+1)) + (this.coupsRestants.get()/2));
-        Write writer = new Write();
-        writer.writeScore(score, "MushMinerScores");
-    }
-    public void resetGameEnd(){
-        this.gameEnd = false;
-        this.score = 0;
     }
 
     public MushMinerModel(int sizeX, int sizeY){
@@ -76,7 +64,7 @@ public class MushMinerModel implements EndGame {
 
     private void startGame(int sizeX, int sizeY){
 
-        plateau = new Grille(sizeX, sizeY, this.difficulty);
+        plateau = new GrilleMushMiner(sizeX, sizeY, this.difficulty);
 
 
         switch (this.difficulty){
@@ -109,17 +97,17 @@ public class MushMinerModel implements EndGame {
     public void play(int x, int y){
         if(!gameEnd){
             if(!plateau.isRevealedCase(x, y)) {
-                ValueCase result = plateau.revealCase(x, y);
-                if (result == ValueCase.BAD) {
+                BoxValueMushMiner result = plateau.revealCase(x, y);
+                if (result == BoxValueMushMiner.BAD) {
                     coupsRestants.setValue(coupsRestants.get() - 4);
                 }
-                if (result == ValueCase.JACKPOT) {
+                if (result == BoxValueMushMiner.JACKPOT) {
                     scoreChampi.setValue(scoreChampi.get() + 5);
                 }
-                if (result == ValueCase.CHAMPI) {
+                if (result == BoxValueMushMiner.CHAMPI) {
                     scoreChampi.setValue(scoreChampi.get() + 1);
                 }
-                if(result == ValueCase.VIDE){
+                if(result == BoxValueMushMiner.VIDE){
                     coupsRestants.setValue(coupsRestants.get() - 1);
                 }
 
@@ -133,12 +121,8 @@ public class MushMinerModel implements EndGame {
     }
 
 
-    public List<List<CaseToDisplay>> getGrilleToDisplay(){
+    public List<List<BoxMushMinerToDisplay>> getGrilleToDisplay(){
         return plateau.showGrille();
-    }
-
-    public boolean isGameEnd(){
-        return gameEnd;
     }
 
 
@@ -167,7 +151,7 @@ public class MushMinerModel implements EndGame {
         System.out.println("Coups joués : "+coupsJoues+", coups restants : "+coupsRestants.get()+ ", coups max : "+ nbCoupsMax +", champi restants : "+champiRestants.get());
     }
 
-    public List<List<CaseToDisplay>> getGrilleEnd(){
+    public List<List<BoxMushMinerToDisplay>> getGrilleEnd(){
         if(isGameEnd()){
             return plateau.showGrilleEnd();
         }

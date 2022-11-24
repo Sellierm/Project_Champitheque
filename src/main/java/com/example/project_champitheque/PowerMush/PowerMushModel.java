@@ -1,54 +1,52 @@
 package com.example.project_champitheque.PowerMush;
 
 
-import com.example.project_champitheque.fileManager.Write;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import com.example.project_champitheque.GameModel;
 
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
-public class PowerMushModel {
+public class PowerMushModel extends GameModel {
 
-    private ArrayList<ArrayList> grille = new ArrayList<ArrayList>();
-    public ArrayList<ArrayList> getGrille() {
-        return grille;
+    public int calculScore(){
+        int score = 0;
+        if(gameEnd) {
+            System.out.println(score);
+            if(winner == Joueur.JOUEUR1)score = (this.sizeChampiWin * this.difficulty)*10;
+            if(winner == Joueur.BOT)score = 0;
+            if(winner == Joueur.AUCUN)score = this.difficulty*2;
+        }
+        return score;
     }
 
+    public String getFileToWriteStats(){
+        return "PowerMushScores";
+    }
 
-    private List<Integer> lastYPlay;
+    private GrillePowerMush grille;
 
-    private List<Integer> lastXPlay;
+    private Panier panier;
 
-    private boolean end = false;
+    private Boots boots;
 
 
     private int sizeChampiWin = 0;
 
-    private List<Integer[]> listCooChampiWin;
+    private List<Integer[]> listCooChampiWin = new ArrayList<>();
 
     public List<Integer[]> getListCooChampiWin(){
         return listCooChampiWin;
     }
 
-    private int winner = 0;
+    private Joueur winner = Joueur.AUCUN;
 
 
-    public int getJoueurCourant() {
+    public Joueur getJoueurCourant() {
         return joueurCourant;
     }
-    private int joueurCourant = 0;
-    private int dernierJoueurCourant = 0;
-    private int joueur1 = 0;
-    private int joueur2 = 0;
-
-    private boolean joueur1panier = true;
-
-    private boolean joueur2panier = true;
+    private Joueur joueurCourant = Joueur.AUCUN;
+    private Joueur dernierJoueurCourant = Joueur.AUCUN;
 
 
 
@@ -59,14 +57,11 @@ public class PowerMushModel {
 
     private int nbChampiWin = 6;
 
-    private int sizeX = 11;
-    private int sizeY = 8;
-
     private int difficulty = 1;
 
     public boolean setDifficulty(int difficulty){
         //On change la difficulté si la parti n'a pas commencé
-        if(compteCasesVide() == sizeX * sizeY || end == true) {
+        if(gameEnd) {
             System.out.println("Difficulty set to "+this.difficulty);
             this.difficulty = difficulty;
             return true;
@@ -79,94 +74,92 @@ public class PowerMushModel {
 
 
     //Début de partie
-    public PowerMushModel(int joueur1, int joueur2){
-        lastXPlay = new ArrayList<>();
-        lastYPlay = new ArrayList<>();
-        listCooChampiWin = new ArrayList<>();
-        this.joueur1 = joueur1;
-        this.joueur2 = joueur2;
-        joueurCourant = joueur1;
-        dernierJoueurCourant = joueur2;
-        joueur1panier = true;
-        joueur2panier = true;
-        joueur1boots = true;
-        joueur2boots = true;
-        setGrille();
-        System.out.println(grille);
-
+    public PowerMushModel(Joueur joueur1, Joueur joueur2){
+        startGame(joueur1, joueur2);
     }
 
-    public void restartGame(int difficulty, int joueur1, int joueur2){
-        lastXPlay.clear();
-        lastYPlay.clear();
+    public void restartGame(Joueur joueur1, Joueur joueur2){
+        startGame(joueur1, joueur2);
+    }
+
+
+    private void startGame(Joueur joueur1, Joueur joueur2){
+
         sizeChampiWin = 0;
         listCooChampiWin.clear();
-        this.joueur1 = joueur1;
-        this.joueur2 = joueur2;
         joueurCourant = joueur1;
         dernierJoueurCourant = joueur2;
-        joueur1panier = true;
-        joueur2panier = true;
         joueur1boots = true;
         joueur2boots = true;
-        winner = 0;
-        this.difficulty = difficulty;
-        end = false;
-        setGrille();
+        winner = Joueur.AUCUN;
+
+        panier = new Panier();
+        boots = new Boots();
+        grille = new GrillePowerMush();
+
+        resetGameEnd();
     }
 
-
-    public void setGrille(){
-        //On clear pour les nouveaux appels à la fonction pour ne pas ajouter des cases à celles déjà existantes
-
-        grille.clear();
-        for (int x = 0; x < sizeX; x++) {
-            ArrayList<Integer> tmpY = new ArrayList<Integer>();
-            for (int y = 0; y < sizeY; y++) {
-
-                tmpY.add(0);
-            }
-            grille.add(tmpY);
-        }
-    }
 
 
     //Fonctions de la partie
-    public int play(int x, int joueur){
-        if(x < sizeX && x >= 0) {
-            if (!end && compteCasesVide() > 0) {
-                if(joueur == joueurCourant) {
-                    if (joueur == -1) {
-                        botPlay();
-                    } else {
-                        placeItem(x, joueur);
-                    }
-                    if (checkWinner(joueurCourant, lastXPlay.get(0), lastYPlay.get(0))) {
-                        System.out.println("Quelqu'un a gagné");
-                        return joueur;
-                    } else if (compteCasesVide() > 0) {
-                        int tmpJoueur = joueurCourant;
-                        joueurCourant = dernierJoueurCourant;
-                        dernierJoueurCourant = tmpJoueur;
-                        return 0;
-                    } else {
-                        end = true;
-                        System.out.println("Partie finie sans gagnant");
-                        return 3;
-                    }
-                }else {
-                    System.out.println("Ce n'est pas à vous de jouer");
-                    return 0;
-                }
-            } else {
-                System.out.println("Partie finie");
-                return 0;
+    public void play(int x, Joueur joueur){
+        if(!gameEnd && joueur == joueurCourant) {
+            if (joueur == Joueur.BOT) {
+                botPlay();
             }
-        } else {
-            System.out.println("Colone invalide");
-            return 0;
+            else {
+                grille.placeItem(x, joueur);
+            }
+            boolean verif1 =  checkWinner(joueurCourant, grille.getLastXPlay().get(0), grille.getLastYPlay().get(0));
+            boolean verif2 =  checkGrilleFull();
+            if (verif1 || verif2) {
+                setGameEnd();
+            }
+            else {
+                Joueur tmpJoueur = joueurCourant;
+                joueurCourant = dernierJoueurCourant;
+                dernierJoueurCourant = tmpJoueur;
+            }
         }
+
     }
+
+    public ArrayList<ArrayList<Joueur>> getGrilleToDisplay(){
+        return grille.getGrille();
+    }
+
+    public Joueur getWinner(){return this.winner;}
+
+    //Bonus
+    public boolean playPanier(int x){
+        if(!gameEnd && panier.ablePanier(joueurCourant)) {
+            boolean result = panier.usePanier(x, grille, joueurCourant);
+
+            int y = 0;
+            while(!checkWinner(joueurCourant, x, y) && y < grille.getSizeY() - 1){
+                y++;
+            }
+            if(checkWinner(joueurCourant, x, y))setGameEnd();
+
+            return result;
+        }
+        return false;
+    }
+    public boolean ablePanier(){
+        return panier.ablePanier(joueurCourant);
+    }
+
+    public boolean playBoots(int x){
+        if(!gameEnd && boots.ableBoots(joueurCourant)) {
+            return boots.useBoots(x, grille, joueurCourant);
+        }
+        return false;
+    }
+    public boolean ableBoots(){
+        return boots.ableBoots(joueurCourant);
+    }
+
 
 
     public void botPlay(){
@@ -174,17 +167,16 @@ public class PowerMushModel {
 
         Random rand = new Random();
 
-        if(Math.random() <= 0.4 && lastYPlay.get(0) > 0){
-            placeItem(lastXPlay.get(0), -1);
-            System.out.println("Robot joue au dessus du dernier coup : " + lastXPlay);
+        if(Math.random() <= 0.4 && grille.getLastYPlay().get(0) > 0){
+            grille.placeItem(grille.getLastXPlay().get(0), Joueur.BOT);
         }
         else {
 
             //Random colone à ajouter
             int minX = 0;
-            int maxX = sizeX - 1;
+            int maxX = grille.getSizeX() - 1;
             int randX = rand.nextInt(maxX - minX + 1) + minX;
-            while (!placeItem(randX, -1) && compteCasesVide() > 0) {
+            while (!grille.placeItem(randX, Joueur.BOT) && grille.compteCasesVide() > 0) {
                 System.out.println("Colone invalide (pleine) : " + randX);
                 randX = rand.nextInt(maxX - minX + 1) + minX;
             }
@@ -192,277 +184,160 @@ public class PowerMushModel {
         }
     }
 
+    private boolean checkWinner(Joueur player, int x, int y){
+        if(!gameEnd) {
+            boolean win = false;
+            List<Integer[]> cooLignes = new ArrayList<>();
+            int yMax = grille.getSizeY() - 1;
+            int xMax = grille.getSizeX() - 1;
 
-    public boolean placeItem(int x, int player){
-        List<Integer> y = grille.get(x);
-        int indexY = y.size() - 1;
-        while(indexY >= 0 && y.get(indexY) != 0){
-            indexY--;
-        }
-        if(indexY < 0){
-            System.out.println("Colone pleine");
-            return false;
-        }
-        else{
-            y.set(indexY, player);
-            lastYPlay.add(0, indexY);
-            lastXPlay.add(0, x);
-            return true;
-        }
-    }
-
-    public boolean checkWinner(int player, int x, int y){
-        //Si la victoire est actée, une nouvelle vérification ne doit pas réécrire la variable end
-        boolean win = this.end;
-        List<Integer[]> cooLignes = new ArrayList<>();
-        int yMax = sizeY - 1;
-        int yMin = 0;
-        int xMax = sizeX - 1;
-        int xMin = 0;
-
-        System.out.println("On vérifie le coup : "+x+", "+y);
+            //System.out.println("On vérifie le coup : " + x + ", " + y);
 
 
-        int compteChampi = 0;
-        int tmpX = x;
-        int tmpY = y;
-        cooLignes.clear();
-        cooLignes.add(new Integer[]{tmpX, tmpY});
-
-        //On vérifie vers le bas
-        if(!win){
-            System.out.println("On vérifie vers le bas");
-            compteChampi = 0;
-            while(tmpY <= yMax && (int)grille.get(tmpX).get(tmpY) == player) {
-                System.out.println("On descend en y = " + tmpY + " avec la valeur : " + (int) grille.get(tmpX).get(tmpY));
-                tmpY++;
-                compteChampi++;
-
-                if(tmpY <= yMax)cooLignes.add(new Integer[]{tmpX, tmpY});
-            }
-            if(compteChampi >= nbChampiWin){
-                win = true;
-            }
-        }
-
-        //On vérifie sur les x
-        if(!win){
-            System.out.println("On vérifie horizontalement");
-            compteChampi = 0;
-            tmpX = x;
-            tmpY = y;
+            int compteChampi = 0;
+            int tmpX = x;
+            int tmpY = y;
             cooLignes.clear();
             cooLignes.add(new Integer[]{tmpX, tmpY});
 
-            while(tmpX <= xMax && (int)grille.get(tmpX).get(tmpY) == player){
-                System.out.println("On avance en x = " + tmpX + " avec la valeur : " + (int)grille.get(tmpX).get(tmpY));
-                tmpX++;
-                compteChampi++;
+            //On vérifie vers le bas
+            if (!win) {
+                System.out.println("On vérifie vers le bas");
+                compteChampi = 0;
+                while (tmpY <= yMax && grille.getGrille().get(tmpX).get(tmpY) == player) {
+                    System.out.println("On descend en y = " + tmpY + " avec la valeur : " + grille.getGrille().get(tmpX).get(tmpY));
+                    tmpY++;
+                    compteChampi++;
+
+                    if (tmpY <= yMax) cooLignes.add(new Integer[]{tmpX, tmpY});
+                }
+                if (compteChampi >= nbChampiWin) {
+                    win = true;
+                }
             }
 
-            for(int i = x; i < tmpX; i++){
-                cooLignes.add(new Integer[]{i, y});
+            //On vérifie sur les x
+            if (!win) {
+                System.out.println("On vérifie horizontalement");
+                compteChampi = 0;
+                tmpX = x;
+                tmpY = y;
+                cooLignes.clear();
+                cooLignes.add(new Integer[]{tmpX, tmpY});
+
+                while (tmpX <= xMax && grille.getGrille().get(tmpX).get(tmpY) == player) {
+                    System.out.println("On avance en x = " + tmpX + " avec la valeur : " + grille.getGrille().get(tmpX).get(tmpY));
+                    tmpX++;
+                    compteChampi++;
+                }
+
+                for (int i = x; i < tmpX; i++) {
+                    cooLignes.add(new Integer[]{i, y});
+                }
+
+                tmpX = x;
+                while (tmpX >= 0 && grille.getGrille().get(tmpX).get(tmpY) == player) {
+                    System.out.println("On avance en x = " + tmpX + " avec la valeur : " + grille.getGrille().get(tmpX).get(tmpY));
+                    tmpX--;
+                    compteChampi++;
+                }
+
+                for (int i = x - 1; i > tmpX; i--) {
+                    cooLignes.add(new Integer[]{i, y});
+                }
+                //On enlève 1 pour la case cliqué que l'on compte 2 fois
+                if (compteChampi - 1 >= nbChampiWin) {
+                    win = true;
+                }
             }
 
-            tmpX = x;
-            while(tmpX >= 0 && (int)grille.get(tmpX).get(tmpY) == player){
-                System.out.println("On avance en x = " + tmpX + " avec la valeur : " + (int)grille.get(tmpX).get(tmpY));
-                tmpX--;
-                compteChampi++;
+            //On vérifie en diagonale
+            if (!win) {
+                compteChampi = 0;
+                tmpX = x;
+                tmpY = y;
+                cooLignes.clear();
+                cooLignes.add(new Integer[]{tmpX, tmpY});
+
+                while (tmpX <= xMax && tmpY <= yMax && grille.getGrille().get(tmpX).get(tmpY) == player) {
+                    tmpX++;
+                    tmpY++;
+                    compteChampi++;
+
+                }
+
+                for (int i = x, j = y; i < tmpX && j < tmpY; i++, j++) {
+                    cooLignes.add(new Integer[]{i, j});
+                }
+
+                tmpX = x;
+                tmpY = y;
+                while (tmpX >= 0 && tmpY >= 0 && grille.getGrille().get(tmpX).get(tmpY) == player) {
+                    tmpX--;
+                    tmpY--;
+                    compteChampi++;
+                }
+
+                for (int i = x - 1, j = y - 1; i > tmpX && j > tmpY; i--, j--) {
+                    cooLignes.add(new Integer[]{i, j});
+                }
+
+                //On enlève 1 pour la case cliqué que l'on compte 2 fois
+                if (compteChampi - 1 >= nbChampiWin) {
+                    win = true;
+                }
             }
 
-            for(int i = x - 1; i > tmpX; i--){
-                cooLignes.add(new Integer[]{i, y});
+
+            if (!win) {
+                compteChampi = 0;
+                tmpX = x;
+                tmpY = y;
+                cooLignes.clear();
+                cooLignes.add(new Integer[]{tmpX, tmpY});
+
+                while (tmpX >= 0 && tmpY <= yMax && grille.getGrille().get(tmpX).get(tmpY) == player) {
+                    tmpX--;
+                    tmpY++;
+                    compteChampi++;
+                }
+
+                for (int i = x - 1, j = y; i > tmpX && j < tmpY; i--, j++) {
+                    cooLignes.add(new Integer[]{i, j + 1});
+                }
+
+                tmpX = x;
+                tmpY = y;
+                while (tmpX <= xMax && tmpY >= 0 && grille.getGrille().get(tmpX).get(tmpY) == player) {
+                    tmpX++;
+                    tmpY--;
+                    compteChampi++;
+                }
+
+                for (int i = x, j = y - 1; i < tmpX && j > tmpY; i++, j--) {
+                    cooLignes.add(new Integer[]{i + 1, j});
+                }
+
+                //On enlève 1 pour la case cliqué que l'on compte 2 fois
+                if (compteChampi - 1 >= nbChampiWin) {
+                    win = true;
+                }
             }
-            //On enlève 1 pour la case cliqué que l'on compte 2 fois
-            if(compteChampi - 1 >= nbChampiWin){
-                win = true;
+
+            if (win) {
+                winner = player;
+                sizeChampiWin = compteChampi;
+                listCooChampiWin = cooLignes;
             }
+            return win;
         }
-
-        //On vérifie en diagonale
-        if(!win){
-            compteChampi = 0;
-            tmpX = x;
-            tmpY = y;
-            cooLignes.clear();
-            cooLignes.add(new Integer[]{tmpX, tmpY});
-
-            while(tmpX <= xMax && tmpY <= yMax && (int)grille.get(tmpX).get(tmpY) == player){
-                tmpX++;
-                tmpY++;
-                compteChampi++;
-
-            }
-
-            for(int i = x, j = y; i < tmpX && j < tmpY; i++, j++){
-                cooLignes.add(new Integer[]{i, j});
-            }
-
-            tmpX = x;
-            tmpY = y;
-            while(tmpX >= 0 && tmpY >= 0 && (int)grille.get(tmpX).get(tmpY) == player){
-                tmpX--;
-                tmpY--;
-                compteChampi++;
-            }
-
-            for(int i = x - 1, j = y-1; i > tmpX && j > tmpY; i--, j--){
-                cooLignes.add(new Integer[]{i, j});
-            }
-
-            //On enlève 1 pour la case cliqué que l'on compte 2 fois
-            if(compteChampi - 1 >= nbChampiWin){
-                win = true;
-            }
-        }
-
-
-        if(!win){
-            compteChampi = 0;
-            tmpX = x;
-            tmpY = y;
-            cooLignes.clear();
-            cooLignes.add(new Integer[]{tmpX, tmpY});
-
-            while(tmpX >= 0 && tmpY <= yMax && (int)grille.get(tmpX).get(tmpY) == player){
-                tmpX--;
-                tmpY++;
-                compteChampi++;
-            }
-
-            for(int i = x - 1, j = y; i > tmpX && j < tmpY; i--, j++){
-                cooLignes.add(new Integer[]{i, j+1});
-            }
-
-            tmpX = x;
-            tmpY = y;
-            while(tmpX <= xMax && tmpY >= 0 && (int)grille.get(tmpX).get(tmpY) == player){
-                tmpX++;
-                tmpY--;
-                compteChampi++;
-            }
-
-            for(int i = x, j = y-1; i < tmpX && j > tmpY; i++, j--){
-                cooLignes.add(new Integer[]{i + 1, j});
-            }
-
-            //On enlève 1 pour la case cliqué que l'on compte 2 fois
-            if(compteChampi - 1 >= nbChampiWin){
-                win = true;
-            }
-        }
-
-        if(win)System.out.println("win");
-        if(win)winner=player;
-        if(win)sizeChampiWin = compteChampi;
-        listCooChampiWin = cooLignes;
-        end = win;
-        return win;
+        return gameEnd;
     }
 
-
-    //Fonction utilitaires
-    public int compteCasesVide(){
-        int compt = 0;
-        for(List<Integer> x : grille){
-            for(int y : x){
-                if(y == 0) compt++;
-            }
-        }
-        return compt;
+    private boolean checkGrilleFull(){
+        boolean result = (grille.compteCasesVide() <= 0 && !joueur1boots && !joueur2boots && !panier.isJoueur1panier() && !panier.isJoueur2panier());
+        if(result) winner=Joueur.AUCUN;
+        return result;
     }
-
-
-    public int finalScore(){
-        int score = 0;
-        if(end) {
-            System.out.println(score);
-            if(winner == 1)score = (this.sizeChampiWin * this.difficulty)*10;
-            if(winner == -1)score = 0;
-            if(winner == 0)score = this.difficulty*2;
-        }
-        Write writer = new Write();
-        writer.writeScore(score, "PowerMushScores");
-        return score;
-    }
-
-    public boolean isGameEnd(){
-        return (end || compteCasesVide() <= 0);
-    }
-
-
-
-
-    // Bonus
-    public void playPanier(int x){
-        if(x < sizeX && x >= 0 && !end) {
-            List<Integer> y = grille.get(x);
-            for(int indexY = sizeY - 1; indexY > 1; indexY--){
-                y.set(indexY, y.get(indexY-2));
-                //Vérification de victoire avec les pions qui tombent
-                System.out.println("Vérification victoire panier en y = "+indexY);
-                checkWinner(joueurCourant, x, indexY);
-            }
-            y.set(0, 0);
-            y.set(1, 0);
-
-            if(joueurCourant == 1){
-                joueur1panier = false;
-            }
-            if(joueurCourant == 2){
-                joueur2panier = false;
-            }
-        }
-
-    }
-
-
-    public void playBoots(int x){
-        if(x < sizeX && x >= 0 && !end) {
-            List<Integer> y = grille.get(x);
-            int indexY = 0;
-            while(y.get(indexY) == 0){
-                indexY++;
-            }
-            y.set(indexY, 0);
-            y.set(indexY+1, 0);
-
-            if(joueurCourant == 1){
-                joueur1boots = false;
-            }
-            if(joueurCourant == 2){
-                joueur2boots = false;
-            }
-        }
-
-    }
-
-    public boolean ablePanier(){
-        if(joueurCourant == 1){
-            return joueur1panier;
-        }
-        if(joueurCourant == 2){
-            return joueur2panier;
-        }
-        return false;
-    }
-
-
-
-    public boolean ableBoots(){
-        if(joueurCourant == 1){
-            return joueur1boots;
-        }
-        if(joueurCourant == 2){
-            return joueur2boots;
-        }
-        return false;
-    }
-
-
-
-
-
 
 }

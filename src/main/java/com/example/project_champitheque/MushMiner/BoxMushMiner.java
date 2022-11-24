@@ -1,13 +1,13 @@
 package com.example.project_champitheque.MushMiner;
 
-public class Case {
+public class BoxMushMiner {
 
-    private ValueCase value;
-    protected ValueCase getValue() {
+    private BoxValueMushMiner value;
+    protected BoxValueMushMiner getValue() {
         return value;
     }
 
-    public ValueCase defaultValue;
+    public BoxValueMushMiner defaultValue;
 
     private boolean discover;
     public boolean isDiscover() {
@@ -30,14 +30,14 @@ public class Case {
     protected void setChampiAutour(int value){this.champiAutour = value;}
     protected int getChampiAutour(){return this.champiAutour;}
 
-    public Case(ValueCase valeurCase, ValueCase defaultValue){
+    public BoxMushMiner(BoxValueMushMiner valeurCase, BoxValueMushMiner defaultValue){
         this.value = valeurCase;
         this.defaultValue = defaultValue;
         this.discover = false;
         this.locked = false;
     }
 
-    public void resetValue(ValueCase nouvelleValeur){
+    public void resetValue(BoxValueMushMiner nouvelleValeur){
         this.value = nouvelleValeur;
     }
 
