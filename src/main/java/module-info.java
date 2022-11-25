@@ -6,16 +6,18 @@ module com.example.project_champitheque {
 
     opens com.example.project_champitheque to javafx.fxml;
     exports com.example.project_champitheque;
-    exports com.example.project_champitheque.MushMiner;
-    opens com.example.project_champitheque.MushMiner to javafx.fxml;
-    exports com.example.project_champitheque.PowerMush;
-    opens com.example.project_champitheque.PowerMush to javafx.fxml;
-    exports com.example.project_champitheque.GameTest2;
-    opens com.example.project_champitheque.GameTest2 to javafx.fxml;
+    exports com.example.project_champitheque.Game.MushMiner;
+    opens com.example.project_champitheque.Game.MushMiner to javafx.fxml;
+    exports com.example.project_champitheque.Game.PowerMush;
+    opens com.example.project_champitheque.Game.PowerMush to javafx.fxml;
+    exports com.example.project_champitheque.Game.GameTest2;
+    opens com.example.project_champitheque.Game.GameTest2 to javafx.fxml;
     exports com.example.project_champitheque.Interfaces;
     opens com.example.project_champitheque.Interfaces to javafx.fxml;
     exports com.example.project_champitheque.Poubelle;
     opens com.example.project_champitheque.Poubelle to javafx.fxml;
-    exports com.example.project_champitheque.ChampiMerge;
-    opens com.example.project_champitheque.ChampiMerge to javafx.fxml;
+    exports com.example.project_champitheque.Game.ChampiMerge;
+    opens com.example.project_champitheque.Game.ChampiMerge to javafx.fxml;
+    exports com.example.project_champitheque.Game;
+    opens com.example.project_champitheque.Game to javafx.fxml;
 }

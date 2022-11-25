@@ -1,4 +1,4 @@
-package com.example.project_champitheque.PowerMush;
+package com.example.project_champitheque.Game.PowerMush;
 
 import java.util.List;
 

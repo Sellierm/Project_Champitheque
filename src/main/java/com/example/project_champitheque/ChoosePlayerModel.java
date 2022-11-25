@@ -1,18 +1,12 @@
 package com.example.project_champitheque;
 
 
-import com.example.project_champitheque.fileManager.Write;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import com.example.project_champitheque.FileManager.Read;
+import com.example.project_champitheque.FileManager.Write;
 
-import java.io.File;
 import java.io.FileWriter;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.io.IOException;
 
 public class ChoosePlayerModel {
@@ -21,22 +15,8 @@ public class ChoosePlayerModel {
 
     // CONSTRUCTEUR
     public ChoosePlayerModel() {
-        try {
-            File myObj = new File("src/main/resources/data/players.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                String[] arr = null;
-                arr = data.split(",");
-                List<String> list = Arrays.asList(arr);
-                allData.add(list);
-            }
-            System.out.println(allData);
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+        Read reader = new Read();
+        allData = reader.readAllFromFile("players");
     }
 
     public void setParamPlayer(int playerId) {
@@ -51,42 +31,12 @@ public class ChoosePlayerModel {
         }
     }
 
-    public void setNewPlayer(String newName) {
-        String allLines = "";
-        int compt = 0;
-        try {
-            File myObj = new File("src/main/resources/data/players.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                allLines+=myReader.nextLine()+'\n';
-                compt++;
-            }
-            System.out.println(allLines);
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred to find players list.");
-            e.printStackTrace();
-        }
+    public void setNewPlayer(String newName, String color) {
 
-        allLines+=newName+",0,0";
+        Write writer = new Write();
+        int index = writer.writeNewLineInFile(newName+",0,0,"+color, "players");
+        setParamPlayer(index);
 
-
-        try {
-            FileWriter myWriter = new FileWriter("src/main/resources/data/players.txt");
-            myWriter.write(allLines);
-            myWriter.close();
-            System.out.println("Successfully wrote new player to players file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred to write new player to players file.");
-            e.printStackTrace();
-        }
-
-        setParamPlayer(compt);
-
-
-        //Ajout du joueur dans le global ranking
-        /*Write writer = new Write();
-        writer.writeNewLineInFile("0,0", "globalRanking");*/
     }
 
     // GETTERS

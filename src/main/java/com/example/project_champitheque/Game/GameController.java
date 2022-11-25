@@ -1,11 +1,12 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.Game;
 
+import com.example.project_champitheque.Application;
 import com.example.project_champitheque.Interfaces.Help;
 import com.example.project_champitheque.Interfaces.NewGame;
 import com.example.project_champitheque.Interfaces.PopUpEnd;
 import com.example.project_champitheque.Interfaces.Quit;
-import com.example.project_champitheque.PowerMush.Joueur;
-import com.example.project_champitheque.fileManager.Read;
+import com.example.project_champitheque.Game.PowerMush.Joueur;
+import com.example.project_champitheque.FileManager.Read;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

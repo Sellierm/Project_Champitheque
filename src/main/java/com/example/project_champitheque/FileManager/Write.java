@@ -1,4 +1,4 @@
-package com.example.project_champitheque.fileManager;
+package com.example.project_champitheque.FileManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +18,7 @@ public class Write {
     }
 
 
-    public void writeNewLineInFile(String newLine, String file){
+    public int writeNewLineInFile(String newLine, String file){
         String allLines = "";
         int compt = 0;
         try {
@@ -47,6 +47,9 @@ public class Write {
             System.out.println("An error occurred to write "+newLine+" to "+file+" file.");
             e.printStackTrace();
         }
+
+        //On retourne la l'index de la ligne inserée
+        return compt;
     }
 
     public void reWriteLine(int index, List<String> newLine, String file){

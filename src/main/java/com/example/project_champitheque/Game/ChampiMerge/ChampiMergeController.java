@@ -1,30 +1,20 @@
-package com.example.project_champitheque.ChampiMerge;
+package com.example.project_champitheque.Game.ChampiMerge;
 
 import com.example.project_champitheque.Application;
-import com.example.project_champitheque.GameController;
-import com.example.project_champitheque.Interfaces.*;
-import com.example.project_champitheque.PowerMush.Joueur;
-import com.example.project_champitheque.fileManager.Read;
+import com.example.project_champitheque.Game.GameController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,7 +113,7 @@ public class ChampiMergeController extends GameController {
 
                 if(caseValue > 2048) {
                     Text txtNode = new Text(String.valueOf(caseValue));
-                    txtNode.setStyle("-fx-font: 28 arial;");
+                    txtNode.setStyle("-fx-font: 18 arial;");
                     txtNode.setFill(Color.WHITE);
                     txtNode.setWrappingWidth(60);
                     txtNode.setTextAlignment(TextAlignment.CENTER);
@@ -134,9 +124,6 @@ public class ChampiMergeController extends GameController {
                     paneImage.setUserData(txt);
                     grid.add(paneImage, x, y);
                 }
-
-
-
             }
         }
 

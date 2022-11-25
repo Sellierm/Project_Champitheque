@@ -1,4 +1,4 @@
-package com.example.project_champitheque.MushMiner;
+package com.example.project_champitheque.Game.MushMiner;
 
 public class Loupe {
 

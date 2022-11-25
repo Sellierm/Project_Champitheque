@@ -1,6 +1,6 @@
-package com.example.project_champitheque.MushMiner;
+package com.example.project_champitheque.Game.MushMiner;
 
-import com.example.project_champitheque.GameModel;
+import com.example.project_champitheque.Game.GameModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 

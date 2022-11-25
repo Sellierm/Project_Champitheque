@@ -1,30 +1,17 @@
-package com.example.project_champitheque.PowerMush;
+package com.example.project_champitheque.Game.PowerMush;
 
 import com.example.project_champitheque.*;
-import com.example.project_champitheque.Interfaces.Help;
-import com.example.project_champitheque.Interfaces.NewGame;
-import com.example.project_champitheque.Interfaces.PopUpEnd;
-import com.example.project_champitheque.Interfaces.Quit;
-import com.example.project_champitheque.fileManager.Read;
+import com.example.project_champitheque.Game.GameController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

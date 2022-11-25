@@ -1,6 +1,6 @@
 package com.example.project_champitheque.Interfaces;
 
-import com.example.project_champitheque.PowerMush.Joueur;
+import com.example.project_champitheque.Game.PowerMush.Joueur;
 
 public interface PopUpEnd {
     public void ShowPopUpEnd(int score);

@@ -1,4 +1,4 @@
-package com.example.project_champitheque.ChampiMerge;
+package com.example.project_champitheque.Game.ChampiMerge;
 
 public class BoxChampiMerge {
 

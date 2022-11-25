@@ -5,7 +5,7 @@ import com.example.project_champitheque.Interfaces.Help;
 import com.example.project_champitheque.Interfaces.NewGame;
 import com.example.project_champitheque.Interfaces.PopUpEnd;
 import com.example.project_champitheque.Interfaces.Quit;
-import com.example.project_champitheque.PowerMush.Joueur;
+import com.example.project_champitheque.Game.PowerMush.Joueur;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;

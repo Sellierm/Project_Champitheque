@@ -1,12 +1,11 @@
 package com.example.project_champitheque;
 
+import com.example.project_champitheque.FileManager.Read;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.*;
 
 public class MenuModel {
@@ -16,37 +15,12 @@ public class MenuModel {
 
     public MenuModel() {
         //Get all players
-        List<List<String>> allData = new ArrayList<>();
-        try {
-            File myObj = new File("src/main/resources/data/players.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                String[] arr = null;
-                arr = data.split(",");
-                List<String> list = Arrays.asList(arr);
-                allData.add(list);
-            }
-            System.out.println(allData);
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred to find players list.");
-            e.printStackTrace();
-        }
+        Read reader = new Read();
+        List<List<String>> allData = reader.readAllFromFile("players");
+
 
         //Get actual player
-        int id = 0;
-        try {
-            File myObj = new File("src/main/resources/data/param.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                id = Integer.parseInt(myReader.nextLine());
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred to find actual player id.");
-            e.printStackTrace();
-        }
+        int id = reader.getActualId();
 
         this.score = new SimpleIntegerProperty(Integer.parseInt(allData.get(id).get(1)));
         this.pseudo = new SimpleStringProperty(allData.get(id).get(0));

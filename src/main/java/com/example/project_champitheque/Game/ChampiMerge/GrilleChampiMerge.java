@@ -1,4 +1,4 @@
-package com.example.project_champitheque.ChampiMerge;
+package com.example.project_champitheque.Game.ChampiMerge;
 
 import java.util.ArrayList;
 import java.util.List;

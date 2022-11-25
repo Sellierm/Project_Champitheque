@@ -1,6 +1,6 @@
 package com.example.project_champitheque;
 
-import com.example.project_champitheque.fileManager.Read;
+import com.example.project_champitheque.FileManager.Read;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -92,7 +92,7 @@ public class MenuController {
         listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
         for(List<String> eachRanking : listRanking){
             Label nodeLine = new Label();
-            nodeLine.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+            nodeLine.setStyle("-fx-font-size: 20px; -fx-text-fill: "+eachRanking.get(3)+";");
             nodeLine.setText(eachRanking.get(0)+" : "+eachRanking.get(1)+" points");
             containerRanking.getChildren().add(nodeLine);
 

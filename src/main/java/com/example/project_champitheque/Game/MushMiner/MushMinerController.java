@@ -1,6 +1,7 @@
-package com.example.project_champitheque.MushMiner;
+package com.example.project_champitheque.Game.MushMiner;
 
 import com.example.project_champitheque.*;
+import com.example.project_champitheque.Game.GameController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;

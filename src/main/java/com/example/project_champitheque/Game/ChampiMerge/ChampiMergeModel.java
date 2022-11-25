@@ -1,6 +1,6 @@
-package com.example.project_champitheque.ChampiMerge;
+package com.example.project_champitheque.Game.ChampiMerge;
 
-import com.example.project_champitheque.GameModel;
+import com.example.project_champitheque.Game.GameModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 

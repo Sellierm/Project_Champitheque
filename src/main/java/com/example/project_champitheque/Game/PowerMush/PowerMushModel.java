@@ -1,7 +1,7 @@
-package com.example.project_champitheque.PowerMush;
+package com.example.project_champitheque.Game.PowerMush;
 
 
-import com.example.project_champitheque.GameModel;
+import com.example.project_champitheque.Game.GameModel;
 
 import java.util.ArrayList;
 import java.util.List;

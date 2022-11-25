@@ -1,7 +1,7 @@
-package com.example.project_champitheque;
+package com.example.project_champitheque.Game;
 
 import com.example.project_champitheque.Interfaces.EndGame;
-import com.example.project_champitheque.fileManager.Write;
+import com.example.project_champitheque.FileManager.Write;
 
 public abstract class GameModel implements EndGame {
     protected boolean gameEnd;

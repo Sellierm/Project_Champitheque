@@ -1,4 +1,4 @@
-package com.example.project_champitheque.fileManager;
+package com.example.project_champitheque.FileManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;

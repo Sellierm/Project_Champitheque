@@ -34,6 +34,8 @@ public class ChoosePlayerController {
 
     @FXML
     private TextField newName;   // Zone de texte où est inscrit le nouveau pseudo
+    @FXML
+    private ColorPicker color;
 
     @FXML
     private VBox existingAccounts;
@@ -43,8 +45,11 @@ public class ChoosePlayerController {
 
     public void newPlayer() throws IOException {
         String name = newName.getText();
-        model.setNewPlayer(name);
-        goToMenu();
+        if(name != "" && name != " ") {
+            Color colorValue = color.getValue();
+            model.setNewPlayer(name, toHexString(colorValue));
+            goToMenu();
+        }
     }
 
     public void choosePlayer(int playerId) throws IOException {
@@ -69,7 +74,7 @@ public class ChoosePlayerController {
         int index = 0;
         for(List<String> i : players){
 
-            String stringPlayers = i.get(0)+"\n"+i.get(1)+"\n"+i.get(2)+"\n";
+            String stringPlayers = i.get(0)+"\n Score : "+i.get(1)+" pts";
 
             Button container = new Button();
 
@@ -99,5 +104,14 @@ public class ChoosePlayerController {
             index++;
         }
         existingAccounts.getChildren().addAll(containerPlayerslist);
+    }
+
+
+    private static String toHexString(Color color) {
+        int r = ((int) Math.round(color.getRed()     * 255)) << 24;
+        int g = ((int) Math.round(color.getGreen()   * 255)) << 16;
+        int b = ((int) Math.round(color.getBlue()    * 255)) << 8;
+        int a = ((int) Math.round(color.getOpacity() * 255));
+        return String.format("#%08X", (r + g + b + a));
     }
 }
