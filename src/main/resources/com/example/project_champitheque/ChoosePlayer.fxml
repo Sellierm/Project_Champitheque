@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.ChoosePlayerController">
@@ -76,10 +77,13 @@
                               <Font size="24.0" />
                            </font>
                         </TextField>
-                        <ColorPicker fx:id="color">
+                        <ColorPicker fx:id="color" prefHeight="45.0" prefWidth="200.0" promptText="Choisissez votre couleur" style="-fx-background-radius: 10;">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
+                           <value>
+                              <Color blue="1.0" />
+                           </value>
                         </ColorPicker>
                         <Button fx:id="play" mnemonicParsing="false" onAction="#newPlayer" prefHeight="45.0" prefWidth="146.0" style="-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-background-color: #e84a4a; -fx-background-radius: 100;" text="PLAY" textFill="WHITE">
                            <VBox.margin>
