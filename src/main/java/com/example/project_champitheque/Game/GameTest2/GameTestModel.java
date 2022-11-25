@@ -1,27 +1,27 @@
 package com.example.project_champitheque.Game.GameTest2;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameTestModel {
 
-    public List<Item> getList() {
-        return list;
+    public List<Usine> getList() {
+        return listUsine;
     }
+    private List<Usine> listUsine;
 
-    private List<Item> list;
 
-    private static int sizeX = 10;
-    private static int sizeY = 10;
-    public static int getSizeX() {
-        return sizeX;
-    }
-    public static int getSizeY() {
-        return sizeY;
+    private final IntegerProperty money = new SimpleIntegerProperty();
+    public IntegerProperty moneyProperty() {
+        return money;
     }
 
 
-    private List<List<Integer>> path;
+    private static int maxUsine = 16;
+
 
     public GameTestModel(){
         start();
@@ -32,43 +32,74 @@ public class GameTestModel {
     }
 
     public void start(){
-        path = new ArrayList<>();
-        List<Integer> tmpPath = new ArrayList<>();
-        tmpPath.add(10);
-        tmpPath.add(10);
-        path.add(tmpPath);
 
-        tmpPath = new ArrayList<>();
-        tmpPath.add(9);
-        tmpPath.add(9);
-        path.add(tmpPath);
+        listUsine = new ArrayList<>();
 
-        tmpPath = new ArrayList<>();
-        tmpPath.add(7);
-        tmpPath.add(7);
-        path.add(tmpPath);
+        money.setValue(1100);
 
-        tmpPath = new ArrayList<>();
-        tmpPath.add(6);
-        tmpPath.add(6);
-        path.add(tmpPath);
+        buildUsine(TypeUsine.FORET);
+    }
 
-        tmpPath = new ArrayList<>();
-        tmpPath.add(5);
-        tmpPath.add(5);
-        path.add(tmpPath);
-
-        System.out.println(path);
-
-
-        list = new ArrayList<>();
-        for(int i =0; i < 1; i++){
-            System.out.println("Création item");
-            list.add(new Item("Thread-"+i, this.path));
-
+    public void buildUsine(TypeUsine type){
+        if(listUsine.size() < maxUsine) {
+            switch (type){
+                case FORET:
+                    Usine newforet = new Foret();
+                    if(money.get() >= newforet.getCost()) {
+                        listUsine.add(newforet.startItem());
+                        money.setValue(money.get()-newforet.getCost());
+                    }
+                    break;
+                case CAVE:
+                    Usine newCave = new Cave();
+                    if(money.get() >= newCave.getCost()) {
+                        listUsine.add(newCave.startItem());
+                        money.setValue(money.get()-newCave.getCost());
+                    }
+                    break;
+            }
         }
-        for(Item itemList : list){
-            itemList.start();
+    }
+
+    public void collectAll(){
+        int total = 0;
+        for(Usine eachUsine : listUsine){
+            total+=eachUsine.collect();
+        }
+        money.setValue(money.get()+total);
+    }
+
+    public void click(int index){
+        if(index < maxUsine)listUsine.get(index).increaseManual();
+    }
+
+    public void upgrade(int index){
+        if(index < maxUsine){
+            Usine acutalUsine = listUsine.get(index);
+            if(acutalUsine.getCost() <= money.get()) {
+                money.setValue(money.get() -listUsine.get(index).upgrade());
+            }
+        }
+    }
+
+    public void sell(int index){
+        if(index < maxUsine){
+            listUsine.get(index).sellUsine();
+            listUsine.remove(index);
+        }
+    }
+
+
+    public void cheat(){
+        for(Usine eachUsine : listUsine){
+            eachUsine.increaseManual();
+        }
+    }
+
+
+    public void quit(){
+        for(Usine eachUsine : listUsine){
+            eachUsine.sellUsine();
         }
     }
 }
