@@ -41,7 +41,7 @@ public class MenuController {
     private Button ChampiMerge;
 
     @FXML
-    private Button GameTest;
+    private Button MushIdle;
 
     public void handleMushMiner() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MushMiner.fxml"));
@@ -63,14 +63,14 @@ public class MenuController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("ChampiMerge.fxml"));
         Stage window =(Stage) ChampiMerge.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
-        window.setTitle("Game 2048");
+        window.setTitle("ChampiMerge");
     }
 
-    public void handleGameTest() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("GameTest.fxml"));
-        Stage window =(Stage) GameTest.getScene().getWindow();
+    public void handleMushIdle() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MushIdle.fxml"));
+        Stage window =(Stage) MushIdle.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load()));
-        window.setTitle("Game Test");
+        window.setTitle("MushIdle");
     }
 
 

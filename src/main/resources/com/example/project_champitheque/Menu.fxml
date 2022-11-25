@@ -166,7 +166,7 @@
                               <Insets bottom="10.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button fx:id="GameTest" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGameTest" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="Test" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                        <Button fx:id="MushIdle" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleMushIdle" style="-fx-background-color: #44693D; -fx-background-radius: 15; -fx-border-style: solid; -fx-border-color: white; -fx-border-radius: 15;" text="MushIdle" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
