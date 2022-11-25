@@ -84,7 +84,7 @@ public class ChoosePlayerController {
             container.setTextAlignment(TextAlignment.CENTER);
             VBox.setVgrow(container, Priority.ALWAYS);
             VBox.setMargin(container,new Insets(10,20,0,20));
-            container.setStyle("-fx-background-color : #a25e26; -fx-background-radius : 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-font-size: 16px; -fx-text-fill: white;");
+            container.setStyle("-fx-background-color : #a25e26; -fx-background-radius : 30; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.5), 3.0, 0.0, 0.0, 3.0); -fx-font-size: 16px; -fx-text-fill: "+i.get(3)+";");
 
 
             container.setUserData(index);
