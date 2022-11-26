@@ -1,9 +1,10 @@
-package com.example.project_champitheque.Game.GameTest2;
+package com.example.project_champitheque.Game.MushIdle;
 
 import com.example.project_champitheque.Application;
 import com.example.project_champitheque.Game.GameController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -36,12 +37,14 @@ public class GameTestController extends GameController {
     private Text money;
 
     @FXML
-    private Button foret;
+    private ImageView foret;
     @FXML
-    private Button cave;
+    private ImageView cave;
+    @FXML
+    private ImageView garage;
 
 
-    private List<Button> listBuildButton;
+    private List<ImageView> listBuildButton;
 
     public void NewGame() {
         model.resetGame();
@@ -84,6 +87,9 @@ public class GameTestController extends GameController {
 
         cave.setUserData(TypeUsine.CAVE);
         listBuildButton.add(cave);
+
+        garage.setUserData(TypeUsine.GARAGE);
+        listBuildButton.add(garage);
     }
 
     public void upDateGrid() {
@@ -92,7 +98,12 @@ public class GameTestController extends GameController {
 
         int x = 0, y = 0;
         for (Usine usine : list) {
-            VBox container = new VBox();
+            HBox container = new HBox();
+
+            VBox containerLeft = new VBox();
+
+            VBox containerRight = new VBox();
+            containerRight.alignmentProperty().set(Pos.CENTER);
 
             //Text de nombre de champis de l'usine
 
@@ -102,7 +113,7 @@ public class GameTestController extends GameController {
             txtNode.setFill(Color.WHITE);
             txtNode.setWrappingWidth(80);
             txtNode.setTextAlignment(TextAlignment.CENTER);
-            container.getChildren().add(txtNode);
+            containerLeft.getChildren().add(txtNode);
 
             //Image de l'usine
             ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/"+usine.getImage())));
@@ -112,7 +123,7 @@ public class GameTestController extends GameController {
                 }
             });
             selectedImage.setUserData(x);
-            container.getChildren().add(selectedImage);
+            containerLeft.getChildren().add(selectedImage);
 
             //Infos sur l'usine
             HBox containerInfos = new HBox();
@@ -133,20 +144,19 @@ public class GameTestController extends GameController {
             txtNode3.setTextAlignment(TextAlignment.CENTER);
             containerInfos.getChildren().add(txtNode3);
 
-            container.getChildren().add(containerInfos);
+            containerLeft.getChildren().add(containerInfos);
 
 
             //Actions sur l'usine
-            HBox containerButtons = new HBox();
             //Upgrade
             Button upgrade = new Button();
-            upgrade.textProperty().bind(usine.costProperty().asString());
+            upgrade.textProperty().bind(usine.upagradeCostProperty().asString());
             upgrade.setStyle("-fx-background-color : #00ff00; -fx-background-radius : 30; -fx-font: 14 arial; -fx-text-fill: #ffffff;");
             upgrade.setUserData(x);
             upgrade.setOnAction(e -> {
                 upgrade(e);
             });
-            containerButtons.getChildren().add(upgrade);
+            containerRight.getChildren().add(upgrade);
             //Sell
             Button sell = new Button();
             sell.setText("Vendre");
@@ -155,9 +165,10 @@ public class GameTestController extends GameController {
             sell.setOnAction(e -> {
                 sell(e);
             });
-            containerButtons.getChildren().add(sell);
+            containerRight.getChildren().add(sell);
 
-            container.getChildren().add(containerButtons);
+            container.getChildren().add(containerLeft);
+            container.getChildren().add(containerRight);
 
             //On ajoute le tout
             grid.add(container, x%4, y);
@@ -170,7 +181,8 @@ public class GameTestController extends GameController {
     }
 
 
-    public void buildUsine(ActionEvent event){
+    public void buildUsine(MouseEvent event){
+        System.out.println(event);
         TypeUsine type = (TypeUsine) (((Node) event.getTarget()).getUserData());
         model.buildUsine(type);
         upDateGrid();

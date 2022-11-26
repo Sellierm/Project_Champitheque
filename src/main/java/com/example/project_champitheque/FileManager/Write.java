@@ -89,10 +89,12 @@ public class Write {
         newScore+=score;
         int nbGames = Integer.parseInt(players.get(2));
         nbGames++;
+        String color = players.get(3);
         List<String> newRanking = new ArrayList<>();
         newRanking.add(name);
         newRanking.add(String.valueOf(newScore));
         newRanking.add(String.valueOf(nbGames));
+        newRanking.add(color);
         reWriteLine(reader.getActualId(), newRanking, "players");
 
     }

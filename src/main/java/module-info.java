@@ -10,8 +10,8 @@ module com.example.project_champitheque {
     opens com.example.project_champitheque.Game.MushMiner to javafx.fxml;
     exports com.example.project_champitheque.Game.PowerMush;
     opens com.example.project_champitheque.Game.PowerMush to javafx.fxml;
-    exports com.example.project_champitheque.Game.GameTest2;
-    opens com.example.project_champitheque.Game.GameTest2 to javafx.fxml;
+    exports com.example.project_champitheque.Game.MushIdle;
+    opens com.example.project_champitheque.Game.MushIdle to javafx.fxml;
     exports com.example.project_champitheque.Interfaces;
     opens com.example.project_champitheque.Interfaces to javafx.fxml;
     exports com.example.project_champitheque.Poubelle;

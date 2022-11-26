@@ -4,6 +4,8 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,58 +15,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#cheat" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.Game.GameTest2.GameTestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#cheat" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_champitheque.Game.MushIdle.GameTestController">
    <children>
       <BorderPane prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #6B4423;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <left>
-            <VBox prefHeight="550.0" prefWidth="173.0" style="-fx-background-color: #5c3a1b;" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="foret" mnemonicParsing="false" onAction="#buildUsine" text="Forêt" />
-                        <Button fx:id="cave" mnemonicParsing="false" onAction="#buildUsine" text="Cave" />
-                        <Button mnemonicParsing="false" onAction="#collectAll" text="Collecter" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="66.0" prefWidth="174.0">
-                     <children>
-                        <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
-                           <children>
-                              <Label fx:id="labelRestants" text="Argent" textFill="WHITE">
-                                 <font>
-                                    <Font size="17.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Text fx:id="money" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="147.9999668598175">
-                                 <font>
-                                    <Font size="35.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </Text>
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="74.0" prefWidth="174.0">
-                     <children>
-                        <Button fx:id="newGame" contentDisplay="CENTER" mnemonicParsing="false" onAction="#NewGame" prefHeight="58.0" prefWidth="168.0" style="-fx-background-color: #960018; -fx-background-radius: 20;" text="Nouvelle Partie" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" underline="true">
-                           <font>
-                              <Font name="System Bold" size="19.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </left>
          <top>
             <HBox prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: #5c3a1b;" BorderPane.alignment="CENTER">
                <children>
@@ -106,6 +59,79 @@
          <center>
             <GridPane fx:id="grid" alignment="CENTER" prefHeight="539.0" prefWidth="806.0" BorderPane.alignment="CENTER" />
          </center>
+         <left>
+            <VBox prefHeight="550.0" prefWidth="173.0" style="-fx-background-color: #5c3a1b;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="42.0" prefWidth="174.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#collectAll" text="Collecter" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="336.0" prefWidth="174.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="foret" fitHeight="150.0" fitWidth="87.0" onMouseReleased="#buildUsine" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../img/buyForet.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="garage" fitHeight="150.0" fitWidth="87.0" onMouseReleased="#buildUsine" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../img/buyGarage.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="cave" fitHeight="150.0" fitWidth="87.0" onMouseReleased="#buildUsine" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../img/buyCave.png" />
+                                 </image>
+                              </ImageView>
+                           </children></VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="66.0" prefWidth="174.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
+                           <children>
+                              <Label fx:id="labelRestants" text="Argent" textFill="WHITE">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <Text fx:id="money" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="147.9999668598175">
+                                 <font>
+                                    <Font size="35.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="74.0" prefWidth="174.0">
+                     <children>
+                        <Button fx:id="newGame" contentDisplay="CENTER" mnemonicParsing="false" onAction="#NewGame" prefHeight="58.0" prefWidth="168.0" style="-fx-background-color: #960018; -fx-background-radius: 20;" text="Nouvelle Partie" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" underline="true">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </left>
       </BorderPane>
       <Pane fx:id="popupend" layoutY="50.0" onMouseReleased="#ClosePopUpEnd" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.3);" visible="false">
          <children>

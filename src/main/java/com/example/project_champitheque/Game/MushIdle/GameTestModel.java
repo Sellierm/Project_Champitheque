@@ -1,7 +1,7 @@
-package com.example.project_champitheque.Game.GameTest2;
+package com.example.project_champitheque.Game.MushIdle;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ public class GameTestModel {
     private List<Usine> listUsine;
 
 
-    private final IntegerProperty money = new SimpleIntegerProperty();
-    public IntegerProperty moneyProperty() {
+    private final LongProperty money = new SimpleLongProperty();
+    public LongProperty moneyProperty() {
         return money;
     }
 
@@ -57,12 +57,19 @@ public class GameTestModel {
                         money.setValue(money.get()-newCave.getCost());
                     }
                     break;
+                case GARAGE:
+                    Usine newDarkRoom = new Garage();
+                    if(money.get() >= newDarkRoom.getCost()) {
+                        listUsine.add(newDarkRoom.startItem());
+                        money.setValue(money.get()-newDarkRoom.getCost());
+                    }
+                    break;
             }
         }
     }
 
     public void collectAll(){
-        int total = 0;
+        long total = 0;
         for(Usine eachUsine : listUsine){
             total+=eachUsine.collect();
         }
@@ -76,7 +83,7 @@ public class GameTestModel {
     public void upgrade(int index){
         if(index < maxUsine){
             Usine acutalUsine = listUsine.get(index);
-            if(acutalUsine.getCost() <= money.get()) {
+            if(acutalUsine.getUpagradeCost() <= money.get()) {
                 money.setValue(money.get() -listUsine.get(index).upgrade());
             }
         }

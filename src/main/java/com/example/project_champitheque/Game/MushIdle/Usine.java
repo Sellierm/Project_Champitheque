@@ -1,15 +1,15 @@
-package com.example.project_champitheque.Game.GameTest2;
+package com.example.project_champitheque.Game.MushIdle;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-
-import java.util.List;
+import javafx.beans.property.SimpleLongProperty;
 
 public abstract class Usine extends Thread {
 
     protected boolean alive = true;
-    protected final IntegerProperty champi = new SimpleIntegerProperty();
-    public IntegerProperty champiProperty() {
+    protected final LongProperty champi = new SimpleLongProperty();
+    public LongProperty champiProperty() {
         return champi;
     }
 
@@ -20,12 +20,21 @@ public abstract class Usine extends Thread {
     }
 
 
-    protected final IntegerProperty cost = new SimpleIntegerProperty();
-    public int getCost() {
+    protected final LongProperty cost = new SimpleLongProperty();
+    public long getCost() {
         return cost.get();
     }
-    public IntegerProperty costProperty() {
+    public LongProperty costProperty() {
         return cost;
+    }
+
+
+    protected final LongProperty upagradeCost = new SimpleLongProperty();
+    public long getUpagradeCost() {
+        return upagradeCost.get();
+    }
+    public LongProperty upagradeCostProperty() {
+        return upagradeCost;
     }
 
 
@@ -35,8 +44,8 @@ public abstract class Usine extends Thread {
     }
 
 
-    protected final IntegerProperty gain = new SimpleIntegerProperty();
-    public IntegerProperty gainProperty() {
+    protected final LongProperty gain = new SimpleLongProperty();
+    public LongProperty gainProperty() {
         return gain;
     }
 
@@ -56,8 +65,8 @@ public abstract class Usine extends Thread {
         this.alive = false;
     }
 
-    public int collect(){
-        int tmp = champi.get();
+    public long collect(){
+        long tmp = champi.get();
         champi.setValue(0);
         return tmp;
     }
@@ -66,13 +75,13 @@ public abstract class Usine extends Thread {
         champi.setValue(champi.getValue()+gain.get()/2);
     }
 
-    public int upgrade(){
-        int tmpCost = 0;
+    public long upgrade(){
+        long tmpCost = 0;
         if(level.get() < lvlMax) {
-            tmpCost = cost.get();
+            tmpCost = upagradeCost.get();
             level.setValue(level.get() + 1);
-            gain.setValue(gain.get() * level.get());
-            cost.setValue(cost.get() * level.get() * 1.3);
+            gain.setValue(gain.get() * 1.4);
+            upagradeCost.setValue(upagradeCost.get() * 2);
         }
 
         return tmpCost;
