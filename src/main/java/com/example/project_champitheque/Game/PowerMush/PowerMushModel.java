@@ -105,21 +105,24 @@ public class PowerMushModel extends GameModel {
     //Fonctions de la partie
     public void play(int x, Joueur joueur){
         if(!gameEnd && joueur == joueurCourant) {
+            boolean tmp = true;
             if (joueur == Joueur.BOT) {
                 botPlay();
             }
             else {
-                grille.placeItem(x, joueur);
+                tmp = grille.placeItem(x, joueur);
             }
-            boolean verif1 =  checkWinner(joueurCourant, grille.getLastXPlay().get(0), grille.getLastYPlay().get(0));
-            boolean verif2 =  checkGrilleFull();
-            if (verif1 || verif2) {
-                setGameEnd();
-            }
-            else {
-                Joueur tmpJoueur = joueurCourant;
-                joueurCourant = dernierJoueurCourant;
-                dernierJoueurCourant = tmpJoueur;
+            if(tmp){
+                boolean verif1 =  checkWinner(joueurCourant, grille.getLastXPlay().get(0), grille.getLastYPlay().get(0));
+                boolean verif2 =  checkGrilleFull();
+                if (verif1 || verif2) {
+                    setGameEnd();
+                }
+                else {
+                    Joueur tmpJoueur = joueurCourant;
+                    joueurCourant = dernierJoueurCourant;
+                    dernierJoueurCourant = tmpJoueur;
+                }
             }
         }
 
@@ -166,12 +169,27 @@ public class PowerMushModel extends GameModel {
         //Comportement en fonction des difficultés
 
         Random rand = new Random();
-
-        if(Math.random() <= 0.4 && grille.getLastYPlay().get(0) > 0){
+        System.out.println(grille.getLastXPlay());
+        System.out.println(grille.getLastYPlay());
+        if(this.difficulty > 1 && Math.random() <= 0.4 && grille.getLastYPlay().get(0) > 0){
             grille.placeItem(grille.getLastXPlay().get(0), Joueur.BOT);
         }
+        else if(this.difficulty > 2 && Math.random() <= 0.5) {
+            if (!grille.placeItem(grille.getLastXPlay().get(0) + 1, Joueur.BOT)){
+                if(!grille.placeItem(grille.getLastXPlay().get(0) - 1, Joueur.BOT)){
+                    //Random colone à ajouter
+                    int minX = 0;
+                    int maxX = grille.getSizeX() - 1;
+                    int randX = rand.nextInt(maxX - minX + 1) + minX;
+                    while (!grille.placeItem(randX, Joueur.BOT) && grille.compteCasesVide() > 0) {
+                        System.out.println("Colone invalide (pleine) : " + randX);
+                        randX = rand.nextInt(maxX - minX + 1) + minX;
+                    }
+                    System.out.println("Robot à joué en : " + randX);
+                }
+            }
+        }
         else {
-
             //Random colone à ajouter
             int minX = 0;
             int maxX = grille.getSizeX() - 1;
