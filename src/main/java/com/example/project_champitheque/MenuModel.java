@@ -14,10 +14,43 @@ public class MenuModel {
     private final IntegerProperty lvl;
 
 
+
+    public List<List<String>> allData = new ArrayList<>();
+    public List<List<String>> getAllData() {
+        return allData;
+    }
+    public List<String> MushMinerData = new ArrayList<>();
+    public List<String> getMushMinerData() {
+        return MushMinerData;
+    }
+    public List<String> PowerMushData = new ArrayList<>();
+    public List<String> getPowerMushData() {
+        return PowerMushData;
+    }
+    public List<String> ChampiMergeData = new ArrayList<>();
+    public List<String> getChampiMergeData() {
+        return ChampiMergeData;
+    }
+    public List<String> MushIdleData = new ArrayList<>();
+    public List<String> getMushIdleData() {
+        return MushIdleData;
+    }
+
     public MenuModel() {
         //Get all players
         Read reader = new Read();
-        List<List<String>> allData = reader.readAllFromFile("players");
+        allData = reader.readAllFromFile("players");
+
+        MushMinerData = reader.readOneLine(reader.getActualId(), "MushMinerRanking");
+
+
+        PowerMushData = reader.readOneLine(reader.getActualId(), "PowerMushRanking");
+
+
+        ChampiMergeData = reader.readOneLine(reader.getActualId(), "ChampiMergeRanking");
+
+
+        MushIdleData = reader.readOneLine(reader.getActualId(), "MushIdleRanking");
 
 
         //Get actual player

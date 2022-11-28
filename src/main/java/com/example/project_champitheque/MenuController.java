@@ -118,7 +118,7 @@ public class MenuController {
 
 
         Read reader = new Read();
-        List<List<String>> listRanking = reader.readAllFromFile("players");
+        List<List<String>> listRanking = model.getAllData();
         System.out.println(listRanking);
         listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
         for(List<String> eachRanking : listRanking){
@@ -130,25 +130,25 @@ public class MenuController {
         }
 
 
-        List<String> MushMinerData = reader.readOneLine(reader.getActualId(), "MushMinerRanking");
+        List<String> MushMinerData = model.getMushMinerData();
         scoreMushMiner.setText(MushMinerData.get(0));
         lvlMushMiner.setText(MushMinerData.get(1));
         nbPlaysMushMiner.setText(MushMinerData.get(2));
 
 
-        List<String> PowerMushData = reader.readOneLine(reader.getActualId(), "PowerMushRanking");
+        List<String> PowerMushData = model.getPowerMushData();
         scorePowerMush.setText(PowerMushData.get(0));
         lvlPowerMush.setText(PowerMushData.get(1));
         nbPlaysPowerMush.setText(PowerMushData.get(2));
 
 
-        List<String> ChampiMergeData = reader.readOneLine(reader.getActualId(), "ChampiMergeRanking");
+        List<String> ChampiMergeData = model.getChampiMergeData();
         scoreChampiMerge.setText(ChampiMergeData.get(0));
         lvlChampiMerge.setText(ChampiMergeData.get(1));
         nbPlaysChampiMerge.setText(ChampiMergeData.get(2));
 
 
-        List<String> MushIdleData = reader.readOneLine(reader.getActualId(), "MushIdleRanking");
+        List<String> MushIdleData = model.getMushIdleData();
         scoreMushIdle.setText(MushIdleData.get(0));
         lvlMushIdle.setText(MushIdleData.get(1));
         nbPlaysMushIdle.setText(MushIdleData.get(2));
