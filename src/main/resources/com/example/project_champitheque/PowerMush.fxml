@@ -251,7 +251,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane fx:id="popuphelp" layoutY="50.0" onMouseReleased="#CloseHelp" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.2);" visible="false">
+      <Pane fx:id="popuphelp" layoutY="50.0" onMouseReleased="#CloseHelp" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.2);">
          <children>
             <Pane layoutX="209.0" layoutY="74.0" prefHeight="403.0" prefWidth="582.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
                <children>
@@ -268,23 +268,18 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="582.0">
                            <children>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Objectif : " textAlignment="CENTER">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                                  <font>
                                     <Font size="22.0" />
                                  </font>
                               </Text>
-                              <Text fill="#ff7272" strokeType="OUTSIDE" strokeWidth="0.0" text="Trouver le plus de champignongs possibles" textAlignment="CENTER">
+                              <Text fill="#ff7272" strokeType="OUTSIDE" strokeWidth="0.0" text="Comme un puissance 4 mais en puissance 6 et avec des super bonus qui permettent de faire tomber ou d'écraser les champignons de la grille" textAlignment="CENTER" wrappingWidth="552.4869384765625">
                                  <font>
                                     <Font size="22.0" />
                                  </font>
                               </Text>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="392.0" visible="false" />
-                        <HBox prefHeight="60.0" prefWidth="582.0" />
-                        <HBox prefHeight="67.0" prefWidth="582.0" />
-                        <HBox prefHeight="60.0" prefWidth="582.0" />
-                        <HBox prefHeight="54.0" prefWidth="582.0" />
                      </children>
                   </VBox>
                </children>
