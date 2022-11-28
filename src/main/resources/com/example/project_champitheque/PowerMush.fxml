@@ -251,7 +251,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane fx:id="popuphelp" layoutY="50.0" onMouseReleased="#CloseHelp" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.2);">
+      <Pane fx:id="popuphelp" layoutY="50.0" onMouseReleased="#CloseHelp" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: rgba(211,211,211, 0.2);" visible="false">
          <children>
             <Pane layoutX="209.0" layoutY="74.0" prefHeight="403.0" prefWidth="582.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
                <children>

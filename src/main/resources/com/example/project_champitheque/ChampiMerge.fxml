@@ -315,23 +315,13 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="582.0">
                            <children>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Objectif : " textAlignment="CENTER">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </Text>
-                              <Text fill="#ff7272" strokeType="OUTSIDE" strokeWidth="0.0" text="Trouver le plus de champignongs possibles" textAlignment="CENTER">
+                              <Text fill="#ff7272" strokeType="OUTSIDE" strokeWidth="0.0" text="Inspiré du 2048, ce jeu vous invite à combiner des cases afin de récolter le plus de champignons possibles. Utiliser les flèches de votre clavier pour faire bouger les éléments et les combiner entre eux. Si vous avez déjà passé beaucoup de temps sur une grille mais que vous n'êtes pas bloqués, vous pouvez enregistrer le score de la partie." textAlignment="CENTER" wrappingWidth="472.77520751953125">
                                  <font>
                                     <Font size="22.0" />
                                  </font>
                               </Text>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="392.0" visible="false" />
-                        <HBox prefHeight="60.0" prefWidth="582.0" />
-                        <HBox prefHeight="67.0" prefWidth="582.0" />
-                        <HBox prefHeight="60.0" prefWidth="582.0" />
-                        <HBox prefHeight="54.0" prefWidth="582.0" />
                      </children>
                   </VBox>
                </children>
