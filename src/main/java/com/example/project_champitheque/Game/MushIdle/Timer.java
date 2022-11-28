@@ -22,7 +22,7 @@ public class Timer extends Thread {
 
     public Timer(){
         sec.setValue(0);
-        min.setValue(1);
+        min.setValue(5);
         timerEnd = false;
     }
 
@@ -56,7 +56,7 @@ public class Timer extends Thread {
     }
 
     public void resetTimer(){
-        min.setValue(1);
+        min.setValue(5);
         sec.setValue(0);
     }
 
