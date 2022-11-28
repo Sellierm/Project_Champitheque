@@ -77,25 +77,39 @@ public class Write {
     }
 
     public void writeScore(int score, String file){
-        writeNewLineInFile(reader.getActualId()+","+score, file);
-        writeGlobalRanking(score);
+        writeNewLineInFile(reader.getActualId()+","+score, file+"Scores");
+        //writeGlobalRanking(score);
+
+
 
     }
 
-    public void writeGlobalRanking(int score){
+    public void writeRanking(int score, int newScore, int newlvl, int oldlvl, int nbplays, String file){
+
+        List<String> updatedRanking = new ArrayList<>();
+        updatedRanking.add(String.valueOf(score));
+        updatedRanking.add(String.valueOf(newlvl));
+        updatedRanking.add(String.valueOf(nbplays));
+        reWriteLine(reader.getActualId(), updatedRanking, file+"Ranking");
+
+        writeGlobalRanking(newScore, newlvl - oldlvl);
+
+    }
+
+    public void writeGlobalRanking(int score, int ranking){
         List<String> players = reader.readOneLine(reader.getActualId(), "players");
         String name = players.get(0);
         int newScore = Integer.parseInt(players.get(1));
         newScore+=score;
-        int nbGames = Integer.parseInt(players.get(2));
-        nbGames++;
+        int newRanking = Integer.parseInt(players.get(2));
+        newRanking+=ranking;
         String color = players.get(3);
-        List<String> newRanking = new ArrayList<>();
-        newRanking.add(name);
-        newRanking.add(String.valueOf(newScore));
-        newRanking.add(String.valueOf(nbGames));
-        newRanking.add(color);
-        reWriteLine(reader.getActualId(), newRanking, "players");
+        List<String> updatedRanking = new ArrayList<>();
+        updatedRanking.add(name);
+        updatedRanking.add(String.valueOf(newScore));
+        updatedRanking.add(String.valueOf(newRanking));
+        updatedRanking.add(color);
+        reWriteLine(reader.getActualId(), updatedRanking, "players");
 
     }
 }

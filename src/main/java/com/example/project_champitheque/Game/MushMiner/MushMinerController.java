@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,7 +66,6 @@ public class MushMinerController extends GameController {
     //CheatCode
     @FXML
     private Label labelRestants;
-
 
 
     public void NewGame() {

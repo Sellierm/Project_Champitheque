@@ -51,6 +51,7 @@ public class Engrais {
                 yJackPot = y + rand.nextInt(max - min + 1) + min;
             }
             System.out.println("Champignon jackpot en : " + xJackpot + ", " + yJackPot);
+            this.used = true;
             return true;
         }
         else {

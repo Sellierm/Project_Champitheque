@@ -15,12 +15,15 @@ import java.util.List;
 
 
 public class MenuController {
-    MenuModel tmp;
+    MenuModel model;
     @FXML
     private Text pseudo;
 
     @FXML
     private Text score;
+
+    @FXML
+    private Text lvl;
 
 
     @FXML
@@ -33,15 +36,40 @@ public class MenuController {
 
     @FXML
     private Button MushMiner;
+    @FXML
+    private Text scoreMushMiner;
+    @FXML
+    private Text lvlMushMiner;
+    @FXML
+    private Text nbPlaysMushMiner;
+
 
     @FXML
     private Button PowerMush;
+    @FXML
+    private Text scorePowerMush;
+    @FXML
+    private Text lvlPowerMush;
+    @FXML
+    private Text nbPlaysPowerMush;
 
     @FXML
     private Button ChampiMerge;
+    @FXML
+    private Text scoreChampiMerge;
+    @FXML
+    private Text lvlChampiMerge;
+    @FXML
+    private Text nbPlaysChampiMerge;
 
     @FXML
     private Button MushIdle;
+    @FXML
+    private Text scoreMushIdle;
+    @FXML
+    private Text lvlMushIdle;
+    @FXML
+    private Text nbPlaysMushIdle;
 
     public void handleMushMiner() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MushMiner.fxml"));
@@ -81,9 +109,12 @@ public class MenuController {
     }
 
     public void initialize(){
-        tmp = new MenuModel();
-        score.textProperty().bind(tmp.scoreProperty().asString());
-        pseudo.textProperty().bind(tmp.pseudoProperty());
+        model = new MenuModel();
+        score.textProperty().bind(model.scoreProperty().asString());
+        lvl.textProperty().bind(model.lvlProperty().asString());
+        pseudo.textProperty().bind(model.pseudoProperty());
+
+
 
 
         Read reader = new Read();
@@ -97,6 +128,30 @@ public class MenuController {
             containerRanking.getChildren().add(nodeLine);
 
         }
+
+
+        List<String> MushMinerData = reader.readOneLine(reader.getActualId(), "MushMinerRanking");
+        scoreMushMiner.setText(MushMinerData.get(0));
+        lvlMushMiner.setText(MushMinerData.get(1));
+        nbPlaysMushMiner.setText(MushMinerData.get(2));
+
+
+        List<String> PowerMushData = reader.readOneLine(reader.getActualId(), "PowerMushRanking");
+        scorePowerMush.setText(PowerMushData.get(0));
+        lvlPowerMush.setText(PowerMushData.get(1));
+        nbPlaysPowerMush.setText(PowerMushData.get(2));
+
+
+        List<String> ChampiMergeData = reader.readOneLine(reader.getActualId(), "ChampiMergeRanking");
+        scoreChampiMerge.setText(ChampiMergeData.get(0));
+        lvlChampiMerge.setText(ChampiMergeData.get(1));
+        nbPlaysChampiMerge.setText(ChampiMergeData.get(2));
+
+
+        List<String> MushIdleData = reader.readOneLine(reader.getActualId(), "MushIdleRanking");
+        scoreMushIdle.setText(MushIdleData.get(0));
+        lvlMushIdle.setText(MushIdleData.get(1));
+        nbPlaysMushIdle.setText(MushIdleData.get(2));
     }
 
 }

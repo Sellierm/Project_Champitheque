@@ -26,7 +26,6 @@ public class Read {
                 List<String> list = Arrays.asList(arr);
                 allData.add(list);
             }
-            System.out.println(allData);
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
@@ -35,7 +34,7 @@ public class Read {
         return allData;
     }
 
-    protected List<String> readOneLine(int index, String file){
+    public List<String> readOneLine(int index, String file){
         List<List<String>> allData = new ArrayList<>();
         try {
             File myObj = new File("src/main/resources/data/"+file+".txt");
@@ -76,7 +75,6 @@ public class Read {
             e.printStackTrace();
         }
 
-        System.out.println(allData.get(id).get(0));
         return allData.get(id).get(0);
     }
 

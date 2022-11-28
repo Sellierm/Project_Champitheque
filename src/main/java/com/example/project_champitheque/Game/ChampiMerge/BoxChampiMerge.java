@@ -2,7 +2,7 @@ package com.example.project_champitheque.Game.ChampiMerge;
 
 public class BoxChampiMerge {
 
-    private int value;
+    private long value;
 
 
     @Override
@@ -10,14 +10,22 @@ public class BoxChampiMerge {
         return String.valueOf(this.value);
     }
 
-    public BoxChampiMerge(int value){
+    public BoxChampiMerge(long value){
         this.value = value;
     }
 
-    protected void newValue(int value){
+    protected void newValue(long value){
         this.value = value;
     }
 
-    public int getValue(){return this.value;}
+    public long getValue(){return this.value;}
+
+    public boolean divide(){
+        if(value > 2){
+            value/=2;
+            return true;
+        }
+        return false;
+    }
 
 }

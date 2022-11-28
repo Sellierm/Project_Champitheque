@@ -24,9 +24,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameTestController extends GameController {
+public class MushIdleController extends GameController {
 
-    GameTestModel model;
+    MushIdleModel model;
 
     List<Usine> list;
 
@@ -76,7 +76,7 @@ public class GameTestController extends GameController {
     }
 
     public String getFileToReadStats(){
-        return "GameTestScores";
+        return "MushIdleScores";
     }
     public void setDifficulty(MouseEvent event){
 
@@ -84,7 +84,7 @@ public class GameTestController extends GameController {
 
 
     public void initialize() {
-        model = new GameTestModel();
+        model = new MushIdleModel();
 
         money.textProperty().bind(model.moneyProperty().asString());
 
@@ -117,22 +117,31 @@ public class GameTestController extends GameController {
 
         int x = 0, y = 0;
         for (Usine usine : list) {
-            HBox container = new HBox();
+            VBox container = new VBox();
+            container.setStyle("-fx-border-color: white; -fx-border-radius: 10; -fx-border-width: 3px;");
+            container.setMaxWidth(220);
+            container.setMinWidth(220);
+            container.setPrefWidth(220);
+            container.setMaxHeight(180);
+            container.setMinHeight(180);
+            container.setPrefHeight(180);
 
-            VBox containerLeft = new VBox();
-
-            VBox containerRight = new VBox();
-            containerRight.alignmentProperty().set(Pos.CENTER);
+            HBox containerTop = new HBox();
+            containerTop.alignmentProperty().set(Pos.CENTER);
+            containerTop.setPrefHeight(30);
 
             //Text de nombre de champis de l'usine
+            Text txtChampi = new Text();
+            txtChampi.textProperty().bind(usine.champiProperty().asString());
+            txtChampi.setStyle("-fx-font: 18 arial;");
+            txtChampi.setFill(Color.WHITE);
+            //txtChampi.setWrappingWidth(120);
+            txtChampi.setTextAlignment(TextAlignment.CENTER);
+            containerTop.getChildren().add(txtChampi);
 
-            Text txtNode = new Text();
-            txtNode.textProperty().bind(usine.champiProperty().asString());
-            txtNode.setStyle("-fx-font: 18 arial;");
-            txtNode.setFill(Color.WHITE);
-            txtNode.setWrappingWidth(80);
-            txtNode.setTextAlignment(TextAlignment.CENTER);
-            containerLeft.getChildren().add(txtNode);
+            HBox containerMidle = new HBox();
+
+            HBox containerMidleLeft = new HBox();
 
             //Image de l'usine
             ImageView selectedImage = new ImageView(new Image(Application.class.getResourceAsStream("/img/"+usine.getImage())));
@@ -142,30 +151,17 @@ public class GameTestController extends GameController {
                 }
             });
             selectedImage.setUserData(x);
-            containerLeft.getChildren().add(selectedImage);
-
-            //Infos sur l'usine
-            HBox containerInfos = new HBox();
-            //Gain
-            Text txtNode2 = new Text();
-            txtNode2.textProperty().bind(usine.gainProperty().asString());
-            txtNode2.setStyle("-fx-font: 16 arial;");
-            txtNode2.setFill(Color.WHITE);
-            txtNode2.setWrappingWidth(40);
-            txtNode2.setTextAlignment(TextAlignment.CENTER);
-            containerInfos.getChildren().add(txtNode2);
-            //Niveau
-            Text txtNode3 = new Text();
-            txtNode3.textProperty().bind(usine.levelProperty().asString());
-            txtNode3.setStyle("-fx-font: 16 arial;");
-            txtNode3.setFill(Color.WHITE);
-            txtNode3.setWrappingWidth(40);
-            txtNode3.setTextAlignment(TextAlignment.CENTER);
-            containerInfos.getChildren().add(txtNode3);
-
-            containerLeft.getChildren().add(containerInfos);
+            containerMidleLeft.getChildren().add(selectedImage);
 
 
+            VBox containerMidleRight = new VBox();
+            containerMidleRight.setPrefHeight(120);
+            containerMidleRight.setPrefWidth(100);
+
+            VBox containerMidleRightTop = new VBox();
+            containerMidleRightTop.alignmentProperty().set(Pos.CENTER);
+            containerMidleRightTop.setPrefHeight(60);
+            containerMidleRightTop.setPrefWidth(100);
             //Actions sur l'usine
             //Upgrade
             Button upgrade = new Button();
@@ -175,7 +171,12 @@ public class GameTestController extends GameController {
             upgrade.setOnAction(e -> {
                 upgrade(e);
             });
-            containerRight.getChildren().add(upgrade);
+            containerMidleRightTop.getChildren().add(upgrade);
+
+            VBox containerMidleRightBottom = new VBox();
+            containerMidleRightBottom.alignmentProperty().set(Pos.CENTER);
+            containerMidleRightBottom.setPrefHeight(60);
+            containerMidleRightBottom.setPrefWidth(100);
             //Sell
             Button sell = new Button();
             sell.setText("Vendre");
@@ -184,16 +185,59 @@ public class GameTestController extends GameController {
             sell.setOnAction(e -> {
                 sell(e);
             });
-            containerRight.getChildren().add(sell);
+            containerMidleRightBottom.getChildren().add(sell);
 
-            container.getChildren().add(containerLeft);
-            container.getChildren().add(containerRight);
+            containerMidleRight.getChildren().add(containerMidleRightTop);
+            containerMidleRight.getChildren().add(containerMidleRightBottom);
+
+            containerMidle.getChildren().add(containerMidleLeft);
+            containerMidle.getChildren().add(containerMidleRight);
+
+
+            //Infos sur l'usine
+            HBox containerBottom = new HBox();
+            containerBottom.setPrefHeight(30);
+
+            HBox containerBottomLeft = new HBox();
+            containerBottomLeft.alignmentProperty().set(Pos.CENTER);
+            containerBottomLeft.setPrefWidth(140);
+            containerBottomLeft.setPrefHeight(30);
+            //Gain
+            Text txtNode2 = new Text();
+            txtNode2.textProperty().bind(usine.gainProperty().asString());
+            txtNode2.setStyle("-fx-font: 16 arial;");
+            txtNode2.setFill(Color.WHITE);
+            //txtNode2.setWrappingWidth(60);
+            txtNode2.setTextAlignment(TextAlignment.CENTER);
+            containerBottomLeft.getChildren().add(txtNode2);
+
+            HBox containerBottomRight = new HBox();
+            containerBottomRight.alignmentProperty().set(Pos.CENTER);
+            containerBottomRight.setPrefWidth(140);
+            containerBottomRight.setPrefHeight(30);
+            //Niveau
+            Text txtNode3 = new Text();
+            txtNode3.textProperty().bind(usine.levelProperty().asString());
+            txtNode3.setStyle("-fx-font: 16 arial;");
+            txtNode3.setFill(Color.WHITE);
+            //txtNode3.setWrappingWidth(60);
+            txtNode3.setTextAlignment(TextAlignment.CENTER);
+            containerBottomRight.getChildren().add(txtNode3);
+
+            containerBottom.getChildren().add(containerBottomLeft);
+            containerBottom.getChildren().add(containerBottomRight);
+
+
+
+            container.getChildren().add(containerTop);
+            container.getChildren().add(containerMidle);
+            container.getChildren().add(containerBottom);
 
             //On ajoute le tout
-            grid.add(container, x%4, y);
+            grid.add(container, x%3, y);
 
             x++;
-            if(x%4==0){
+            if(x%3==0){
                 y++;
             }
         }
@@ -201,7 +245,6 @@ public class GameTestController extends GameController {
 
 
     public void buildUsine(MouseEvent event){
-        System.out.println(event);
         TypeUsine type = (TypeUsine) (((Node) event.getTarget()).getUserData());
         model.buildUsine(type);
         upDateGrid();
@@ -225,6 +268,13 @@ public class GameTestController extends GameController {
         upDateGrid();
     }
 
+    public void goldChampi(){
+        if(model.goldChampi()){
+            System.out.println("test goldChampi");
+            ShowPopUpEnd(model.getScore());
+        }
+    }
+
 
     public void cheat(KeyEvent event){
         if(event.getCode() == KeyCode.W) {
@@ -232,6 +282,9 @@ public class GameTestController extends GameController {
         }
         if(event.getCode() == KeyCode.A) {
             model.collectAll();
+        }
+        if(event.getCode() == KeyCode.M) {
+            model.cheatMoney();
         }
     }
 

@@ -3,6 +3,9 @@ package com.example.project_champitheque.Game.MushIdle;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Timer extends Thread {
 
     protected final IntegerProperty sec = new SimpleIntegerProperty();
@@ -15,9 +18,12 @@ public class Timer extends Thread {
         return min;
     }
 
+    private boolean timerEnd;
+
     public Timer(){
         sec.setValue(0);
-        min.setValue(5);
+        min.setValue(1);
+        timerEnd = false;
     }
 
     public Timer startTimer() {
@@ -27,8 +33,7 @@ public class Timer extends Thread {
     }
 
     public void run() {
-        while (true){
-            System.out.println("Run timer");
+        while (!timerEnd){
             if(sec.get() == 0){
                 min.setValue(min.get()-1);
                 sec.setValue(60);
@@ -47,11 +52,15 @@ public class Timer extends Thread {
     }
 
     public void stopTimer(){
-        Thread.currentThread().interrupt();
+        timerEnd = true;
     }
 
     public void resetTimer(){
-        min.setValue(5);
+        min.setValue(1);
         sec.setValue(0);
+    }
+
+    public boolean isTimerEnd(){
+        return (min.get() == 0 && sec.get() == 0);
     }
 }

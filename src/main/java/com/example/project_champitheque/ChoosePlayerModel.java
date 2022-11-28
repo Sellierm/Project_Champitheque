@@ -37,6 +37,11 @@ public class ChoosePlayerModel {
         int index = writer.writeNewLineInFile(newName+",0,0,"+color, "players");
         setParamPlayer(index);
 
+
+        writer.writeNewLineInFile("0,0,0", "MushMinerRanking");
+        writer.writeNewLineInFile("0,0,0", "PowerMushRanking");
+        writer.writeNewLineInFile("0,0,0", "ChampiMergeRanking");
+        writer.writeNewLineInFile("0,0,0", "MushIdleRanking");
     }
 
     // GETTERS

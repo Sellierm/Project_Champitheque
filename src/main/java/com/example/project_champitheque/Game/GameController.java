@@ -99,7 +99,6 @@ public abstract class GameController implements Quit, Help, NewGame, PopUpEnd {
         ranking.setVisible(true);
         Read reader = new Read();
         List<List<String>> listRanking = reader.readAllFromFile(getFileToReadStats());
-        System.out.println(listRanking);
         listRanking.sort((elem1, elem2) -> Integer.parseInt(elem2.get(1)) - Integer.parseInt(elem1.get(1)));
         for(int i = 0; i < listRanking.size() && i < 10; i++){
             List<String> eachRanking = listRanking.get(i);

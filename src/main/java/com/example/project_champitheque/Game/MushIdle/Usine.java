@@ -38,7 +38,7 @@ public abstract class Usine extends Thread {
     }
 
 
-    protected static int mult;
+    protected int mult;
 
 
     protected String image;
@@ -88,5 +88,9 @@ public abstract class Usine extends Thread {
         }
 
         return tmpCost;
+    }
+
+    public  void stopUsine(){
+        this.alive = false;
     }
 }

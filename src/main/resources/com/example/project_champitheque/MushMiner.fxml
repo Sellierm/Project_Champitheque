@@ -145,7 +145,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
-                              <Label fx:id="labelRestants" text="Tours restants" textFill="WHITE">
+                              <Label fx:id="labelRestants" text="Coups restants" textFill="WHITE">
                                  <font>
                                     <Font size="17.0" />
                                  </font>
@@ -169,7 +169,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
-                              <Label text="Trouvés" textFill="WHITE">
+                              <Label text="Champignons trouvés" textFill="WHITE">
                                  <font>
                                     <Font size="17.0" />
                                  </font>
@@ -193,7 +193,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="119.0" prefWidth="174.0">
                            <children>
-                              <Label text="Restant" textFill="WHITE">
+                              <Label text="Champignons restants" textFill="WHITE">
                                  <font>
                                     <Font size="17.0" />
                                  </font>
@@ -515,13 +515,14 @@
          <children>
             <Pane layoutX="304.0" layoutY="17.0" prefHeight="525.0" prefWidth="392.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
                <children>
-                  <VBox fx:id="containerRanking" alignment="TOP_CENTER" prefHeight="525.0" prefWidth="392.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="525.0" prefWidth="392.0">
                      <children>
                         <Label graphicTextGap="0.0" prefHeight="58.0" prefWidth="282.0" text="Meilleurs scores" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                            <font>
                               <Font size="40.0" />
                            </font>
                         </Label>
+                        <VBox fx:id="containerRanking" alignment="TOP_CENTER" prefHeight="554.0" prefWidth="392.0" />
                      </children>
                   </VBox>
                </children>

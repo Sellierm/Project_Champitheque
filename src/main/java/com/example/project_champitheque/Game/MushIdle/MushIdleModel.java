@@ -1,12 +1,20 @@
 package com.example.project_champitheque.Game.MushIdle;
 
+import com.example.project_champitheque.Game.GameModel;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameTestModel {
+public class MushIdleModel extends GameModel {
+
+    public int calculScore(){
+        return (int)goldScore;
+    }
+    public String getFileToWriteStats(){
+        return "MushIdle";
+    }
 
     public List<Usine> getList() {
         return listUsine;
@@ -24,10 +32,12 @@ public class GameTestModel {
     }
 
 
-    private static int maxUsine = 16;
+    private static int maxUsine = 9;
+
+    private long goldScore;
 
 
-    public GameTestModel(){
+    public MushIdleModel(){
         start();
     }
 
@@ -46,6 +56,11 @@ public class GameTestModel {
         money.setValue(1100);
 
         buildUsine(TypeUsine.FORET);
+
+        goldScore = 0;
+
+        resetGameEnd();
+
     }
 
     public void buildUsine(TypeUsine type){
@@ -84,11 +99,15 @@ public class GameTestModel {
     }
 
     public void collectAll(){
-        long total = 0;
-        for(Usine eachUsine : listUsine){
-            total+=eachUsine.collect();
+        if(!timerEnd.isTimerEnd()) {
+            if(money.get() < 100000000) {
+                long total = 0;
+                for (Usine eachUsine : listUsine) {
+                    total += eachUsine.collect();
+                }
+                money.setValue(money.get() + total);
+            }
         }
-        money.setValue(money.get()+total);
     }
 
     public void click(int index){
@@ -112,17 +131,30 @@ public class GameTestModel {
     }
 
 
+    public void quit(){
+        for(Usine eachUsine : listUsine){
+            eachUsine.stopUsine();
+        }
+        listUsine.clear();
+        timerEnd.stopTimer();
+    }
+
+    public boolean goldChampi(){
+        if(timerEnd.isTimerEnd()){
+            goldScore = money.get() / 100000;
+            setGameEnd();
+            return true;
+        }
+        return false;
+    }
+
+
     public void cheat(){
         for(Usine eachUsine : listUsine){
             eachUsine.increaseManual();
         }
     }
-
-
-    public void quit(){
-        for(Usine eachUsine : listUsine){
-            eachUsine.sellUsine();
-            timerEnd.stopTimer();
-        }
+    public void cheatMoney(){
+        money.setValue(money.get() + 100000);
     }
 }

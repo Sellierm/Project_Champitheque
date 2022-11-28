@@ -21,7 +21,7 @@ public class PowerMushModel extends GameModel {
     }
 
     public String getFileToWriteStats(){
-        return "PowerMushScores";
+        return "PowerMush";
     }
 
     private GrillePowerMush grille;
@@ -59,16 +59,16 @@ public class PowerMushModel extends GameModel {
 
     private int difficulty = 1;
 
-    public boolean setDifficulty(int difficulty){
-        //On change la difficulté si la parti n'a pas commencé
-        if(gameEnd) {
-            System.out.println("Difficulty set to "+this.difficulty);
+    private int botDifficulty = 1;
+
+    public void setDifficulty(int difficulty){
+        if(difficulty > 0 || difficulty <= 3){
             this.difficulty = difficulty;
-            return true;
         }
         else {
-            return false;
+            this.difficulty = 1;
         }
+        System.out.println("Difficulty set to : "+this.difficulty);
     }
 
 
@@ -96,6 +96,8 @@ public class PowerMushModel extends GameModel {
         panier = new Panier();
         boots = new Boots();
         grille = new GrillePowerMush();
+
+        botDifficulty = difficulty;
 
         resetGameEnd();
     }
@@ -171,10 +173,11 @@ public class PowerMushModel extends GameModel {
         Random rand = new Random();
         System.out.println(grille.getLastXPlay());
         System.out.println(grille.getLastYPlay());
-        if(this.difficulty > 1 && Math.random() <= 0.4 && grille.getLastYPlay().get(0) > 0){
+        if(this.botDifficulty > 1 && Math.random() <= 0.4 && grille.getLastYPlay().get(0) > 0){
             grille.placeItem(grille.getLastXPlay().get(0), Joueur.BOT);
+            System.out.println("Robot (niv2) à joué en : " + grille.getLastXPlay().get(0));
         }
-        else if(this.difficulty > 2 && Math.random() <= 0.5) {
+        else if(this.botDifficulty > 2 && Math.random() <= 0.5) {
             if (!grille.placeItem(grille.getLastXPlay().get(0) + 1, Joueur.BOT)){
                 if(!grille.placeItem(grille.getLastXPlay().get(0) - 1, Joueur.BOT)){
                     //Random colone à ajouter
@@ -185,7 +188,7 @@ public class PowerMushModel extends GameModel {
                         System.out.println("Colone invalide (pleine) : " + randX);
                         randX = rand.nextInt(maxX - minX + 1) + minX;
                     }
-                    System.out.println("Robot à joué en : " + randX);
+                    System.out.println("Robot (niv3) à joué en : " + randX);
                 }
             }
         }

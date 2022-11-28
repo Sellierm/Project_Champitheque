@@ -98,6 +98,9 @@
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </children></HBox>
                   <HBox alignment="CENTER" prefHeight="182.0" prefWidth="174.0">
@@ -298,13 +301,14 @@
          <children>
             <Pane layoutX="304.0" layoutY="17.0" prefHeight="525.0" prefWidth="392.0" style="-fx-background-color: #4f3218; -fx-background-radius: 15;">
                <children>
-                  <VBox fx:id="containerRanking" alignment="TOP_CENTER" prefHeight="525.0" prefWidth="392.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="525.0" prefWidth="392.0">
                      <children>
                         <Label graphicTextGap="0.0" prefHeight="58.0" prefWidth="282.0" text="Meilleurs scores" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                            <font>
                               <Font size="40.0" />
                            </font>
                         </Label>
+                        <VBox fx:id="containerRanking" alignment="TOP_CENTER" prefHeight="496.0" prefWidth="392.0" />
                      </children>
                   </VBox>
                </children>

@@ -21,8 +21,7 @@ public class Foret extends Usine{
 
     public void run() {
         while (this.alive){
-            champi.setValue(champi.get()+gain.get());
-            System.out.println(champi.get());
+            if(champi.get() < 100000000)champi.setValue(champi.get()+gain.get());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

@@ -1,5 +1,7 @@
 package com.example.project_champitheque.Game.MushMiner;
 
+import com.example.project_champitheque.FileManager.Read;
+import com.example.project_champitheque.FileManager.Write;
 import com.example.project_champitheque.Game.GameModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -13,8 +15,9 @@ public class MushMinerModel extends GameModel {
         return (int)(this.scoreChampi.get() * (this.difficulty * (this.difficulty+1)) + (this.coupsRestants.get()/2));
     }
     public String getFileToWriteStats(){
-        return "MushMinerScores";
+        return "MushMiner";
     }
+
 
     private GrilleMushMiner plateau;
 

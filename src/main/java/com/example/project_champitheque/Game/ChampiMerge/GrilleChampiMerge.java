@@ -70,10 +70,10 @@ public class GrilleChampiMerge {
     }
 
 
-    public List<List<Integer>> showGrille(){
-        List<List<Integer>> grilleToReturn = new ArrayList<>();
+    public List<List<Long>> showGrille(){
+        List<List<Long>> grilleToReturn = new ArrayList<>();
         for(List<BoxChampiMerge> y : grille){
-            List<Integer> tmpGrilleToReturn = new ArrayList<>();
+            List<Long> tmpGrilleToReturn = new ArrayList<>();
             for(BoxChampiMerge x : y){
                 tmpGrilleToReturn.add(x.getValue());
             }
@@ -98,6 +98,24 @@ public class GrilleChampiMerge {
             }
         }
         return total;
+    }
+
+
+    protected boolean divide(int x, int y){
+        if(x < size && x > 0 && y < size && y > 0){
+            return (grille.get(y).get(x).divide());
+        }
+        return false;
+    }
+
+    protected void shuffle(){
+        for(int i = 0; i < size; i++){
+            BoxChampiMerge tmp = grille.get(i).get(0);
+            for(int j = 0; j < size - 1; j++){
+                grille.get(i).get(j).newValue(grille.get(i).get(j + 1).getValue());
+            }
+            grille.get(i).get(size - 1).newValue(tmp.getValue());
+        }
     }
 
 

@@ -77,14 +77,13 @@ public class PowerMushController extends GameController {
         ImageView target = (ImageView) event.getTarget();
         String data = (String) target.getUserData();
         int valueData = Integer.parseInt(data);
-        if(model.setDifficulty(valueData)) {
-            for (ImageView img : this.tabDiff) {
-                img.setScaleX(1);
-                img.setScaleY(1);
-            }
-            target.setScaleX(1.3);
-            target.setScaleY(1.3);
+        model.setDifficulty(valueData);
+        for (ImageView img : this.tabDiff) {
+            img.setScaleX(1);
+            img.setScaleY(1);
         }
+        target.setScaleX(1.3);
+        target.setScaleY(1.3);
     }
 
 
@@ -167,6 +166,7 @@ public class PowerMushController extends GameController {
 
             joueurCourant = model.getJoueurCourant();
             setCursor();
+            setBonus();
             updateGrid();
 
             if (model.isGameEnd()) {
@@ -247,6 +247,21 @@ public class PowerMushController extends GameController {
         if(joueurCourant == Joueur.JOUEUR2){
             Image image = new Image(Application.class.getResourceAsStream("/img/yellowCursor.png"));
             grid.setCursor(new ImageCursor(image,image.getWidth() / 2,image.getHeight() /2));
+        }
+    }
+
+    public void setBonus(){
+        if(model.ablePanier()) {
+            panier.setOpacity(1);
+        }
+        else {
+            panier.setOpacity(0.5);
+        }
+        if(model.ableBoots()) {
+            boots.setOpacity(1);
+        }
+        else {
+            boots.setOpacity(0.5);
         }
     }
 
