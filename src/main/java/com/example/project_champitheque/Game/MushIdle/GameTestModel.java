@@ -11,8 +11,12 @@ public class GameTestModel {
     public List<Usine> getList() {
         return listUsine;
     }
-    private List<Usine> listUsine;
+    private List<Usine> listUsine = new ArrayList<>();
 
+    private Timer timerEnd = new Timer();
+    public Timer getTimerEnd(){
+        return timerEnd;
+    }
 
     private final LongProperty money = new SimpleLongProperty();
     public LongProperty moneyProperty() {
@@ -33,7 +37,11 @@ public class GameTestModel {
 
     public void start(){
 
-        listUsine = new ArrayList<>();
+        quit();
+        listUsine.clear();
+
+        timerEnd = timerEnd.startTimer();
+        timerEnd.resetTimer();
 
         money.setValue(1100);
 
@@ -58,10 +66,17 @@ public class GameTestModel {
                     }
                     break;
                 case GARAGE:
-                    Usine newDarkRoom = new Garage();
-                    if(money.get() >= newDarkRoom.getCost()) {
-                        listUsine.add(newDarkRoom.startItem());
-                        money.setValue(money.get()-newDarkRoom.getCost());
+                    Usine newGarage = new Garage();
+                    if(money.get() >= newGarage.getCost()) {
+                        listUsine.add(newGarage.startItem());
+                        money.setValue(money.get()-newGarage.getCost());
+                    }
+                    break;
+                case TUNNEL:
+                    Usine newTunnel = new Tunnel();
+                    if(money.get() >= newTunnel.getCost()) {
+                        listUsine.add(newTunnel.startItem());
+                        money.setValue(money.get()-newTunnel.getCost());
                     }
                     break;
             }
@@ -107,6 +122,7 @@ public class GameTestModel {
     public void quit(){
         for(Usine eachUsine : listUsine){
             eachUsine.sellUsine();
+            timerEnd.stopTimer();
         }
     }
 }

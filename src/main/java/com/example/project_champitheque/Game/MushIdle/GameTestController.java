@@ -35,6 +35,10 @@ public class GameTestController extends GameController {
 
     @FXML
     private Text money;
+    @FXML
+    private Text sec;
+    @FXML
+    private Text min;
 
     @FXML
     private ImageView foret;
@@ -42,12 +46,20 @@ public class GameTestController extends GameController {
     private ImageView cave;
     @FXML
     private ImageView garage;
+    @FXML
+    private ImageView tunnel;
 
 
     private List<ImageView> listBuildButton;
 
     public void NewGame() {
         model.resetGame();
+
+        sec.textProperty().bind(model.getTimerEnd().secProperty().asString());
+
+        min.textProperty().bind(model.getTimerEnd().minProperty().asString());
+
+        upDateGrid();
     }
 
     @Override
@@ -76,6 +88,10 @@ public class GameTestController extends GameController {
 
         money.textProperty().bind(model.moneyProperty().asString());
 
+        sec.textProperty().bind(model.getTimerEnd().secProperty().asString());
+
+        min.textProperty().bind(model.getTimerEnd().minProperty().asString());
+
         list = model.getList();
 
         upDateGrid();
@@ -90,6 +106,9 @@ public class GameTestController extends GameController {
 
         garage.setUserData(TypeUsine.GARAGE);
         listBuildButton.add(garage);
+
+        tunnel.setUserData(TypeUsine.TUNNEL);
+        listBuildButton.add(tunnel);
     }
 
     public void upDateGrid() {

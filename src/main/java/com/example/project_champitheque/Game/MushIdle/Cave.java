@@ -7,8 +7,9 @@ public class Cave extends Usine {
         type=TypeUsine.CAVE;
         cost.setValue(100000);
         upagradeCost.setValue(10000);
+        mult = 10000;
         image="Cave.png";
-        gain.setValue(1000);
+        gain.setValue(800);
         level.setValue(1);
         lvlMax=10;
     }

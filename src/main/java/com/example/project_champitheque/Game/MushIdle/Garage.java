@@ -7,8 +7,9 @@ public class Garage extends Usine {
         type=TypeUsine.CAVE;
         cost.setValue(10000);
         upagradeCost.setValue(1000);
+        mult = 1000;
         image="garage.png";
-        gain.setValue(100);
+        gain.setValue(90);
         level.setValue(1);
         lvlMax=10;
     }

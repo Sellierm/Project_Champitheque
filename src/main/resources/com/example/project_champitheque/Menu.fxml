@@ -137,7 +137,10 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></ImageView>
-                        <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <image>
+                              <Image url="@../../../img/MushIdle.png" />
+                           </image></ImageView>
                         <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <image>
                               <Image url="@../../../img/ChampiMerge.png" />

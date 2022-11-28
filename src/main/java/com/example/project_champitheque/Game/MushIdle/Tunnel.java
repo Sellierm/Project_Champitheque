@@ -1,20 +1,21 @@
 package com.example.project_champitheque.Game.MushIdle;
 
-public class Foret extends Usine{
-    public Foret(){
+public class Tunnel extends Usine {
+
+    public Tunnel(){
         champi.setValue(0);
-        type=TypeUsine.FORET;
-        cost.setValue(1000);
-        upagradeCost.setValue(100);
-        mult = 100;
-        image="foret.png";
-        gain.setValue(10);
+        type=TypeUsine.CAVE;
+        cost.setValue(1000000);
+        upagradeCost.setValue(100000);
+        mult = 100000;
+        image="tunnel.png";
+        gain.setValue(7000);
         level.setValue(1);
         lvlMax=10;
     }
 
     public Usine startItem() {
-        Usine thread = new Foret();
+        Usine thread = new Tunnel();
         thread.start();
         return thread;
     }

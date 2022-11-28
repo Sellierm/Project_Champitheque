@@ -38,6 +38,9 @@ public abstract class Usine extends Thread {
     }
 
 
+    protected static int mult;
+
+
     protected String image;
     public String getImage() {
         return image;
@@ -80,8 +83,8 @@ public abstract class Usine extends Thread {
         if(level.get() < lvlMax) {
             tmpCost = upagradeCost.get();
             level.setValue(level.get() + 1);
-            gain.setValue(gain.get() * 1.4);
-            upagradeCost.setValue(upagradeCost.get() * 2);
+            gain.setValue(gain.get() * 1.5);
+            upagradeCost.setValue(upagradeCost.get() + mult*level.get());
         }
 
         return tmpCost;
