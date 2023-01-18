@@ -1,1 +1,5 @@
 Ben,207,1,#0000FFFF,
+Gagathe,0,0,#0000FFFF,
+Gagathe,322,1,#FF0000FF,
+ChriChri,783,2,#FF9966FF,
+Mat,0,0,#FF00FFFF
